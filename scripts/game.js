@@ -61,12 +61,12 @@ Game.prototype = {
 		});
 
 		// Mobile Menu Toggle
-		$('#mobileMenuToggle').click(function(e) {
+		$('#mobileMenuToggle').unbind('click').click(function(e) {
 			e.preventDefault();
 			$('nav').toggleClass('open');
 		});
 
-		$('nav a').click(function(e){
+		$('nav a').unbind('click').click(function(e){
 			e.preventDefault();
 			$('nav').removeClass('open'); // Close menu on click for mobile
 			var target = $(this).attr('href');
