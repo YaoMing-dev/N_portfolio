@@ -129,14 +129,15 @@ nav ul {
 
 nav a {
 	float: left;
-	padding: 18px 24px;
+	padding: 18px 22px;
 	color: #fff;
 	text-decoration: none;
 	border-left: 1px solid transparent;
 	border-right: 1px solid transparent;
 	text-shadow: 1px 1px 0 #000;
-	font-family: 'Be Vietnam Pro', sans-serif;
-	font-size: 13px;
+	font-family: 'Space Mono', monospace;
+	font-size: 12.5px;
+	font-weight: 700;
 }
 
 nav a:hover, nav a.current {
@@ -941,14 +942,17 @@ nav li.last a:hover {
 	position: absolute;
 	top: -35px;
 	border-radius: 5px;
-	padding: 7px 10px;
+	padding: 7px 12px;
 	color: #fff;
 	display: block;
-	width: 80px;
+	width: auto;
+	white-space: nowrap;
 	text-align: center;
 	left: 50%;
-	font-family: 'SilkscreenNormal';
-	margin-left: -50px;
+	font-family: 'Space Mono', monospace;
+	font-weight: 700;
+	font-size: 11px;
+	transform: translateX(-50%);
 	transition: all 0.4s ease 0s;
 	line-height: 1.1em;
 }
