@@ -90,7 +90,8 @@ body {
 	overflow-x: hidden;
 	padding: 0;
 	margin: 0;
-	font: 12px/16px 'Be Vietnam Pro', 'SilkscreenBold', Arial, sans-serif;
+	font: 14px/1.6 'Pixelify Sans', cursive, sans-serif;
+	color: #ffffff;
 	cursor: url('images/cursor.cur'), auto;
 }
 
@@ -208,8 +209,10 @@ nav li.last a:hover {
 	margin: 0 0 0 -120px;
 	z-index: 20;
 	text-align: center;
-	font-family: 'Be Vietnam Pro', Arial, sans-serif;
-	font-size: 12px;
+	font-family: 'Pixelify Sans', cursive, sans-serif;
+	font-size: 14px;
+	color: #ffffff !important;
+	text-shadow: 1px 1px 2px #000000;
 	line-height: 1.6;
 	-webkit-animation: fade 2.5s ease infinite;
 	-moz-animation: fade 2.5s ease infinite;
@@ -1150,9 +1153,8 @@ nav li.last a:hover {
 
 /* ── ABOUT ME lightbox layout fix ── */
 #lightbox .about {
-	background: #f8fafc;
-	color: #222;
-	text-shadow: none !important;
+	background: #0f172a;
+	color: #ffffff !important;
 	display: block; /* Block container so h2 is full width at top */
 	border-radius: 12px;
 	overflow: hidden;
@@ -1160,15 +1162,15 @@ nav li.last a:hover {
 }
 
 #lightbox .about h2 {
-	background: #ffffff;
-	color: #0f754f;
-	font-family: 'Be Vietnam Pro', sans-serif;
+	background: #1e293b;
+	color: #ffffff !important;
+	font-family: 'Pixelify Sans', cursive, sans-serif;
 	font-weight: 700;
-	font-size: 26px;
+	font-size: 28px;
 	padding: 18px 28px;
-	text-shadow: none;
-	border-bottom: 1px solid #e2e8f0;
-	box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+	text-shadow: 2px 2px 0 #000000;
+	border-bottom: 1px solid rgba(255,255,255,0.1);
+	box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 	margin: 0;
 	width: 100%;
 	box-sizing: border-box;
@@ -1188,7 +1190,7 @@ nav li.last a:hover {
 	padding: 24px 28px;
 	box-sizing: border-box;
 	overflow-y: auto;
-	background: #f8fafc;
+	background: #0f172a;
 }
 
 /* Image column */
@@ -1214,15 +1216,15 @@ nav li.last a:hover {
 }
 
 #lightbox .about p {
-	text-shadow: none;
-	color: #334155;
-	font-family: 'Be Vietnam Pro', Arial, sans-serif;
-	font-size: 13.5px;
-	line-height: 1.75;
+	text-shadow: 1px 1px 2px #000000;
+	color: #ffffff !important;
+	font-family: 'Pixelify Sans', cursive, sans-serif;
+	font-size: 15px;
+	line-height: 1.7;
 }
 
 #lightbox .about strong {
-	color: #0f754f;
+	color: #38bdf8 !important;
 }
 
 #lightbox .about article p {
@@ -1616,34 +1618,34 @@ nav li.last a:hover {
 	width: 100%;
 	padding: 0 0 6px 0;
 	margin-bottom: 0;
-	font-family: 'Be Vietnam Pro', sans-serif;
-	font-size: 16px;
+	font-family: 'Pixelify Sans', cursive, sans-serif;
+	font-size: 18px;
 	font-weight: 700;
-	color: #38bdf8;
-	text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+	color: #ffffff !important;
+	text-shadow: 1px 1px 2px #000000;
 }
 
 #lightbox .box p {
 	padding: 0;
 	float: none;
 	width: 100%;
-	font-family: 'Be Vietnam Pro', sans-serif;
-	font-size: 13.5px;
+	font-family: 'Pixelify Sans', cursive, sans-serif;
+	font-size: 14px;
 	line-height: 1.65;
-	color: #f1f5f9;
-	text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+	color: #ffffff !important;
+	text-shadow: 1px 1px 2px #000000;
 }
 
 #lightbox .services > section ul li {
 	margin: 0;
 	padding: 6px 5px 6px 24px;
 	position: relative;
-	font-family: 'Be Vietnam Pro', sans-serif;
-	font-size: 13.5px;
+	font-family: 'Pixelify Sans', cursive, sans-serif;
+	font-size: 14.5px;
 	line-height: 1.5;
-	color: #f8fafc;
+	color: #ffffff !important;
 	background: none !important;
-	text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+	text-shadow: 1px 1px 2px #000000;
 }
 
 #lightbox .services > section ul li::before {
@@ -1910,8 +1912,9 @@ body.ie {
 /* How To Play */
 
 #lightbox .howtoplay article > p {
-	font-family: 'Be Vietnam Pro', sans-serif;
+	font-family: 'Pixelify Sans', cursive, sans-serif;
 	font-size: 16px;
+	color: #ffffff !important;
 }
 
 #lightbox .howtoplay .box {
@@ -1930,8 +1933,9 @@ body.ie {
 	padding-top: 14px;
 	padding-left: 20px;
 	font-size: 16px;
-	font-family: 'Be Vietnam Pro', sans-serif;
-	color: #333;
+	font-family: 'Pixelify Sans', cursive, sans-serif;
+	color: #ffffff !important;
+	text-shadow: 1px 1px 2px #000000;
 }
 
 #lightbox .howtoplay .box .icon {
