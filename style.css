@@ -186,6 +186,7 @@ nav li.last a:hover {
 	position: absolute;
 	top: 200px;
 	left: 20px;
+	z-index: 60;
 }
 
 #myInfo h1 {
@@ -2152,11 +2153,12 @@ body.ie {
 
 	/* Logo Text Resizing & Centering */
 	#myInfo {
-		top: 130px;
+		top: 140px;
 		left: 50%;
 		transform: translateX(-50%);
 		width: 90%;
 		text-align: center;
+		z-index: 60;
 	}
 	#myInfo h1 {
 		font-size: 26px;
