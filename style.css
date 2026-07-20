@@ -177,12 +177,13 @@ nav li.last a:hover {
 }
 
 #myInfo h1 {
-	font-family: 'VT323', 'Space Mono', monospace;
-	font-size: 56px;
-	line-height: 1.05;
-	letter-spacing: 2px;
-	color: #0f754f;
-	text-shadow: 2px 2px 0 #ffffff, -1px -1px 0 rgba(0,0,0,0.2), 0 3px 5px rgba(0,0,0,0.3);
+	font-family: 'Pixelify Sans', cursive, sans-serif;
+	font-size: 58px;
+	line-height: 1.1;
+	letter-spacing: 3px;
+	font-weight: 700;
+	color: #ffffff;
+	text-shadow: 3px 3px 0 #0f754f, -1px -1px 0 rgba(0,0,0,0.4), 0 4px 10px rgba(0,0,0,0.5);
 	margin-bottom: 6px;
 	text-transform: uppercase;
 }
@@ -1099,18 +1100,18 @@ nav li.last a:hover {
 }
 
 #lightbox h2 {
-	font-size: 32px;
+	font-size: 30px;
 	padding: 22px 20px 25px;
-	background: rgba(255,255,255,0.15);
-	border-bottom: 1px solid rgba(255,255,255,0.3);
-	box-shadow: 0 2px 0 rgba(0,0,0,0.2);
+	background: rgba(0,0,0,0.3);
+	border-bottom: 2px solid rgba(255,200,80,0.4);
+	box-shadow: 0 2px 0 rgba(0,0,0,0.3);
 	margin: 0;
-	font-family: 'Pixelify Sans', cursive, sans-serif;
-	font-weight: 700;
+	font-family: 'SilkscreenBold', 'Pixelify Sans', cursive, sans-serif;
+	font-weight: normal;
 	color: #ffffff !important;
 	border-radius: 10px 10px 0 0;
-	text-shadow: 2px 2px 0 #000000;
-	letter-spacing: 1px;
+	text-shadow: 3px 3px 0 #000000, -1px -1px 0 rgba(0,0,0,0.5);
+	letter-spacing: 2px;
 }
 
 #lightbox h3 {
@@ -1614,6 +1615,11 @@ nav li.last a:hover {
 	display: none !important;
 }
 
+/* Show icons specifically in howtoplay */
+#lightbox .howtoplay .box .icon {
+	display: block !important;
+}
+
 #lightbox .box h4 {
 	float: none;
 	width: 100%;
@@ -1912,9 +1918,16 @@ body.ie {
 
 /* How To Play */
 
+/* Wood background for howtoplay and portfolio */
+#lightbox .inner.howtoplay,
+#lightbox .inner.portfolio {
+	background: url(images/wood.png) repeat !important;
+	color: #ffffff !important;
+}
+
 #lightbox .howtoplay article > p {
-	font-family: 'Pixelify Sans', cursive, sans-serif;
-	font-size: 16px;
+	font-family: 'SilkscreenNormal', 'Pixelify Sans', cursive, sans-serif;
+	font-size: 15px;
 	color: #ffffff !important;
 }
 
@@ -1933,8 +1946,8 @@ body.ie {
 	width: 600px;
 	padding-top: 14px;
 	padding-left: 20px;
-	font-size: 16px;
-	font-family: 'Pixelify Sans', cursive, sans-serif;
+	font-size: 15px;
+	font-family: 'SilkscreenNormal', 'Pixelify Sans', cursive, sans-serif;
 	color: #ffffff !important;
 	text-shadow: 1px 1px 2px #000000;
 }
@@ -1943,6 +1956,7 @@ body.ie {
 	width: 48px;
 	height: 48px;
 	float: left;
+	display: block !important;
 }
 
 #lightbox .howtoplay .box#htpShare .icon {
@@ -1963,7 +1977,7 @@ body.ie {
 
 #lightbox .howtoplay .box#htpHouses .icon {
 	background-image: url(images/htpHouses.png);
-}  
+}
 
 #howToPlay {
 	display: none;
