@@ -150,6 +150,50 @@ Game.prototype = {
 		$("#dark, #closeLB").die('click').live('click', function(){
 			me.closeLightbox();
 		});
+
+		// Mobile D-Pad Controls
+		var moveInterval;
+		var startMove = function(direction) {
+			if (moveInterval) clearInterval(moveInterval);
+			
+			if (me.topPos > parseFloat($('#startText').css('top'))) {
+				$('#startText').fadeOut('fast', function(){
+					$(this).remove();
+				});
+			}
+
+			moveInterval = setInterval(function() {
+				if (direction === 'up') {
+					me.moveY(me.topPos - 5, 'up');
+				} else if (direction === 'down') {
+					me.moveY(me.topPos + 5, 'down');
+				} else if (direction === 'left') {
+					me.moveX(me.leftPos - 5, 'left');
+				} else if (direction === 'right') {
+					me.moveX(me.leftPos + 5, 'right');
+				}
+				me.openDoors(me.leftPos, me.topPos);
+				me.revealMenu(me.topPos);
+			}, 30);
+		};
+
+		var stopMove = function() {
+			if (moveInterval) {
+				clearInterval(moveInterval);
+				moveInterval = null;
+			}
+			if (player.attr('class') != '') {
+				player.removeAttr('class').destroy();
+			}
+			$('.dpad-btn').removeClass('active');
+		};
+
+		$('#btnUp').bind('touchstart mousedown', function(e){ e.preventDefault(); $(this).addClass('active'); startMove('up'); });
+		$('#btnDown').bind('touchstart mousedown', function(e){ e.preventDefault(); $(this).addClass('active'); startMove('down'); });
+		$('#btnLeft').bind('touchstart mousedown', function(e){ e.preventDefault(); $(this).addClass('active'); startMove('left'); });
+		$('#btnRight').bind('touchstart mousedown', function(e){ e.preventDefault(); $(this).addClass('active'); startMove('right'); });
+		
+		$(document).bind('touchend mouseup', stopMove);
 	},
 
 	showNotificationsBar: function(notification) {
