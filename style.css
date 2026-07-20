@@ -2141,9 +2141,6 @@ body.ie {
 	}
 	nav ul li.last {
 		float: none;
-		position: absolute;
-		right: 15px;
-		top: 15px;
 		border: none;
 	}
 	nav a {
@@ -2170,7 +2167,10 @@ body.ie {
 		width: 90%;
 		left: 5%;
 		margin-left: 0;
-		top: 50px !important;
+		margin-top: 0 !important;
+		top: 20px !important;
+		max-height: 85vh;
+		overflow-y: auto;
 	}
 	#lightbox .about-body {
 		flex-direction: column;
