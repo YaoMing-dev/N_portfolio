@@ -2212,12 +2212,17 @@ body.ie {
 		padding: 10px 5px;
 		height: auto;
 	}
-	#lightbox .portfolioBox .portfolioImg {
-		width: 75px;
-		height: 75px;
+	#lightbox .portfolioBox .portfolioImg,
+	#lightbox .portfolioBox img {
+		width: 75px !important;
+		height: 75px !important;
 	}
 	#lightbox .portfolioBox h4 {
-		font-size: 13px;
+		font-size: 13px !important;
+		margin-top: 12px !important;
+		clear: both !important;
+		position: relative !important;
+		z-index: 2 !important;
 	}
 	#lightbox .shelf {
 		display: none !important; /* hide wooden shelf bars on mobile for clean 2x2 grid */
