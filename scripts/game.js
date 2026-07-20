@@ -60,15 +60,8 @@ Game.prototype = {
 			me.moveDirectToHouse(target);
 		});
 
-		// Mobile Menu Toggle
-		$('#mobileMenuToggle').unbind('click').click(function(e) {
-			e.preventDefault();
-			$('nav').toggleClass('open');
-		});
-
 		$('nav a').unbind('click').click(function(e){
 			e.preventDefault();
-			$('nav').removeClass('open'); // Close menu on click for mobile
 			var target = $(this).attr('href');
 			if(target == '#boat') {				
 				$('nav a').removeClass('current');
