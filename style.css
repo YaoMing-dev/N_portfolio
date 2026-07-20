@@ -2150,18 +2150,26 @@ body.ie {
 		border-radius: 50%;
 	}
 
-	/* Logo Text Resizing */
+	/* Logo Text Resizing & Centering */
 	#myInfo {
-		top: 120px;
-		left: 10px;
+		top: 130px;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 90%;
+		text-align: center;
 	}
 	#myInfo h1 {
-		font-size: 40px;
+		font-size: 26px;
+		line-height: 1.2;
 		letter-spacing: 2px;
+		text-align: center;
+		margin-bottom: 6px;
 	}
 	#myInfo h2 {
-		font-size: 14px;
+		font-size: 12px;
 		letter-spacing: 1px;
+		text-align: center;
+		margin-left: 0;
 	}
 
 	/* Lightboxes */
@@ -2188,6 +2196,29 @@ body.ie {
 	}
 	#lightbox .about .about-img-wrap img {
 		object-position: top center;
+	}
+
+	/* Works & Projects (Portfolio) 2x2 Grid */
+	#lightbox .portfolioBox {
+		width: 50% !important;
+		margin-bottom: 20px;
+		height: auto !important;
+		box-sizing: border-box;
+		padding: 0 5px;
+	}
+	#lightbox .portfolioBox .inner {
+		padding: 10px 5px;
+		height: auto;
+	}
+	#lightbox .portfolioBox .portfolioImg {
+		width: 75px;
+		height: 75px;
+	}
+	#lightbox .portfolioBox h4 {
+		font-size: 13px;
+	}
+	#lightbox .shelf {
+		display: none !important; /* hide wooden shelf bars on mobile for clean 2x2 grid */
 	}
 	
 	/* How To Play & Box Text Wrapping */
@@ -2223,6 +2254,48 @@ body.ie {
 	}
 	#projectGalleryModal .gallery-grid {
 		grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+	}
+
+	/* Contact Form Section */
+	#contact {
+		width: 92% !important;
+		left: 4% !important;
+		margin-left: 0 !important;
+		position: absolute !important;
+		bottom: 30px !important;
+		height: auto !important;
+	}
+	#contact h1 {
+		font-size: 28px !important;
+		text-align: center !important;
+	}
+	#contact > p {
+		text-align: center !important;
+		font-size: 13px !important;
+		margin-bottom: 12px !important;
+	}
+	#mysocial {
+		position: relative !important;
+		right: auto !important;
+		top: auto !important;
+		justify-content: center !important;
+		margin-bottom: 15px !important;
+	}
+	#contact-form {
+		width: 100% !important;
+		max-width: 100% !important;
+	}
+	#contact-form input, #contact-form textarea {
+		font-size: 13.5px !important;
+		padding: 10px 14px !important;
+		box-sizing: border-box !important;
+	}
+	#contact-form textarea {
+		height: 90px !important;
+	}
+	#contact-form button {
+		padding: 12px 16px !important;
+		font-size: 14px !important;
 	}
 	
 	/* Notifications */
