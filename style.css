@@ -1177,7 +1177,7 @@ nav li.last a:hover {
 
 #lightbox .about h2 {
 	background: #ffffff;
-	color: #000000;
+	color: #000000 !important;
 	font-family: 'Be Vietnam Pro', sans-serif;
 	font-weight: 700;
 	font-size: 26px;
