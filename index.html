@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nguyễn Lê Bảo Ngân — Editor & AI Editor</title>
+	<meta name="description" content="Nguyễn Lê Bảo Ngân - Editor, AI Editor, Video Production Specialist">
+	<meta name="keywords" content="Nguyễn Lê Bảo Ngân, Editor, AI Editor, CapCut, Premiere, DaVinci Resolve, Gemini, Prompt Engineer">	
+	<meta property="og:image" content="shareImg.png" />
+	<link rel="SHORTCUT ICON" href="logo.png">
+  
+  <!-- Styles -->
+	<link href="http://fonts.googleapis.com/css?family=Lekton" rel="stylesheet" type="text/css">
+	<link href="http://fonts.googleapis.com/css?family=Molengo" rel="stylesheet" type="text/css">
+	<link href="https://fonts.googleapis.com/css2?family=VT323&family=Space+Mono:wght@400;700&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+	<link type="text/css" rel="stylesheet" href="reset.css" />    
+	<link type="text/css" rel="stylesheet" href="style.css" /> 
+
+  <!-- Scripts -->
+  <script src="scripts/jquery-1.6.3.min.js" type="text/javascript"></script>
+  <script src="scripts/jquery.spritely-0.6.js" type="text/javascript"></script>  
+  <script src="scripts/data.js" type="text/javascript"></script>  
+  <script src="scripts/game.js" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+		<script type="text/javascript">
+			window.location = 'ie.html';
+		</script>
+	<![endif]-->
+	<script type="text/javascript">	
+		$(document).ready(function(){
+			$('#innerLoading .me').sprite({fps: 9, no_of_frames: 3}).spState(1);
+			var game = new Game();
+		});	
+
+		function startGame() {
+			$('html, body').animate({scrollTop: 0});
+			$('#loadingGame').fadeOut('fast', function(){
+				$(this).remove();
+			})
+		}
+	</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SN8Q295049"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-SN8Q295049');
+</script>
+	
+	
+</head>
+<body onload="startGame()">
+	
+	
+	<!-- Loader -->
+	<div id="loadingGame">
+		<div id="innerLoading">
+			<div class="me"></div>
+			<strong><p>Just a few moments</p></strong>
+			<p><h1>Welcome to <b> NGUYỄN LÊ BẢO NGÂN</b> Portfolio</h1></p>
+			<span>Don't go anywhere...</span>
+		</div>
+	</div>
+
+	<!-- Navigation -->
+	<nav>
+		<ul class="clearfix">
+			<li><a class="current" href="#startCave">Home</a></li>
+			<li><a href="#aboutHouse">About Me</a></li>
+			<li><a href="#servicesHouse">Services & Skills</a></li>
+			<li><a href="#portfolioHouse">Projects & Experiences</a></li>
+			<li><a href="#boat">Contact</a></li>
+			<li><a href="antipode.html" onclick="window.open('antipode.html')">The Other Side</a></li>
+			<li class="last"><a href="#howToPlay">?</a></li>
+		</ul>
+	</nav>
+
+	<!-- Notifications Manager -->
+	<div id="notifications"><div class="inner"></div><span class="close">Close(X)</span></div>
+	
+	<div id="wrapper">			
+		
+		<!-- Main Text -->
+		<hgroup id="myInfo">
+			
+			<h1>NGUYỄN LÊ <br />BẢO NGÂN</h1>
+			<h2>Editor, AI Editor</h2>
+						
+		</hgroup>
+
+		<!-- Start Text -->
+		<p id="startText">
+			<img src="images/keyboardArrows.png" alt="keyboard arrows" />
+			Bắt đầu bằng cách click vào màn hình<br /> hoặc dùng phím mũi tên / WASD để di chuyển.
+		</p>
+
+		<!-- Start Cave -->
+		<div id="startCave" class="cave"></div>		
+		<div id="startCaveHole" class="caveHole"></div>
+		<div id="startCaveHoleTrack" class="caveHoleTrack"></div>
+		
+		<!-- Main Road -->
+		<div id="mainRoad" class="road"></div>
+		<div id="leftFence"></div>
+		<div id="rightFence"></div>
+		
+		<!-- Me -->
+		<div id="avanish"></div>
+		<!-- Stop Station 1 -->
+		<div id="aboutRoad" class="road side"></div>
+		<div id="aboutHouse" class="house">
+			<div class="door"></div>
+			<div class="lightbox">
+				<div class="inner about">
+					<h2>About Me</h2>
+					<div class="about-body">
+						<article>
+							<p><strong>Xin chào! ✨<br>Mình là một Editor<br>&amp; AI Editor.</strong></p>
+							<p>
+								Tên mình là <strong>Nguyễn Lê Bảo Ngân</strong> — một <strong>Editor</strong> đam mê sáng tạo nội dung video và ứng dụng AI vào quy trình chỉnh sửa.
+								<br><br>
+								Mình thành thạo <strong>CapCut PC</strong>, <strong>Premiere (cơ bản)</strong>, <strong>Google Flow</strong> và đặc biệt yêu thích <strong>DaVinci Resolve</strong> như một giải pháp thay thế mạnh mẽ cho Adobe Premiere trả phí.
+							</p>
+							<p>
+								Là một <strong>Gemini User &amp; Prompt Engineer</strong>, mình tận dụng AI để tăng tốc workflow chỉnh sửa — từ viết script, tạo caption tự động đến tối ưu hóa nội dung sáng tạo.<br><br>
+								<strong>Luôn sẵn sàng cho những dự án mới và thử thách thú vị!</strong>
+							</p>
+							<p>Trân trọng,<br />Nguyễn Lê Bảo Ngân</p>
+						</article>
+						<div class="about-img-wrap">
+							<img src="images/ngan_about.jpg" alt="Nguyễn Lê Bảo Ngân" />
+						</div>
+					</div>
+				</div>
+				<span id="closeLB">CLOSE&nbsp;&nbsp;</span>
+			</div>
+		</div>
+		<div id="aboutSign" class="sign"><span>About Me</span></div>
+		<div id="aboutHole" class="hole"></div>
+
+		<!-- Stop Station 2 -->
+		<div id="servicesRoad" class="road side"></div>
+		<div id="servicesHouse" class="house">
+			<div class="door"></div>
+			<div class="lightbox">
+				<div class="inner services">
+					<h2>Services &amp; Skills</h2>
+					<section>
+						<h3>Những gì mình làm</h3>
+						<div id="sCode" class="box clearfix">
+							<h4>Video Editing</h4>
+							<p>Chỉnh sửa video chuyên nghiệp với <strong>CapCut PC</strong>, <strong>Premiere</strong> &amp; <strong>DaVinci Resolve</strong>. Tạo ra những video ấn tượng, đúng trend và thu hút người xem.</p>
+						</div>
+						<div id="sWebsites" class="box clearfix">
+							<h4>AI-Powered Editing</h4>
+							<p>Ứng dụng <strong>Gemini</strong> &amp; <strong>Google Flow</strong> vào quy trình chỉnh sửa. Prompt Engineering để tạo script, caption và tối ưu nội dung sáng tạo tự động.</p>
+						</div>
+						<div id="sThinking" class="box clearfix">
+							<h4>Creative Direction</h4>
+							<p>Định hướng sáng tạo nội dung video từ concept đến thành phẩm. Luôn bám sát xu hướng và tối ưu cho từng nền tảng mạng xã hội.</p>
+						</div>
+					</section>
+					<section id="skillsList">
+						<h3>Công cụ</h3>
+						<ul>
+							<li>CapCut PC</li>
+							<li>DaVinci Resolve</li>
+							<li>Adobe Premiere (cơ bản)</li>
+							<li>Google Flow</li>
+						</ul>
+						<ul>
+							<li>Gemini AI</li>
+							<li>Prompt Engineering</li>
+							<li>AI Video Tools</li>
+						</ul>
+						<ul>
+							<li>Storytelling</li>
+							<li>Color Grading</li>
+							<li>Motion Graphics</li>
+							<li>Content Strategy</li>
+						</ul>
+					</section>
+					<div class="clear"></div>
+				</div>
+				<span id="closeLB">CLOSE&nbsp;&nbsp;</span>
+			</div>
+		</div>
+		<div id="servicesSign" class="sign"><span>Services & Skills</span></div>
+		<div id="servicesHole" class="hole"></div>
+		
+		<!-- Stop Station 3 -->
+		<div id="portfolioRoad" class="road side"></div>
+		<div id="portfolioHouse" class="house">
+			<div class="door"></div>
+			<div class="lightbox">
+				<div class="inner portfolio clearfix">
+					<h2>Works &amp; Projects</h2>
+					<!-- ── EDITOR PROJECTS ── -->
+					<div class="portfolioBox open-project-gallery" data-project="editor">
+						<div class="inner">
+							<a class="portfolioImg" href="javascript:void(0);">
+								<img src="Project/editor/z8063673829411_124909aa7b6dbb81c25dd32e58637198.jpg" alt="Editor Projects" />
+							</a>
+							<h4>Editor</h4>
+							<p>Dự án video editing với CapCut PC, Premiere &amp; DaVinci Resolve (4 hình ảnh). Click để xem dự án.</p>
+						</div>
+					</div>
+					<!-- ── AI EDITOR PROJECTS ── -->
+					<div class="portfolioBox open-project-gallery" data-project="aieditor">
+						<div class="inner">
+							<a class="portfolioImg" href="javascript:void(0);">
+								<img src="Project/AI editor/z8063673889704_5c947923d2d4904a5acb2683abfd4f33.jpg" alt="AI Editor Projects" />
+							</a>
+							<h4>AI Editor</h4>
+							<p>Dự án AI-assisted editing sử dụng Gemini, Google Flow &amp; Prompt Engineering (10 hình ảnh). Click để xem dự án.</p>
+						</div>
+					</div>
+	
+					<div class="shelf"></div>
+					<div class="shelf bottom"></div>
+				</div>
+				<span id="closeLB">CLOSE&nbsp;&nbsp;</span>
+			</div>
+		</div>
+		<div id="portfolioSign" class="sign"><span>Works & Projects</span></div>
+		<div id="portfolioHole" class="hole"></div>
+
+		<!-- View -->
+		<div id="rightTrees" class="trees"></div>
+		<div id="leftGrass" class="grass"></div>
+
+		<!-- End Cave -->
+		<div id="endSea" class="sea"></div>		
+		<div id="endBridge" class="bridge"></div>
+		<!-- <div id="endCaveHoleGlow"></div> -->
+		<div id="boat" class="isMoored">
+			<div class="meSail"></div>
+		</div>
+		<div id="contact">
+			<h1>LIÊN HỆ</h1>
+			<div id="mysocial">
+				<a title="Facebook" href="https://www.facebook.com/baobao.ngan.961" target="_blank" rel="noopener">
+					<img src="social/Facebook_f_logo_(2021).svg.webp" alt="Facebook" />
+				</a>
+				<a title="Instagram" href="https://www.instagram.com/bebe.singe/" target="_blank" rel="noopener">
+					<img src="social/instagram.avif" alt="Instagram" />
+				</a>
+				<a title="Email" href="mailto:nlbaongan31@gmail.com">
+					<img src="social/Gmail_icon_(2026).svg.webp" alt="Gmail" />
+				</a>
+				<a title="Behance (Sắp cập nhật)" href="javascript:void(0);" style="opacity:0.75;">
+					<img src="social/behance-logo-icon-be-app-transparent-background-premium-social-media-design-for-digital-download-free-png.webp" alt="Behance" />
+				</a>
+			</div>
+			<p>Hãy để lại tin nhắn — mình luôn sẵn sàng lắng nghe!</p>
+			
+			<div id="contact-form">
+				<form method="POST" action="https://formspree.io/nlbaongan31@gmail.com">
+					<input type="text" name="_name" placeholder="Tên của bạn" required>
+					<input type="hidden" name="_subject" value="Lời nhắn mới từ Nguyễn Lê Bảo Ngân Portfolio" />
+					<input type="email" name="_replyto" placeholder="Email của bạn" required>
+					<textarea name="message" placeholder="Nội dung tin nhắn..." required></textarea>
+					<button type="submit">Gửi tin nhắn</button>
+				</form>
+			</div>
+ 
+		<!-- Flowers -->
+		<!--
+		
+		<div class="flowers r1"></div>
+		<div class="flowers r2"></div>
+		<div class="flowers r3"></div>
+		<div class="flowers r4"></div>
+		<div class="flowers r5"></div>
+		<div class="flowers r6"></div>
+		<div class="flowers r7"></div>
+		<div class="flowers r8"></div>
+		<div class="flowers r9"></div>
+		<div class="flowers r10"></div>
+		<div class="flowers r11"></div>
+		<div class="flowers r12"></div> 
+		
+		-->
+		
+	</div>
+	
+	<div id="howToPlay">
+		<div class="lightbox">
+			<div class="inner howtoplay">
+				<h2>How To Play?</h2>
+				<article>					
+					<div id="htpArrows" class="box clearfix">
+						<div class="icon"></div>
+						<p>Dùng phím mũi tên (↑ ↓ → ←) hoặc <strong>W A S D</strong> để di chuyển nhân vật</p>
+					</div>
+					<div id="htpHouses" class="box clearfix">
+						<div class="icon"></div>
+						<p>Bước vào các tòa nhà để xem thông tin về mình và các dự án của mình</p>
+					</div>
+					<div id="htpMouse" class="box clearfix">
+						<div class="icon"></div>
+						<p>Di chuyển nhanh bằng cách click vào bất kỳ vị trí nào trên màn hình</p>
+					</div>
+					<div id="htpEsc" class="box clearfix">
+						<div class="icon"></div>
+						<p>Nhấn phím <strong>Esc</strong> để thoát khỏi tòa nhà / đóng thanh thông báo</p>
+					</div>
+					<div id="htpShare" class="box clearfix">
+						<div class="icon"></div>
+						<p>Liên hệ và chia sẻ portfolio của mình với bạn bè nhé! ✨</p>
+					</div>
+      	</article>				
+			</div>
+			<span id="closeLB">CLOSE&nbsp;&nbsp;</span>
+		</div>
+		
+	</div>
+
+<img src="images/wood.png" style="display: none;" />
+
+	<!-- ── PROJECT GALLERY MODAL ── -->
+	<div id="projectGalleryModal">
+		<div class="gallery-modal-container">
+			<div class="gallery-modal-header">
+				<h3 id="galleryTitle">Dự Án Portfolio</h3>
+				<button class="gallery-modal-close" id="closeGalleryBtn">&times;</button>
+			</div>
+			<div class="gallery-grid" id="galleryGrid"></div>
+		</div>
+	</div>
+
+	<!-- ── FULLSCREEN IMAGE PREVIEW ── -->
+	<div id="fullscreenViewer">
+		<button class="fs-close" id="fsCloseBtn">&times;</button>
+		<button class="fs-nav prev" id="fsPrevBtn">&#10094;</button>
+		<img id="fsImage" src="" alt="Full View" />
+		<button class="fs-nav next" id="fsNextBtn">&#10095;</button>
+	</div>
+
+	<script type="text/javascript">
+		// Project gallery datasets
+		var projectGalleries = {
+			editor: {
+				title: "Dự Án Editor (4 hình ảnh)",
+				images: [
+					"Project/editor/z8063673829411_124909aa7b6dbb81c25dd32e58637198.jpg",
+					"Project/editor/z8063674062425_e152635d549843124cf77b873be4dec9.jpg",
+					"Project/editor/z8063674062575_4d2fa520f0ebb90a9a3bfc76fffc4a35.jpg",
+					"Project/editor/Gemini_Generated_Image_w4yivpw4yivpw4yi (1) (1).png"
+				]
+			},
+			aieditor: {
+				title: "Dự Án AI Editor (10 hình ảnh)",
+				images: [
+					"Project/AI editor/z8063673889704_5c947923d2d4904a5acb2683abfd4f33.jpg",
+					"Project/AI editor/z8063673944613_bad91983eb66746fed9d5eab71977a85.jpg",
+					"Project/AI editor/z8063674004629_e7d38c22f7e73819e4aee69abb740bdd.jpg",
+					"Project/AI editor/z8063674120925_15c04dd39193ec79583fec97c4e386b1.jpg",
+					"Project/AI editor/z8063674180376_472718f3e4983acad2f3490ace5e7240.jpg",
+					"Project/AI editor/z8063674947135_f9016bd5fd6050fa85ab0964e001a786.jpg",
+					"Project/AI editor/Gemini_Generated_Image_bwys3tbwys3tbwys.png",
+					"Project/AI editor/Gemini_Generated_Image_cnj9zpcnj9zpcnj9.png",
+					"Project/AI editor/Gemini_Generated_Image_fz9opffz9opffz9o.png",
+					"Project/AI editor/Ảnh chụp màn hình 2026-07-18 234744.png"
+				]
+			}
+		};
+
+		var currentActiveGallery = [];
+		var currentFsIndex = 0;
+
+		document.addEventListener('click', function(e) {
+			// 1. Open project gallery modal when clicking project card
+			var galleryCard = e.target.closest('.open-project-gallery');
+			if (galleryCard) {
+				e.preventDefault();
+				e.stopPropagation();
+				var projectKey = galleryCard.getAttribute('data-project');
+				if (projectGalleries[projectKey]) {
+					var galleryData = projectGalleries[projectKey];
+					currentActiveGallery = galleryData.images;
+
+					document.getElementById('galleryTitle').textContent = galleryData.title;
+					var grid = document.getElementById('galleryGrid');
+					grid.innerHTML = '';
+
+					galleryData.images.forEach(function(imgUrl, idx) {
+						var card = document.createElement('div');
+						card.className = 'gallery-item-card';
+						card.setAttribute('data-index', idx);
+						card.innerHTML = '<img src="' + imgUrl + '" alt="Dự án ' + (idx + 1) + '" />' +
+							'<div class="gallery-item-overlay"><span>Xem ảnh ' + (idx + 1) + ' / ' + galleryData.images.length + '</span></div>';
+						grid.appendChild(card);
+					});
+
+					document.getElementById('projectGalleryModal').classList.add('active');
+				}
+				return;
+			}
+
+			// 2. Click thumbnail inside gallery grid to open fullscreen preview
+			var itemCard = e.target.closest('.gallery-item-card');
+			if (itemCard) {
+				e.preventDefault();
+				e.stopPropagation();
+				currentFsIndex = parseInt(itemCard.getAttribute('data-index'), 10) || 0;
+				showFullscreenImage(currentFsIndex);
+				return;
+			}
+
+			// 3. Close gallery modal
+			if (e.target.id === 'closeGalleryBtn' || e.target.id === 'projectGalleryModal') {
+				document.getElementById('projectGalleryModal').classList.remove('active');
+				return;
+			}
+
+			// 4. Fullscreen viewer controls
+			if (e.target.id === 'fsCloseBtn' || e.target.id === 'fullscreenViewer') {
+				document.getElementById('fullscreenViewer').classList.remove('active');
+				return;
+			}
+			if (e.target.id === 'fsPrevBtn') {
+				e.stopPropagation();
+				showFullscreenImage(currentFsIndex - 1);
+				return;
+			}
+			if (e.target.id === 'fsNextBtn') {
+				e.stopPropagation();
+				showFullscreenImage(currentFsIndex + 1);
+				return;
+			}
+		});
+
+		function showFullscreenImage(idx) {
+			if (!currentActiveGallery || !currentActiveGallery.length) return;
+			if (idx < 0) idx = currentActiveGallery.length - 1;
+			if (idx >= currentActiveGallery.length) idx = 0;
+			currentFsIndex = idx;
+			var fsImg = document.getElementById('fsImage');
+			fsImg.src = currentActiveGallery[currentFsIndex];
+			document.getElementById('fullscreenViewer').classList.add('active');
+		}
+
+		document.addEventListener('keydown', function(e) {
+			var fsViewer = document.getElementById('fullscreenViewer');
+			var galleryModal = document.getElementById('projectGalleryModal');
+
+			if (fsViewer && fsViewer.classList.contains('active')) {
+				if (e.keyCode === 37) showFullscreenImage(currentFsIndex - 1); // Left arrow
+				if (e.keyCode === 39) showFullscreenImage(currentFsIndex + 1); // Right arrow
+				if (e.keyCode === 27) fsViewer.classList.remove('active'); // Esc
+			} else if (galleryModal && galleryModal.classList.contains('active')) {
+				if (e.keyCode === 27) galleryModal.classList.remove('active'); // Esc
+			}
+		});
+	</script>
+</body>
+</html>
