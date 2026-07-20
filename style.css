@@ -125,19 +125,12 @@ nav.show {
 
 nav ul {
 	width: 100%;
-	padding: 0;
-	margin: 0;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	height: 100%;
-	list-style: none;
-	gap: 0;
+	padding-left: 0;
+	text-align: center;
 }
 
 nav a {
-	display: flex;
-	align-items: center;
+	display: inline-block;
 	padding: 16px 20px;
 	color: #ffffff !important;
 	text-decoration: none;
@@ -147,8 +140,7 @@ nav a {
 	font-family: 'Pixelify Sans', cursive, sans-serif;
 	font-size: 14px;
 	font-weight: 600;
-	height: 100%;
-	box-sizing: border-box;
+	vertical-align: middle;
 }
 
 nav a:hover, nav a.current {
@@ -157,20 +149,13 @@ nav a:hover, nav a.current {
 	border-right: 1px solid rgba(255,255,255,0.1);
 }
 
-nav li.last {
-	position: absolute;
-	right: 45px;
-	top: 50%;
-	transform: translateY(-50%);
-}
-
 nav li.last a {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding: 8px 12px;
-	height: auto;
-	width: auto;
+	float: right;
+	margin-right: 30px;
+	padding: 10px;
+	margin: 13px 45px 10px 10px;
+	width: 10px;
+	height: 10px;
 }
 
 nav li.last a:hover {
@@ -1182,7 +1167,7 @@ nav li.last a:hover {
 
 #lightbox .about h2 {
 	background: #ffffff;
-	color: #0f754f;
+	color: #000000;
 	font-family: 'Be Vietnam Pro', sans-serif;
 	font-weight: 700;
 	font-size: 26px;
