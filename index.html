@@ -73,7 +73,6 @@
 			<li><a href="#servicesHouse">Services & Skills</a></li>
 			<li><a href="#portfolioHouse">Projects & Experiences</a></li>
 			<li><a href="#boat">Contact</a></li>
-			<li><a href="antipode.html" onclick="window.open('antipode.html')">The Other Side</a></li>
 			<li class="last"><a href="#howToPlay">?</a></li>
 		</ul>
 	</nav>
@@ -198,24 +197,26 @@
 			<div class="lightbox">
 				<div class="inner portfolio clearfix">
 					<h2>Works &amp; Projects</h2>
-					<!-- ── EDITOR PROJECTS ── -->
+					<!-- ── VIDEO EDIT PROJECTS ── -->
 					<div class="portfolioBox open-project-gallery" data-project="editor">
 						<div class="inner">
 							<a class="portfolioImg" href="javascript:void(0);">
-								<img src="Project/editor/z8063673829411_124909aa7b6dbb81c25dd32e58637198.jpg" alt="Editor Projects" />
+								<img src="Project/editor/z8063673829411_124909aa7b6dbb81c25dd32e58637198.jpg" alt="Video Edit Projects" />
+								<div class="play-badge">&#9654;</div>
 							</a>
-							<h4>Editor</h4>
-							<p>Dự án video editing với CapCut PC, Premiere &amp; DaVinci Resolve (4 hình ảnh). Click để xem dự án.</p>
+							<h4>Video Edit</h4>
+							<p>Danh sách Video Edit làm bằng CapCut PC, Premiere &amp; DaVinci Resolve. Click để xem &amp; phát video.</p>
 						</div>
 					</div>
-					<!-- ── AI EDITOR PROJECTS ── -->
+					<!-- ── AI VIDEO EDIT PROJECTS ── -->
 					<div class="portfolioBox open-project-gallery" data-project="aieditor">
 						<div class="inner">
 							<a class="portfolioImg" href="javascript:void(0);">
-								<img src="Project/AI editor/z8063673889704_5c947923d2d4904a5acb2683abfd4f33.jpg" alt="AI Editor Projects" />
+								<img src="Project/AI editor/z8063673889704_5c947923d2d4904a5acb2683abfd4f33.jpg" alt="AI Video Edit Projects" />
+								<div class="play-badge">&#9654;</div>
 							</a>
-							<h4>AI Editor</h4>
-							<p>Dự án AI-assisted editing sử dụng Gemini, Google Flow &amp; Prompt Engineering (10 hình ảnh). Click để xem dự án.</p>
+							<h4>AI Video Edit</h4>
+							<p>Danh sách AI Video Edit sáng tạo với Gemini, Google Flow &amp; Prompt Engineering. Click để xem &amp; phát video.</p>
 						</div>
 					</div>
 	
@@ -332,6 +333,26 @@
 		</div>
 	</div>
 
+	<!-- ── VIDEO PLAYER MODAL ── -->
+	<div id="videoPlayerModal">
+		<div class="video-player-container">
+			<div class="video-player-header">
+				<h3 id="videoPlayerTitle">Phát Video</h3>
+				<button class="video-player-close" id="closeVideoBtn">&times;</button>
+			</div>
+			<div class="video-wrapper">
+				<video id="videoElement" controls autoplay poster="">
+					<source id="videoSource" src="" type="video/mp4">
+					Trình duyệt của bạn không hỗ trợ phát video HTML5.
+				</video>
+			</div>
+			<div class="video-player-footer">
+				<span id="videoTag" class="video-tag">CapCut PC &bull; DaVinci Resolve</span>
+				<p id="videoDesc">Chỉnh sửa video chuyên nghiệp</p>
+			</div>
+		</div>
+	</div>
+
 	<!-- ── FULLSCREEN IMAGE PREVIEW ── -->
 	<div id="fullscreenViewer">
 		<button class="fs-close" id="fsCloseBtn">&times;</button>
@@ -341,39 +362,137 @@
 	</div>
 
 	<script type="text/javascript">
-		// Project gallery datasets
+		// Video project datasets
 		var projectGalleries = {
 			editor: {
-				title: "Dự Án Editor (4 hình ảnh)",
-				images: [
-					"Project/editor/z8063673829411_124909aa7b6dbb81c25dd32e58637198.jpg",
-					"Project/editor/z8063674062425_e152635d549843124cf77b873be4dec9.jpg",
-					"Project/editor/z8063674062575_4d2fa520f0ebb90a9a3bfc76fffc4a35.jpg",
-					"Project/editor/Gemini_Generated_Image_w4yivpw4yivpw4yi (1) (1).png"
+				title: "Danh Sách Video Edit (4 Dự Án Video)",
+				items: [
+					{
+						title: "Video Edit Showcase #1",
+						thumb: "Project/editor/z8063673829411_124909aa7b6dbb81c25dd32e58637198.jpg",
+						video: "Project/editor/video1.mp4",
+						demoVideo: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+						tag: "CapCut PC • DaVinci Resolve",
+						desc: "Chỉnh sửa video chuyên nghiệp với hiệu ứng âm thanh, chuyển cảnh mượt mà và làm màu sắc nét."
+					},
+					{
+						title: "Video Edit Showcase #2",
+						thumb: "Project/editor/z8063674062425_e152635d549843124cf77b873be4dec9.jpg",
+						video: "Project/editor/video2.mp4",
+						demoVideo: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+						tag: "Adobe Premiere • DaVinci Resolve",
+						desc: "Video ngắn quảng cáo thương mại và tối ưu hóa nội dung đa nền tảng."
+					},
+					{
+						title: "Video Edit Showcase #3",
+						thumb: "Project/editor/z8063674062575_4d2fa520f0ebb90a9a3bfc76fffc4a35.jpg",
+						video: "Project/editor/video3.mp4",
+						demoVideo: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+						tag: "CapCut PC • Motion Graphics",
+						desc: "Video phỏng vấn và hiệu ứng đồ họa chuyển động ấn tượng."
+					},
+					{
+						title: "Video Edit Showcase #4",
+						thumb: "Project/editor/Gemini_Generated_Image_w4yivpw4yivpw4yi (1) (1).png",
+						video: "Project/editor/video4.mp4",
+						demoVideo: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoybacks.mp4",
+						tag: "CapCut PC • Trending Shorts",
+						desc: "Video ngắn phong cách sôi động tối ưu cho TikTok / Shorts."
+					}
 				]
 			},
 			aieditor: {
-				title: "Dự Án AI Editor (10 hình ảnh)",
-				images: [
-					"Project/AI editor/z8063673889704_5c947923d2d4904a5acb2683abfd4f33.jpg",
-					"Project/AI editor/z8063673944613_bad91983eb66746fed9d5eab71977a85.jpg",
-					"Project/AI editor/z8063674004629_e7d38c22f7e73819e4aee69abb740bdd.jpg",
-					"Project/AI editor/z8063674120925_15c04dd39193ec79583fec97c4e386b1.jpg",
-					"Project/AI editor/z8063674180376_472718f3e4983acad2f3490ace5e7240.jpg",
-					"Project/AI editor/z8063674947135_f9016bd5fd6050fa85ab0964e001a786.jpg",
-					"Project/AI editor/Gemini_Generated_Image_bwys3tbwys3tbwys.png",
-					"Project/AI editor/Gemini_Generated_Image_cnj9zpcnj9zpcnj9.png",
-					"Project/AI editor/Gemini_Generated_Image_fz9opffz9opffz9o.png",
-					"Project/AI editor/Ảnh chụp màn hình 2026-07-18 234744.png"
+				title: "Danh Sách AI Video Edit (10 Dự Án AI Video)",
+				items: [
+					{
+						title: "AI Video Showcase #1",
+						thumb: "Project/AI editor/z8063673889704_5c947923d2d4904a5acb2683abfd4f33.jpg",
+						video: "Project/AI editor/aivideo1.mp4",
+						demoVideo: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+						tag: "Gemini AI • Google Flow",
+						desc: "Ứng dụng AI tạo kịch bản tự động và dựng video AI hiệu ứng biến hóa phong phú."
+					},
+					{
+						title: "AI Video Showcase #2",
+						thumb: "Project/AI editor/z8063673944613_bad91983eb66746fed9d5eab71977a85.jpg",
+						video: "Project/AI editor/aivideo2.mp4",
+						demoVideo: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+						tag: "Prompt Engineering • AI Voice",
+						desc: "Prompting để tối ưu hóa visuals và lồng tiếng tự động bằng AI."
+					},
+					{
+						title: "AI Video Showcase #3",
+						thumb: "Project/AI editor/z8063674004629_e7d38c22f7e73819e4aee69abb740bdd.jpg",
+						video: "Project/AI editor/aivideo3.mp4",
+						demoVideo: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+						tag: "Google Flow • Generative AI",
+						desc: "Thiết kế đồ họa chuyển động AI và sáng tạo hình ảnh động."
+					},
+					{
+						title: "AI Video Showcase #4",
+						thumb: "Project/AI editor/z8063674120925_15c04dd39193ec79583fec97c4e386b1.jpg",
+						video: "Project/AI editor/aivideo4.mp4",
+						demoVideo: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoybacks.mp4",
+						tag: "AI Motion • Prompt Engineering",
+						desc: "Quy trình AI Video Editing tăng tốc sáng tạo nội dung gấp 5 lần."
+					},
+					{
+						title: "AI Video Showcase #5",
+						thumb: "Project/AI editor/z8063674180376_472718f3e4983acad2f3490ace5e7240.jpg",
+						video: "Project/AI editor/aivideo5.mp4",
+						demoVideo: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+						tag: "Gemini AI • Creative Direction",
+						desc: "Sáng tạo nội dung video truyền thông với sự trợ giúp của Gemini AI."
+					},
+					{
+						title: "AI Video Showcase #6",
+						thumb: "Project/AI editor/z8063674947135_f9016bd5fd6050fa85ab0964e001a786.jpg",
+						video: "Project/AI editor/aivideo6.mp4",
+						demoVideo: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+						tag: "AI Generated Effects",
+						desc: "Video animation AI thế hệ mới sinh động."
+					},
+					{
+						title: "AI Video Showcase #7",
+						thumb: "Project/AI editor/Gemini_Generated_Image_bwys3tbwys3tbwys.png",
+						video: "Project/AI editor/aivideo7.mp4",
+						demoVideo: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnTheLoose.mp4",
+						tag: "Google Flow • Dynamic AI",
+						desc: "Sản phẩm video nghệ thuật AI độc đáo."
+					},
+					{
+						title: "AI Video Showcase #8",
+						thumb: "Project/AI editor/Gemini_Generated_Image_cnj9zpcnj9zpcnj9.png",
+						video: "Project/AI editor/aivideo8.mp4",
+						demoVideo: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4",
+						tag: "AI Visual FX",
+						desc: "Kỹ xảo hình ảnh AI nâng cao trải nghiệm thị giác."
+					},
+					{
+						title: "AI Video Showcase #9",
+						thumb: "Project/AI editor/Gemini_Generated_Image_fz9opffz9opffz9o.png",
+						video: "Project/AI editor/aivideo9.mp4",
+						demoVideo: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4",
+						tag: "Gemini User • Video Scripting",
+						desc: "Kịch bản và visuals được tạo bởi AI."
+					},
+					{
+						title: "AI Video Showcase #10",
+						thumb: "Project/AI editor/Ảnh chụp màn hình 2026-07-18 234744.png",
+						video: "Project/AI editor/aivideo10.mp4",
+						demoVideo: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+						tag: "AI Video Production",
+						desc: "Tổng hợp các dự án AI Video ấn tượng."
+					}
 				]
 			}
 		};
 
-		var currentActiveGallery = [];
-		var currentFsIndex = 0;
+		var currentActiveGalleryItems = [];
+		var currentItem = null;
 
 		document.addEventListener('click', function(e) {
-			// 1. Open project gallery modal when clicking project card
+			// 1. Open project video gallery modal
 			var galleryCard = e.target.closest('.open-project-gallery');
 			if (galleryCard) {
 				e.preventDefault();
@@ -381,18 +500,19 @@
 				var projectKey = galleryCard.getAttribute('data-project');
 				if (projectGalleries[projectKey]) {
 					var galleryData = projectGalleries[projectKey];
-					currentActiveGallery = galleryData.images;
+					currentActiveGalleryItems = galleryData.items;
 
 					document.getElementById('galleryTitle').textContent = galleryData.title;
 					var grid = document.getElementById('galleryGrid');
 					grid.innerHTML = '';
 
-					galleryData.images.forEach(function(imgUrl, idx) {
+					galleryData.items.forEach(function(item, idx) {
 						var card = document.createElement('div');
 						card.className = 'gallery-item-card';
 						card.setAttribute('data-index', idx);
-						card.innerHTML = '<img src="' + imgUrl + '" alt="Dự án ' + (idx + 1) + '" />' +
-							'<div class="gallery-item-overlay"><span>Xem ảnh ' + (idx + 1) + ' / ' + galleryData.images.length + '</span></div>';
+						card.innerHTML = '<img src="' + item.thumb + '" alt="' + item.title + '" />' +
+							'<div class="play-badge">&#9654;</div>' +
+							'<div class="gallery-item-overlay"><span>&#9654; ' + item.title + '</span></div>';
 						grid.appendChild(card);
 					});
 
@@ -401,13 +521,15 @@
 				return;
 			}
 
-			// 2. Click thumbnail inside gallery grid to open fullscreen preview
+			// 2. Click video item card to launch HTML5 Video Player
 			var itemCard = e.target.closest('.gallery-item-card');
 			if (itemCard) {
 				e.preventDefault();
 				e.stopPropagation();
-				currentFsIndex = parseInt(itemCard.getAttribute('data-index'), 10) || 0;
-				showFullscreenImage(currentFsIndex);
+				var idx = parseInt(itemCard.getAttribute('data-index'), 10) || 0;
+				if (currentActiveGalleryItems[idx]) {
+					playVideoModal(currentActiveGalleryItems[idx]);
+				}
 				return;
 			}
 
@@ -417,41 +539,51 @@
 				return;
 			}
 
-			// 4. Fullscreen viewer controls
-			if (e.target.id === 'fsCloseBtn' || e.target.id === 'fullscreenViewer') {
-				document.getElementById('fullscreenViewer').classList.remove('active');
-				return;
-			}
-			if (e.target.id === 'fsPrevBtn') {
-				e.stopPropagation();
-				showFullscreenImage(currentFsIndex - 1);
-				return;
-			}
-			if (e.target.id === 'fsNextBtn') {
-				e.stopPropagation();
-				showFullscreenImage(currentFsIndex + 1);
+			// 4. Close video player modal
+			if (e.target.id === 'closeVideoBtn' || e.target.id === 'videoPlayerModal') {
+				closeVideoModal();
 				return;
 			}
 		});
 
-		function showFullscreenImage(idx) {
-			if (!currentActiveGallery || !currentActiveGallery.length) return;
-			if (idx < 0) idx = currentActiveGallery.length - 1;
-			if (idx >= currentActiveGallery.length) idx = 0;
-			currentFsIndex = idx;
-			var fsImg = document.getElementById('fsImage');
-			fsImg.src = currentActiveGallery[currentFsIndex];
-			document.getElementById('fullscreenViewer').classList.add('active');
+		function playVideoModal(item) {
+			currentItem = item;
+			document.getElementById('videoPlayerTitle').textContent = item.title;
+			document.getElementById('videoTag').textContent = item.tag;
+			document.getElementById('videoDesc').textContent = item.desc;
+
+			var player = document.getElementById('videoElement');
+			player.poster = item.thumb;
+
+			var source = document.getElementById('videoSource');
+			// Use local video if available, fallback to demo stream
+			source.src = item.video || item.demoVideo;
+
+			player.load();
+			player.play().catch(function() {
+				// Fallback to demo video stream if local file not found
+				if (item.demoVideo && source.src !== item.demoVideo) {
+					source.src = item.demoVideo;
+					player.load();
+					player.play().catch(function(e) { console.log('Video play error:', e); });
+				}
+			});
+
+			document.getElementById('videoPlayerModal').classList.add('active');
+		}
+
+		function closeVideoModal() {
+			var player = document.getElementById('videoElement');
+			if (player) player.pause();
+			document.getElementById('videoPlayerModal').classList.remove('active');
 		}
 
 		document.addEventListener('keydown', function(e) {
-			var fsViewer = document.getElementById('fullscreenViewer');
+			var videoModal = document.getElementById('videoPlayerModal');
 			var galleryModal = document.getElementById('projectGalleryModal');
 
-			if (fsViewer && fsViewer.classList.contains('active')) {
-				if (e.keyCode === 37) showFullscreenImage(currentFsIndex - 1); // Left arrow
-				if (e.keyCode === 39) showFullscreenImage(currentFsIndex + 1); // Right arrow
-				if (e.keyCode === 27) fsViewer.classList.remove('active'); // Esc
+			if (videoModal && videoModal.classList.contains('active')) {
+				if (e.keyCode === 27) closeVideoModal(); // Esc
 			} else if (galleryModal && galleryModal.classList.contains('active')) {
 				if (e.keyCode === 27) galleryModal.classList.remove('active'); // Esc
 			}

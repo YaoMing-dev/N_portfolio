@@ -26,11 +26,7 @@ Game.prototype = {
 	},
 
 	howToPlay: function() {
-		var isFirstTime = localStorage.getItem('isYourFirstTime');
-		if(!isFirstTime) {
-			this.lightboxInit('#howToPlay', false);
-			localStorage.setItem('isYourFirstTime', false);	
-		}
+		this.lightboxInit('#howToPlay', false);
 	},
 
 	eventsHandler: function() {
