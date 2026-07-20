@@ -61,7 +61,7 @@ Game.prototype = {
 		});
 
 		// Mobile Menu Toggle
-		$('#mobileMenuToggle').unbind('touchstart click').bind('touchstart click', function(e) {
+		$('#mobileMenuToggle').click(function(e) {
 			e.preventDefault();
 			$('nav').toggleClass('open');
 		});

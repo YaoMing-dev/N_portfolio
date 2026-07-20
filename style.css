@@ -2187,6 +2187,13 @@ body.ie {
 	#lightbox .about .about-img-wrap img {
 		object-position: top center;
 	}
+	#lightbox .howtoplay .box p {
+		width: 100%;
+		padding-left: 0;
+		padding-right: 0;
+		box-sizing: border-box;
+		word-wrap: break-word;
+	}
 	
 	#projectGalleryModal .gallery-content {
 		width: 95%;
