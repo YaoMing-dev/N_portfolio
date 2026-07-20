@@ -1178,9 +1178,9 @@ nav li.last a:hover {
 #lightbox .about h2 {
 	background: #ffffff;
 	color: #000000 !important;
-	font-family: 'Be Vietnam Pro', sans-serif;
+	font-family: 'Pixelify Sans', cursive, sans-serif;
 	font-weight: 700;
-	font-size: 26px;
+	font-size: 24px;
 	padding: 18px 28px;
 	text-shadow: none;
 	border-bottom: 1px solid #e2e8f0;
@@ -1188,6 +1188,7 @@ nav li.last a:hover {
 	margin: 0;
 	width: 100%;
 	box-sizing: border-box;
+	letter-spacing: 1px;
 }
 
 #lightbox .about-body {
@@ -1232,9 +1233,9 @@ nav li.last a:hover {
 #lightbox .about p {
 	text-shadow: none;
 	color: #334155;
-	font-family: 'Be Vietnam Pro', Arial, sans-serif;
-	font-size: 13.5px;
-	line-height: 1.75;
+	font-family: 'Pixelify Sans', cursive, sans-serif;
+	font-size: 15px;
+	line-height: 1.8;
 }
 
 #lightbox .about strong {
