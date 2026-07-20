@@ -2104,10 +2104,10 @@ body.ie {
 		display: flex;
 	}
 
-	/* Nav Bar (Responsive Horizontal Bar with slide in/out) */
+	/* Nav Bar (Always visible on mobile) */
 	nav {
 		position: fixed;
-		top: -90px; /* hidden offscreen at top of map */
+		top: 10px !important; /* always visible on mobile */
 		left: 2.5%;
 		width: 95%;
 		margin: 0;
@@ -2115,11 +2115,7 @@ body.ie {
 		border-radius: 18px;
 		padding: 4px 6px;
 		box-sizing: border-box;
-		transition: top 0.4s ease-in-out;
 		z-index: 800;
-	}
-	nav.show {
-		top: 10px; /* slides down when walking down into map */
 	}
 	nav ul {
 		display: flex;
