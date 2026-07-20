@@ -129,15 +129,15 @@ nav ul {
 
 nav a {
 	float: left;
-	padding: 18px 22px;
-	color: #fff;
+	padding: 16px 20px;
+	color: #ffffff !important;
 	text-decoration: none;
 	border-left: 1px solid transparent;
 	border-right: 1px solid transparent;
-	text-shadow: 1px 1px 0 #000;
-	font-family: 'Space Mono', monospace;
-	font-size: 12.5px;
-	font-weight: 700;
+	text-shadow: 1px 1px 2px #000;
+	font-family: 'Pixelify Sans', cursive, sans-serif;
+	font-size: 14px;
+	font-weight: 600;
 }
 
 nav a:hover, nav a.current {
@@ -176,23 +176,26 @@ nav li.last a:hover {
 }
 
 #myInfo h1 {
-	font-family: 'VT323', 'Space Mono', monospace;
-	font-size: 56px;
-	line-height: 1.05;
+	font-family: 'Pixelify Sans', cursive, sans-serif;
+	font-size: 52px;
+	line-height: 1.1;
 	letter-spacing: 2px;
-	color: #0f754f;
-	text-shadow: 2px 2px 0 #ffffff, -1px -1px 0 rgba(0,0,0,0.2), 0 3px 5px rgba(0,0,0,0.3);
+	color: #ffffff !important;
+	text-shadow: 3px 3px 0 #0f754f, -2px -2px 0 #000000, 0 4px 8px rgba(0,0,0,0.6);
 	margin-bottom: 6px;
 	text-transform: uppercase;
 }
 
 #myInfo h2 {
-	font: 14px/22px 'Be Vietnam Pro', Arial, sans-serif;
-	font-weight: 500;
+	font-family: 'Pixelify Sans', cursive, sans-serif;
+	font-size: 16px;
+	line-height: 24px;
+	font-weight: 600;
 	margin-left: 7px;
 	letter-spacing: 2px;
 	text-transform: uppercase;
-	color: #2a5c3a;
+	color: #ffffff !important;
+	text-shadow: 1px 1px 3px #000000;
 }
 
 /* Start Text */
@@ -575,12 +578,12 @@ nav li.last a:hover {
 }
 
 #contact h1 {
-	font-family: 'VT323', 'Space Mono', monospace;
-	font-size: 52px;
+	font-family: 'Pixelify Sans', cursive, sans-serif;
+	font-size: 48px;
 	margin-bottom: 25px;
-	color: #ffffff;
-	text-shadow: 2px 2px 0 #0f754f, -1px -1px 0 rgba(0,0,0,0.5);
-	letter-spacing: 3px;
+	color: #ffffff !important;
+	text-shadow: 3px 3px 0 #000000, -1px -1px 0 rgba(0,0,0,0.5);
+	letter-spacing: 2px;
 	text-transform: uppercase;
 }
 
@@ -938,23 +941,24 @@ nav li.last a:hover {
 
 .sign span {
 	opacity: 0;
-	background: #000;
+	background: #000000;
 	position: absolute;
 	top: -35px;
 	border-radius: 5px;
 	padding: 7px 12px;
-	color: #fff;
+	color: #ffffff !important;
 	display: block;
 	width: auto;
 	white-space: nowrap;
 	text-align: center;
 	left: 50%;
-	font-family: 'Space Mono', monospace;
-	font-weight: 700;
-	font-size: 11px;
+	font-family: 'Pixelify Sans', cursive, sans-serif;
+	font-weight: 600;
+	font-size: 13px;
 	transform: translateX(-50%);
 	transition: all 0.4s ease 0s;
 	line-height: 1.1em;
+	box-shadow: 0 4px 10px rgba(0,0,0,0.5);
 }
 
 .sign span::after {
@@ -1093,35 +1097,38 @@ nav li.last a:hover {
 
 #lightbox h2 {
 	font-size: 32px;
-	padding: 25px 20px 28px;
-	background: rgba(255,255,255,0.2);
+	padding: 22px 20px 25px;
+	background: rgba(255,255,255,0.15);
 	border-bottom: 1px solid rgba(255,255,255,0.3);
 	box-shadow: 0 2px 0 rgba(0,0,0,0.2);
 	margin: 0;
-	font-family: 'Be Vietnam Pro', 'SilkscreenNormal', Arial, sans-serif;
+	font-family: 'Pixelify Sans', cursive, sans-serif;
 	font-weight: 700;
+	color: #ffffff !important;
 	border-radius: 10px 10px 0 0;
-	text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+	text-shadow: 2px 2px 0 #000000;
 	letter-spacing: 1px;
 }
 
 #lightbox h3 {
 	font-size: 20px;
 	font-weight: 700;
-	font-family: 'Be Vietnam Pro', sans-serif;
+	font-family: 'Pixelify Sans', cursive, sans-serif;
 	line-height: 28px;
 	padding: 12px 24px;
 	margin-bottom: 0;
-	background: rgba(15, 23, 42, 0.75);
+	background: rgba(15, 23, 42, 0.85);
 	box-shadow: inset 0 -1px 3px rgba(0,0,0,0.3);
-	color: #38bdf8;
+	color: #ffffff !important;
 	text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
 }
 
 #lightbox h4 {
-	font-size: 16px;
-	font-family: 'Be Vietnam Pro', sans-serif;
+	font-size: 18px;
+	font-family: 'Pixelify Sans', cursive, sans-serif;
 	font-weight: 700;
+	color: #ffffff !important;
+	text-shadow: 1px 1px 2px #000;
 }
 
 #lightbox p, #lightbox li {
@@ -1280,10 +1287,11 @@ nav li.last a:hover {
 
 .gallery-modal-header h3 {
 	margin: 0;
-	font-family: 'Be Vietnam Pro', sans-serif;
-	font-size: 18px;
+	font-family: 'Pixelify Sans', cursive, sans-serif;
+	font-size: 20px;
 	font-weight: 700;
-	color: #38bdf8;
+	color: #ffffff !important;
+	text-shadow: 1px 1px 2px #000;
 }
 
 .gallery-modal-close {
@@ -1491,10 +1499,11 @@ nav li.last a:hover {
 
 .video-player-header h3 {
 	margin: 0;
-	font-family: 'Be Vietnam Pro', sans-serif;
-	font-size: 17px;
+	font-family: 'Pixelify Sans', cursive, sans-serif;
+	font-size: 20px;
 	font-weight: 700;
-	color: #38bdf8;
+	color: #ffffff !important;
+	text-shadow: 1px 1px 2px #000;
 }
 
 .video-player-close {
