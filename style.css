@@ -2097,6 +2097,18 @@ body.ie {
 	transform: scale(0.95);
 }
 
+/* ── MOBILE MENU TOGGLE ── */
+#mobileMenuToggle {
+	display: none;
+	text-align: center;
+	padding: 15px;
+	cursor: pointer;
+	font-family: 'Pixelify Sans', cursive;
+	color: #ffffff;
+	font-size: 18px;
+	border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
 /* ── RESPONSIVE MEDIA QUERIES ── */
 @media (max-width: 768px) {
 	/* Show Mobile Controls */
@@ -2104,13 +2116,23 @@ body.ie {
 		display: flex;
 	}
 
-	/* Nav Bar */
+	/* Nav Bar & Menu Toggle */
 	nav {
 		width: 96%;
 		left: 2%;
 		margin: 0;
 		height: auto;
 		border-radius: 15px;
+		overflow: hidden;
+	}
+	#mobileMenuToggle {
+		display: block;
+	}
+	nav ul {
+		display: none;
+	}
+	nav.open ul {
+		display: block;
 	}
 	nav ul li {
 		display: block;
@@ -2120,12 +2142,27 @@ body.ie {
 	nav ul li.last {
 		float: none;
 		position: absolute;
-		right: 10px;
-		top: 10px;
+		right: 15px;
+		top: 15px;
+		border: none;
 	}
 	nav a {
-		padding: 12px 10px;
+		padding: 15px 10px;
 		display: block;
+	}
+
+	/* Logo Text Resizing */
+	#myInfo {
+		top: 120px;
+		left: 10px;
+	}
+	#myInfo h1 {
+		font-size: 40px;
+		letter-spacing: 2px;
+	}
+	#myInfo h2 {
+		font-size: 14px;
+		letter-spacing: 1px;
 	}
 
 	/* Lightboxes */
