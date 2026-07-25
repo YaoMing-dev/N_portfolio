@@ -83,46 +83,60 @@ Game.prototype = {
 			me.moveDirectToHouse(target);
 		});
 
-		$(window).unbind('keydown').bind('keydown', function(event) {
-			if(me.topPos > parseFloat($('#startText').css('top'))) {
+		// Continuous movement loop shared by keyboard and D-pad so holding a
+		// key/button moves at a steady rate instead of relying on OS key-repeat
+		// (which caused the stutter).
+		var MOVE_STEP = 14; // px per tick (was 5px per OS key-repeat step)
+		var MOVE_TICK = 16; // ms (~60fps)
+		var pressedKeys = {};
+		var keyMoveInterval;
+
+		var processKeyMovement = function() {
+			if (me.topPos > parseFloat($('#startText').css('top'))) {
 				$('#startText').fadeOut('fast', function(){
 					$(this).remove();
 				});
 			}
+			if (pressedKeys[37] || pressedKeys[65]) { // Left / A
+				me.moveX(me.leftPos - MOVE_STEP, 'left');
+			}
+			if (pressedKeys[39] || pressedKeys[68]) { // Right / D
+				me.moveX(me.leftPos + MOVE_STEP, 'right');
+			}
+			if (pressedKeys[38] || pressedKeys[87]) { // Up / W
+				me.moveY(me.topPos - MOVE_STEP, 'up');
+			}
+			if (pressedKeys[40] || pressedKeys[83]) { // Down / S
+				me.moveY(me.topPos + MOVE_STEP, 'down');
+			}
+			me.openDoors(me.leftPos, me.topPos);
+			me.revealMenu(me.topPos);
+		};
+
+		$(window).unbind('keydown').bind('keydown', function(event) {
 			switch (event.keyCode) {
-			case 37: // Left Arrow
-			case 65: // A
-				me.moveX(me.leftPos - 5, 'left');
+			case 37: case 65: // Left / A
+			case 39: case 68: // Right / D
+			case 38: case 87: // Up / W
+			case 40: case 83: // Down / S
 				event.preventDefault();
+				if (!pressedKeys[event.keyCode]) {
+					pressedKeys[event.keyCode] = true;
+					if (!keyMoveInterval) {
+						keyMoveInterval = setInterval(processKeyMovement, MOVE_TICK);
+					}
+				}
 			break;
 
-			case 39: // Right Arrow
-			case 68: // D
-				me.moveX(me.leftPos + 5, 'right');
-				event.preventDefault();
-			break;
-
-			case 38: // Up Arrow
-			case 87: // W
-				me.moveY(me.topPos - 5, 'up');
-				event.preventDefault();
-			break;
-
-			case 40: // Down Arrow
-			case 83: // S
-				me.moveY(me.topPos + 5, 'down');
-				event.preventDefault();
-			break;
-				
-				case 13: 
+				case 13:
 					if(me.topPos > $('#wrapper').height() - $('#endSea').height() - player.height()) {
 						$('nav a').removeClass('current');
 						$('nav a[href="#boat"]').addClass('current');
 						me.shipSail();
 					}
 				break;
-				
-				case 27: 					
+
+				case 27:
 					me.hideNotificationBar();
 				break;
 
@@ -130,12 +144,17 @@ Game.prototype = {
 					return ture;
 				break;
 			}
-			me.openDoors(me.leftPos, me.topPos);
-			me.revealMenu(me.topPos);
-		}).keyup(function(){
-			if(player.attr('class') != '')
-				player.removeAttr('class').destroy();
-		});	
+		}).unbind('keyup').bind('keyup', function(event) {
+			delete pressedKeys[event.keyCode];
+			if ($.isEmptyObject(pressedKeys)) {
+				if (keyMoveInterval) {
+					clearInterval(keyMoveInterval);
+					keyMoveInterval = null;
+				}
+				if(player.attr('class') != '')
+					player.removeAttr('class').destroy();
+			}
+		});
 
 		$("#boat").unbind('click').bind('click', function(){
 			$('nav a').removeClass('current');
@@ -164,17 +183,17 @@ Game.prototype = {
 
 			moveInterval = setInterval(function() {
 				if (direction === 'up') {
-					me.moveY(me.topPos - 5, 'up');
+					me.moveY(me.topPos - MOVE_STEP, 'up');
 				} else if (direction === 'down') {
-					me.moveY(me.topPos + 5, 'down');
+					me.moveY(me.topPos + MOVE_STEP, 'down');
 				} else if (direction === 'left') {
-					me.moveX(me.leftPos - 5, 'left');
+					me.moveX(me.leftPos - MOVE_STEP, 'left');
 				} else if (direction === 'right') {
-					me.moveX(me.leftPos + 5, 'right');
+					me.moveX(me.leftPos + MOVE_STEP, 'right');
 				}
 				me.openDoors(me.leftPos, me.topPos);
 				me.revealMenu(me.topPos);
-			}, 30);
+			}, MOVE_TICK);
 		};
 
 		var stopMove = function() {
@@ -267,10 +286,10 @@ Game.prototype = {
 	
 	moveX: function(x, dir) {
 		var player = this.player;
-		var canMove = this.canImove(x, null);	
+		var canMove = this.canImove(x, null);
 		if(canMove){
 			this.leftPos = x;
-			player.animate({'left': x + 'px'}, 10);
+			player.stop(true, false).css('left', x + 'px');
 		}
 		if(dir == 'left') {
 			this.startMoving('left', 2);
@@ -279,21 +298,17 @@ Game.prototype = {
 			this.startMoving('right', 3);
 		}
 	},
-	
+
 	moveY: function(y, dir) {
 		var player = this.player;
-		var canMove = this.canImove(null, y);	
+		var canMove = this.canImove(null, y);
 		if(canMove) {
 			if(this.topPos >= 200) {
-				if(dir == 'up') {
-					$('html, body').animate({scrollTop: $(document).scrollTop() - 5}, 10);
-				}
-				else {
-					$('html, body').animate({scrollTop: $(document).scrollTop() + 5}, 10);
-				}
+				var delta = y - this.topPos;
+				$('html, body').stop(true, false).scrollTop($(document).scrollTop() + delta);
 			}
 			this.topPos = y;
-			player.animate({'top': y + 'px'}, 10);
+			player.stop(true, false).css('top', y + 'px');
 		}
 		if(dir == 'up') {
 			this.startMoving('up', 4);
