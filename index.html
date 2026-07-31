@@ -629,11 +629,20 @@
 			document.getElementById('videoTag').textContent = item.tag || "Video Project";
 			document.getElementById('videoDesc').textContent = item.desc || "Video editing showcase";
 
+			var container = document.querySelector('.video-player-container');
 			var player = document.getElementById('videoElement');
 			player.poster = encodeURI(item.thumb);
 
 			var source = document.getElementById('videoSource');
 			source.src = encodeURI(item.video);
+
+			player.onloadedmetadata = function() {
+				if (player.videoWidth && player.videoHeight && player.videoHeight > player.videoWidth) {
+					container.classList.add('is-portrait');
+				} else {
+					container.classList.remove('is-portrait');
+				}
+			};
 
 			player.load();
 			player.play().catch(function(err) {
