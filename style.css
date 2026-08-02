@@ -545,10 +545,15 @@ nav li.last a:hover {
 
 #boat .meSail {
 	position: absolute;
-	width: 32px;
-	height: 32px;
-	background: url(images/walkingMe.png) no-repeat 0 -32px;
-	top: 50px;
+	width: 48px;
+	height: 48px;
+	background-image: url(images/walkingMe.png);
+	background-repeat: no-repeat;
+	background-position: 0 -48px;
+	background-size: 144px 192px;
+	image-rendering: pixelated;
+	image-rendering: -moz-crisp-edges;
+	top: 42px;
 	left: 70px;
 	display: none;
 	z-index: 54;
@@ -556,11 +561,11 @@ nav li.last a:hover {
 
 #boat .meSail::after {
 	background: rgba(0, 0, 0, 0.3);
-	width: 16px;
-	height: 19px;
+	width: 24px;
+	height: 14px;
 	content: "";
-	bottom: -8px;
-	left: 8px;
+	bottom: -4px;
+	left: 12px;
 	position: absolute;
 	border-radius: 75px;
 	box-shadow: 0 0 10px rgba(0,0,0,0.3);
@@ -1022,40 +1027,45 @@ nav li.last a:hover {
 
 #avanish {
 	position: absolute;
-	width: 32px;
-	height: 32px;
-	background: url(images/walkingMe.png) no-repeat -32px 0;
+	width: 64px;
+	height: 64px;
+	background-image: url(images/walkingMe.png);
+	background-repeat: no-repeat;
+	background-position: -64px 0;
+	background-size: 192px 256px;
+	image-rendering: pixelated;
+	image-rendering: -moz-crisp-edges;
 	top: 20px;
 	z-index: 53;
 }
 
 #avanish::after {
 	background: rgba(0, 0, 0, 0.3);
-	width: 16px;
-	height: 19px;
+	width: 32px;
+	height: 18px;
 	content: "";
-	bottom: -8px;
-	left: 8px;
+	bottom: -4px;
+	left: 16px;
 	position: absolute;
 	border-radius: 75px;
 	box-shadow: 0 0 10px rgba(0,0,0,0.3);
 	z-index: 12;
 }
 
-#avanish.down {			
-	background: url(images/walkingMe.png) no-repeat -32px 0;
+#avanish.down {
+	background-position: -64px 0;
 }
 
 #avanish.up {
-	background: url(images/walkingMe.png) 0 -96px;
+	background-position: 0 -192px;
 }
 
 #avanish.right {
-	background: url(images/walkingMe.png) 0 -64px;
+	background-position: 0 -128px;
 }
 
 #avanish.left {
-	background: url(images/walkingMe.png) 0 -32px;
+	background-position: 0 -64px;
 }
 
 /* Lightboxes */
@@ -1870,9 +1880,14 @@ nav li.last a:hover {
 }
 
 #innerLoading .me {
-	width: 32px;
-	height: 32px;
-	background: url(images/walkingMe.png) no-repeat 0 0;
+	width: 48px;
+	height: 48px;
+	background-image: url(images/walkingMe.png);
+	background-repeat: no-repeat;
+	background-position: 0 0;
+	background-size: 144px 192px;
+	image-rendering: pixelated;
+	image-rendering: -moz-crisp-edges;
 	margin: 0 auto 10px;
 }
 
