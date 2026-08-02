@@ -52,12 +52,16 @@
 			} catch(e) {}
 			setCharacterGender(savedGender);
 
-			$('#genderToggleBtn').click(function(e){
+			$('#genderToggleBtn, .gender-icon').unbind('click touchstart').bind('click touchstart', function(e){
 				e.preventDefault();
 				e.stopPropagation();
-				var current = $('.gender-icon.male').hasClass('active') ? 'male' : 'female';
-				var nextGender = (current === 'female') ? 'male' : 'female';
-				setCharacterGender(nextGender);
+				
+				var targetGender = $(this).attr('data-gender');
+				if (!targetGender) {
+					var currentIsMale = $('.gender-icon.male').hasClass('active');
+					targetGender = currentIsMale ? 'female' : 'male';
+				}
+				setCharacterGender(targetGender);
 			});
 
 			$('#innerLoading .me').sprite({fps: 9, no_of_frames: 3}).spState(1);
@@ -105,16 +109,18 @@
 			<li><a href="#servicesHouse">Services & Skills</a></li>
 			<li><a href="#portfolioHouse">Projects & Experiences</a></li>
 			<li><a href="#boat">Contact</a></li>
-			<li class="gender-toggle-li">
-				<button id="genderToggleBtn" class="gender-btn" title="Character: FEMALE / MALE">
-					<span class="gender-icon female active" data-gender="female">FEMALE</span>
-					<span class="gender-divider">/</span>
-					<span class="gender-icon male" data-gender="male">MALE</span>
-				</button>
-			</li>
 			<li class="last"><a href="#howToPlay">?</a></li>
 		</ul>
 	</nav>
+
+	<!-- Standalone Gender Switcher (Top Right Corner) -->
+	<div id="genderToggleWrap">
+		<button id="genderToggleBtn" class="gender-btn" title="Character: FEMALE / MALE">
+			<span class="gender-icon female active" data-gender="female">FEMALE</span>
+			<span class="gender-divider">/</span>
+			<span class="gender-icon male" data-gender="male">MALE</span>
+		</button>
+	</div>
 
 	<!-- Notifications Manager -->
 	<div id="notifications"><div class="inner"></div><span class="close">Close(X)</span></div>
