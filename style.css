@@ -2342,50 +2342,52 @@ body.ie {
 .gender-toggle-li {
 	display: inline-block;
 	vertical-align: middle;
-	margin: 8px 6px;
+	margin: 6px 8px;
 }
 
 .gender-btn {
-	background: rgba(0, 0, 0, 0.45);
-	border: 1px solid rgba(255, 255, 255, 0.35);
+	background: rgba(15, 23, 42, 0.7);
+	border: 1.5px solid rgba(255, 255, 255, 0.25);
 	border-radius: 20px;
-	padding: 3px 10px;
+	padding: 3px 5px;
 	color: #ffffff;
 	font-family: 'Pixelify Sans', cursive, sans-serif;
-	font-size: 13px;
+	font-size: 11.5px;
 	font-weight: 600;
+	letter-spacing: 1px;
 	cursor: pointer;
 	display: inline-flex;
 	align-items: center;
-	gap: 6px;
+	gap: 3px;
 	transition: all 0.25s ease;
 	outline: none;
 	user-select: none;
+	box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .gender-btn:hover {
-	background: rgba(15, 117, 79, 0.85);
 	border-color: #38bdf8;
-	transform: scale(1.05);
-	box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+	box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
 }
 
 .gender-icon {
 	opacity: 0.5;
-	transition: all 0.2s ease;
-	padding: 2px 5px;
-	border-radius: 10px;
+	transition: all 0.25s ease;
+	padding: 3px 8px;
+	border-radius: 14px;
+	color: #cbd5e1;
 }
 
 .gender-icon.active {
 	opacity: 1;
-	color: #38bdf8;
-	text-shadow: 0 0 8px rgba(56, 189, 248, 0.9);
+	color: #ffffff;
+	background: linear-gradient(135deg, #0f754f 0%, #16a34a 100%);
+	box-shadow: 0 2px 6px rgba(22, 163, 74, 0.4);
 	font-weight: 700;
-	background: rgba(56, 189, 248, 0.15);
 }
 
 .gender-divider {
-	opacity: 0.3;
+	opacity: 0.25;
+	font-size: 10px;
 }
 
