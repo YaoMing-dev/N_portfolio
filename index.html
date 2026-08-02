@@ -27,7 +27,39 @@
 		</script>
 	<![endif]-->
 	<script type="text/javascript">	
+		function setCharacterGender(gender) {
+			var spriteUrl = (gender === 'male') ? 'images/ngan_male.png' : 'images/ngan.png';
+			try {
+				localStorage.setItem('preferred_gender', gender);
+			} catch(e) {}
+
+			$('.gender-icon').removeClass('active');
+			if (gender === 'male') {
+				$('.gender-icon.male').addClass('active');
+			} else {
+				$('.gender-icon.female').addClass('active');
+			}
+
+			$('#avanish').css('background-image', 'url(' + spriteUrl + ')');
+			$('#innerLoading .me').css('background-image', 'url(' + spriteUrl + ')');
+			$('#boat .meSail').css('background-image', 'url(' + spriteUrl + ')');
+		}
+
 		$(document).ready(function(){
+			var savedGender = 'female';
+			try {
+				savedGender = localStorage.getItem('preferred_gender') || 'female';
+			} catch(e) {}
+			setCharacterGender(savedGender);
+
+			$('#genderToggleBtn').click(function(e){
+				e.preventDefault();
+				e.stopPropagation();
+				var current = $('.gender-icon.male').hasClass('active') ? 'male' : 'female';
+				var nextGender = (current === 'female') ? 'male' : 'female';
+				setCharacterGender(nextGender);
+			});
+
 			$('#innerLoading .me').sprite({fps: 9, no_of_frames: 3}).spState(1);
 			var game = new Game();
 		});	
@@ -73,6 +105,13 @@
 			<li><a href="#servicesHouse">Services & Skills</a></li>
 			<li><a href="#portfolioHouse">Projects & Experiences</a></li>
 			<li><a href="#boat">Contact</a></li>
+			<li class="gender-toggle-li">
+				<button id="genderToggleBtn" class="gender-btn" title="Đổi nhân vật Nam (♂) / Nữ (♀)">
+					<span class="gender-icon female active" data-gender="female">♀️ Nữ</span>
+					<span class="gender-divider">|</span>
+					<span class="gender-icon male" data-gender="male">♂️ Nam</span>
+				</button>
+			</li>
 			<li class="last"><a href="#howToPlay">?</a></li>
 		</ul>
 	</nav>

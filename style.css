@@ -547,7 +547,7 @@ nav li.last a:hover {
 	position: absolute;
 	width: 48px;
 	height: 48px;
-	background-image: url(images/walkingMe.png);
+	background-image: url(images/ngan.png);
 	background-repeat: no-repeat;
 	background-position: 0 -48px;
 	background-size: 144px 192px;
@@ -1029,7 +1029,7 @@ nav li.last a:hover {
 	position: absolute;
 	width: 64px;
 	height: 64px;
-	background-image: url(images/walkingMe.png);
+	background-image: url(images/ngan.png);
 	background-repeat: no-repeat;
 	background-position: -64px 0;
 	background-size: 192px 256px;
@@ -1882,7 +1882,7 @@ nav li.last a:hover {
 #innerLoading .me {
 	width: 48px;
 	height: 48px;
-	background-image: url(images/walkingMe.png);
+	background-image: url(images/ngan.png);
 	background-repeat: no-repeat;
 	background-position: 0 0;
 	background-size: 144px 192px;
@@ -2337,3 +2337,55 @@ body.ie {
 		margin-left: 0;
 	}
 }
+
+/* ── GENDER SELECTOR TOGGLE ── */
+.gender-toggle-li {
+	display: inline-block;
+	vertical-align: middle;
+	margin: 8px 6px;
+}
+
+.gender-btn {
+	background: rgba(0, 0, 0, 0.45);
+	border: 1px solid rgba(255, 255, 255, 0.35);
+	border-radius: 20px;
+	padding: 3px 10px;
+	color: #ffffff;
+	font-family: 'Pixelify Sans', cursive, sans-serif;
+	font-size: 13px;
+	font-weight: 600;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	transition: all 0.25s ease;
+	outline: none;
+	user-select: none;
+}
+
+.gender-btn:hover {
+	background: rgba(15, 117, 79, 0.85);
+	border-color: #38bdf8;
+	transform: scale(1.05);
+	box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+}
+
+.gender-icon {
+	opacity: 0.5;
+	transition: all 0.2s ease;
+	padding: 2px 5px;
+	border-radius: 10px;
+}
+
+.gender-icon.active {
+	opacity: 1;
+	color: #38bdf8;
+	text-shadow: 0 0 8px rgba(56, 189, 248, 0.9);
+	font-weight: 700;
+	background: rgba(56, 189, 248, 0.15);
+}
+
+.gender-divider {
+	opacity: 0.3;
+}
+
