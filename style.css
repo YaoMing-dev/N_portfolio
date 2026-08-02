@@ -100,8 +100,9 @@ nav {
 	top: 15px;
 	height: 55px;
 	left: 50%;
-	width: 960px;
-	margin: 0 0 0 -480px;
+	width: 860px;
+	max-width: calc(100vw - 220px);
+	margin: 0 0 0 -430px;
 	text-align: center;	
 	color: #fff;
 	z-index: 800;
@@ -2341,8 +2342,8 @@ body.ie {
 /* ── STANDALONE GENDER SELECTOR TOGGLE (TOP RIGHT CORNER) ── */
 #genderToggleWrap {
 	position: fixed;
-	top: 15px;
-	right: 20px;
+	top: 18px;
+	right: 25px;
 	z-index: 10000;
 }
 
