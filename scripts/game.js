@@ -141,7 +141,7 @@ Game.prototype = {
 				break;
 
 				case 32:
-					return ture;
+					return true;
 				break;
 			}
 		}).unbind('keyup').bind('keyup', function(event) {
@@ -261,7 +261,7 @@ Game.prototype = {
 
 	moveDirectToHouse: function(target) {
 		var house;
-		for(i = 0; i < houses.length; i++) {
+		for(var i = 0; i < houses.length; i++) {
 			if(houses[i].id == target) {
 				house = houses[i];
 				break;
@@ -270,10 +270,10 @@ Game.prototype = {
 		var y = house.top + house.height - 70;
 		var x;
 		if(house.left && house.left != null) {
-			x = house.left + house.door.left;
+			x = house.left + house.door.left + (house.door.width / 2) - (this.player.width() / 2);
 		}
 		else {
-			x = $(window).width() - house.width - house.right + house.door.left;
+			x = $(window).width() - house.width - house.right + house.door.left + (house.door.width / 2) - (this.player.width() / 2);
 		}
 		var canMove = this.canImove(x, y, true);
 		if(canMove) {
@@ -330,7 +330,7 @@ Game.prototype = {
 		var player = this.player;
 		var elmLeft = x || this.leftPos;
 		var elmTop = y || this.topPos;
-		for(i = 0; i < houses.length; i++) {
+		for(var i = 0; i < houses.length; i++) {
 			if(houses[i].left && houses[i].left != null) {
 				if(elmTop >= houses[i].top + houses[i].height - 80 && elmTop < houses[i].top + houses[i].height + player.height() && elmLeft < houses[i].left + houses[i].width) {
 					$(houses[i].id).find(".door").addClass('open');
@@ -357,11 +357,13 @@ Game.prototype = {
 	inHouse: function(elmLeft, elmTop) {
 		var player = this.player;
 		var isInHouse = [];
-		for(i = 0; i < houses.length; i++) {
+		for(var i = 0; i < houses.length; i++) {
 			if(elmTop > houses[i].top && elmTop < houses[i].top + houses[i].height) {
 				if(houses[i].left && houses[i].left != null) {
 					if(elmLeft < houses[i].left + houses[i].width && elmLeft > houses[i].left - player.width() && elmTop < houses[i].top + houses[i].height) {
-						if(elmLeft > houses[i].left + houses[i].door.left - player.width() / 2 && elmLeft < houses[i].left + houses[i].door.width + houses[i].door.left - player.width() / 2) {
+						var doorMin = houses[i].left + houses[i].door.left - player.width() / 2 - 15;
+						var doorMax = houses[i].left + houses[i].door.left + houses[i].door.width - player.width() / 2 + 15;
+						if(elmLeft >= doorMin && elmLeft <= doorMax) {
 							isInHouse.push(true);
 							if(elmTop <= houses[i].top + houses[i].height - 70) {
 								this.lightboxInit(houses[i].id, true);
@@ -377,7 +379,10 @@ Game.prototype = {
 				}
 				else if(houses[i].right && houses[i].right != null) {
 					if(elmLeft > $(window).width() - houses[i].width - houses[i].right - player.width() && elmLeft < $(window).width() - houses[i].right && elmTop < houses[i].top + houses[i].height) {
-						if(elmLeft > $(window).width() - houses[i].width - houses[i].right + houses[i].door.left - 10  && elmLeft < $(window).width() - houses[i].right - houses[i].width + houses[i].door.left + houses[i].door.width - 10) {
+						var houseLeft = $(window).width() - houses[i].width - houses[i].right;
+						var doorMin = houseLeft + houses[i].door.left - player.width() / 2 - 15;
+						var doorMax = houseLeft + houses[i].door.left + houses[i].door.width - player.width() / 2 + 15;
+						if(elmLeft >= doorMin && elmLeft <= doorMax) {
 							isInHouse.push(true);
 							if(elmTop <= houses[i].top + houses[i].height - 70) {
 								this.lightboxInit(houses[i].id, true);
@@ -410,7 +415,7 @@ Game.prototype = {
 			isOnRoad = false;
 		}
 		else if(elmLeft < ($(window).width() / 2 - mainRoad.width() / 2) || elmLeft > ($(window).width() / 2 + mainRoad.width() / 2) - player.width()) {
-			for(i = 0; i < roads.length; i++) {
+			for(var i = 0; i < roads.length; i++) {
 				if(elmTop > roads[i].top && elmTop < roads[i].top + roads[i].height - player.height()) {
 					if(roads[i].direction == 'left') {
 						if(elmLeft < ($(window).width() / 2 + mainRoad.width() / 2) - player.width()) {

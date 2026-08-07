@@ -1705,12 +1705,14 @@ nav li.last a:hover {
 #lightbox #sThinking.box .icon { background: none; } 
 #lightbox #sCode.box .icon { background: none; } 
 
-#lightbox .portfolioBox {
+#lightbox .portfolioBox,
+.open-project-gallery {
 	float: left;
 	width: 25%;
 	text-align: center;
 	position: relative;
 	z-index: 1;
+	cursor: pointer;
 }
 
 #lightbox .shelf {
