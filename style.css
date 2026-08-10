@@ -1708,7 +1708,7 @@ nav li.last a:hover {
 #lightbox .portfolioBox,
 .open-project-gallery {
 	float: left;
-	width: 25%;
+	width: 20%;
 	text-align: center;
 	position: relative;
 	z-index: 1;
@@ -2397,5 +2397,298 @@ body.ie {
 .gender-divider {
 	opacity: 0.25;
 	font-size: 11px;
+}
+
+/* ── TOP HEADER CONTROLS (GENDER & QR SHARE) ── */
+#topHeaderControls {
+	position: fixed;
+	top: 18px;
+	right: 25px;
+	z-index: 10000;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+#genderToggleWrap {
+	position: static;
+}
+
+.qr-btn-header {
+	background: rgba(15, 23, 42, 0.85);
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
+	border: 1.5px solid rgba(56, 189, 248, 0.5);
+	border-radius: 20px;
+	padding: 6px 14px;
+	color: #38bdf8;
+	font-family: 'Pixelify Sans', cursive, sans-serif;
+	font-size: 13px;
+	font-weight: 600;
+	letter-spacing: 0.5px;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	transition: all 0.25s ease;
+	outline: none;
+	user-select: none;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.2);
+}
+
+.qr-btn-header:hover {
+	background: #0f172a;
+	border-color: #38bdf8;
+	color: #ffffff;
+	transform: translateY(-2px);
+	box-shadow: 0 6px 20px rgba(56, 189, 248, 0.4);
+}
+
+.qr-header-icon {
+	font-size: 14px;
+}
+
+/* ── QR BUTTON IN CONTACT & HOWTOPLAY SECTIONS ── */
+.qr-contact-wrap {
+	text-align: center;
+	margin: 15px 0 20px;
+}
+
+.qr-contact-btn {
+	background: linear-gradient(135deg, #0f754f 0%, #16a34a 100%);
+	border: 2px solid #ffffff;
+	border-radius: 30px;
+	color: #ffffff;
+	padding: 12px 24px;
+	font-family: 'Pixelify Sans', cursive, sans-serif;
+	font-size: 14px;
+	font-weight: 600;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	transition: all 0.3s ease;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+	text-align: center;
+	line-height: 1.4;
+	max-width: 90%;
+}
+
+.qr-contact-btn:hover {
+	transform: scale(1.03);
+	box-shadow: 0 6px 25px rgba(22, 163, 74, 0.6);
+	background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+}
+
+.qr-btn-icon {
+	font-size: 18px;
+}
+
+.qr-inline-btn {
+	background: rgba(56, 189, 248, 0.15);
+	border: 1px dashed #38bdf8;
+	color: #38bdf8;
+	border-radius: 8px;
+	padding: 8px 12px;
+	font-family: 'Pixelify Sans', cursive, sans-serif;
+	font-size: 13px;
+	font-weight: 600;
+	cursor: pointer;
+	margin-top: 10px;
+	display: inline-block;
+	transition: all 0.25s ease;
+	width: 100%;
+	text-align: center;
+}
+
+.qr-inline-btn:hover {
+	background: #38bdf8;
+	color: #0f172a;
+}
+
+/* ── QR MODAL OVERLAY & POPUP ── */
+.qr-modal-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background: rgba(15, 23, 42, 0.85);
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
+	z-index: 99999;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.3s ease;
+}
+
+.qr-modal-overlay.active {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+.qr-modal-container {
+	background: #1e293b;
+	border: 2px solid #38bdf8;
+	border-radius: 16px;
+	width: 90%;
+	max-width: 440px;
+	padding: 24px;
+	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(56, 189, 248, 0.2);
+	position: relative;
+	transform: scale(0.9);
+	transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+	text-align: center;
+}
+
+.qr-modal-overlay.active .qr-modal-container {
+	transform: scale(1);
+}
+
+.qr-modal-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 15px;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	padding-bottom: 10px;
+}
+
+.qr-modal-header h3 {
+	margin: 0;
+	font-family: 'Pixelify Sans', cursive, sans-serif;
+	font-size: 20px;
+	color: #38bdf8;
+	text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.qr-modal-close {
+	background: transparent;
+	border: none;
+	color: #94a3b8;
+	font-size: 28px;
+	cursor: pointer;
+	line-height: 1;
+	padding: 0 5px;
+	transition: color 0.2s ease;
+}
+
+.qr-modal-close:hover {
+	color: #ffffff;
+}
+
+.qr-modal-subtitle {
+	font-size: 13.5px;
+	color: #cbd5e1;
+	line-height: 1.5;
+	margin-bottom: 18px;
+	background: rgba(15, 23, 42, 0.6);
+	padding: 10px 14px;
+	border-radius: 8px;
+	border-left: 3px solid #38bdf8;
+}
+
+.qr-image-wrap {
+	background: #ffffff;
+	padding: 12px;
+	border-radius: 12px;
+	display: inline-block;
+	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+	margin-bottom: 20px;
+}
+
+.qr-image-wrap img {
+	width: 220px;
+	height: 220px;
+	object-fit: contain;
+	display: block;
+}
+
+.qr-actions {
+	display: flex;
+	gap: 12px;
+	justify-content: center;
+}
+
+.qr-action-btn {
+	flex: 1;
+	padding: 10px 14px;
+	border-radius: 8px;
+	font-family: 'Pixelify Sans', cursive, sans-serif;
+	font-size: 13px;
+	font-weight: 600;
+	cursor: pointer;
+	text-decoration: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	transition: all 0.25s ease;
+	border: none;
+}
+
+.qr-action-btn.download-btn {
+	background: #16a34a;
+	color: #ffffff;
+}
+
+.qr-action-btn.download-btn:hover {
+	background: #22c55e;
+}
+
+.qr-action-btn.copy-btn {
+	background: #0284c7;
+	color: #ffffff;
+}
+
+.qr-action-btn.copy-btn:hover {
+	background: #0369a1;
+}
+
+.copy-success-msg {
+	margin-top: 12px;
+	font-size: 12.5px;
+	color: #4ade80;
+	opacity: 0;
+	transition: opacity 0.3s ease;
+}
+
+.copy-success-msg.show {
+	opacity: 1;
+}
+
+/* ── RESPONSIVE MOBILE FIXES ── */
+@media screen and (max-width: 768px) {
+	#topHeaderControls {
+		top: 12px;
+		right: 12px;
+		gap: 6px;
+	}
+
+	.qr-btn-header {
+		padding: 4px 8px;
+		font-size: 11px;
+	}
+
+	.qr-header-text {
+		display: none; /* Hide text on small screens, keep icon */
+	}
+
+	.qr-modal-container {
+		padding: 18px;
+	}
+
+	.qr-image-wrap img {
+		width: 180px;
+		height: 180px;
+	}
+
+	.qr-contact-btn {
+		font-size: 12.5px;
+		padding: 10px 16px;
+	}
 }
 

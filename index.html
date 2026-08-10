@@ -113,13 +113,19 @@
 		</ul>
 	</nav>
 
-	<!-- Standalone Gender Switcher (Top Right Corner) -->
-	<div id="genderToggleWrap">
-		<button id="genderToggleBtn" class="gender-btn" title="Character: FEMALE / MALE">
-			<span class="gender-icon female active" data-gender="female">FEMALE</span>
-			<span class="gender-divider">/</span>
-			<span class="gender-icon male" data-gender="male">MALE</span>
+	<!-- Top Controls (QR Share & Gender Switcher) -->
+	<div id="topHeaderControls">
+		<button id="qrHeaderBtn" class="qr-btn-header open-qr-trigger" title="muốn quét QR để chia sẻ vào bằng điện thoại ? click ngay để quét">
+			<span class="qr-header-icon">📱</span>
+			<span class="qr-header-text">Quét QR chia sẻ</span>
 		</button>
+		<div id="genderToggleWrap">
+			<button id="genderToggleBtn" class="gender-btn" title="Character: FEMALE / MALE">
+				<span class="gender-icon female active" data-gender="female">FEMALE</span>
+				<span class="gender-divider">/</span>
+				<span class="gender-icon male" data-gender="male">MALE</span>
+			</button>
+		</div>
 	</div>
 
 	<!-- Notifications Manager -->
@@ -272,7 +278,7 @@
 								<div class="play-badge">&#9654;</div>
 							</a>
 							<h4>Video Edit</h4>
-							<p>Video Edit làm bằng CapCut PC, Premiere &amp; DaVinci Resolve (2 video). Click để xem &amp; phát video.</p>
+							<p>Video Edit làm bằng CapCut PC, Premiere &amp; DaVinci Resolve (3 video). Click để xem &amp; phát video.</p>
 						</div>
 					</div>
 
@@ -285,6 +291,18 @@
 							</a>
 							<h4>AI Video Edit</h4>
 							<p>AI Video Edit sáng tạo với Gemini, Google Flow (15 video). Click để xem &amp; phát video.</p>
+						</div>
+					</div>
+
+					<!-- ── 5. RECENTLY PROJECT ── -->
+					<div class="portfolioBox open-project-gallery" data-project="recently_project">
+						<div class="inner">
+							<a class="portfolioImg" href="javascript:void(0);">
+								<img src="Project/thumbs/video_editor/epic_phone_transition.jpg" alt="Recently Project" />
+								<div class="play-badge">&#9654;</div>
+							</a>
+							<h4>Recently Project</h4>
+							<p>Dự án video Epic Phone Transition mới cập nhật. Click để xem &amp; phát video.</p>
 						</div>
 					</div>
 	
@@ -325,6 +343,13 @@
 				</a>
 			</div>
 			<p>Hãy để lại tin nhắn — mình luôn sẵn sàng lắng nghe!</p>
+
+			<div class="qr-contact-wrap">
+				<button class="qr-contact-btn open-qr-trigger" title="muốn quét QR để chia sẻ vào bằng điện thoại ? click ngay để quét">
+					<span class="qr-btn-icon">📱</span>
+					<span>muốn quét QR để chia sẻ vào bằng điện thoại ? click ngay để quét</span>
+				</button>
+			</div>
 			
 			<div id="contact-form">
 				<form method="POST" action="https://formspree.io/nlbaongan31@gmail.com">
@@ -375,6 +400,9 @@
 					</div>
 					<div id="htpShare" class="box clearfix">
 						<p>Liên hệ và chia sẻ portfolio của mình với bạn bè nhé! ✨</p>
+						<button class="qr-inline-btn open-qr-trigger" title="muốn quét QR để chia sẻ vào bằng điện thoại ? click ngay để quét">
+							📱 muốn quét QR để chia sẻ vào bằng điện thoại ? click ngay để quét
+						</button>
 					</div>
       	</article>				
 			</div>
@@ -424,6 +452,31 @@
 		<button class="fs-nav next" id="fsNextBtn">&#10095;</button>
 	</div>
 
+	<!-- ── QR CODE MODAL ── -->
+	<div id="qrModal" class="qr-modal-overlay">
+		<div class="qr-modal-container">
+			<div class="qr-modal-header">
+				<h3>Quét Mã QR Portfolio</h3>
+				<button class="qr-modal-close" id="closeQrBtn">&times;</button>
+			</div>
+			<div class="qr-modal-body">
+				<p class="qr-modal-subtitle">muốn quét QR để chia sẻ vào bằng điện thoại ? click ngay để quét</p>
+				<div class="qr-image-wrap">
+					<img src="QR.jpg" alt="QR Code Share Portfolio Nguyễn Lê Bảo Ngân" />
+				</div>
+				<div class="qr-actions">
+					<a href="QR.jpg" download="Ngan_Portfolio_QR.jpg" class="qr-action-btn download-btn">
+						📥 Tải Mã QR
+					</a>
+					<button id="copyUrlBtn" class="qr-action-btn copy-btn">
+						📋 Sao Chép Link
+					</button>
+				</div>
+				<div id="copySuccessMsg" class="copy-success-msg">✓ Đã sao chép đường dẫn portfolio!</div>
+			</div>
+		</div>
+	</div>
+
 	<script type="text/javascript">
 		// 4 Project Category Datasets
 		var projectGalleries = {
@@ -455,8 +508,15 @@
 			},
 			video_editor: {
 				type: "video",
-				title: "Dự Án Video Edit (2 Video)",
+				title: "Dự Án Video Edit (3 Video)",
 				items: [
+					{
+						title: "Epic Phone Transition",
+						thumb: "Project/thumbs/video_editor/epic_phone_transition.jpg",
+						video: "epic phone transition.mp4",
+						tag: "CapCut PC • Motion Transition",
+						desc: "Dự án chuyển cảnh điện thoại epic (Epic Phone Transition) mượt mà & ấn tượng."
+					},
 					{
 						title: "MICHAEL Video Project",
 						thumb: "Project/thumbs/video_editor/michael.jpg",
@@ -470,6 +530,19 @@
 						video: "video/michael/Elizabert Taylor.mp4",
 						tag: "Adobe Premiere • DaVinci Resolve",
 						desc: "Dự án dựng video nghệ thuật & hiệu ứng ấn tượng."
+					}
+				]
+			},
+			recently_project: {
+				type: "video",
+				title: "Dự Án Gần Đây - Recently Project (Epic Phone Transition)",
+				items: [
+					{
+						title: "Epic Phone Transition",
+						thumb: "Project/thumbs/video_editor/epic_phone_transition.jpg",
+						video: "epic phone transition.mp4",
+						tag: "CapCut PC • Motion Transition",
+						desc: "Dự án chuyển cảnh điện thoại epic (Epic Phone Transition) mượt mà & ấn tượng."
 					}
 				]
 			},
@@ -729,12 +802,67 @@
 			document.getElementById('fullscreenViewer').classList.add('active');
 		}
 
+		function openQrModal() {
+			var modal = document.getElementById('qrModal');
+			if (modal) modal.classList.add('active');
+		}
+
+		function closeQrModal() {
+			var modal = document.getElementById('qrModal');
+			if (modal) modal.classList.remove('active');
+		}
+
+		function showCopySuccess() {
+			var msg = document.getElementById('copySuccessMsg');
+			if (msg) {
+				msg.classList.add('show');
+				setTimeout(function() { msg.classList.remove('show'); }, 3000);
+			}
+		}
+
+		function fallbackCopy() {
+			var dummy = document.createElement('input');
+			document.body.appendChild(dummy);
+			dummy.value = window.location.href;
+			dummy.select();
+			document.execCommand('copy');
+			document.body.removeChild(dummy);
+			showCopySuccess();
+		}
+
+		document.addEventListener('click', function(e) {
+			var qrTrigger = e.target.closest('.open-qr-trigger');
+			if (qrTrigger) {
+				e.preventDefault();
+				e.stopPropagation();
+				openQrModal();
+				return;
+			}
+			if (e.target.id === 'closeQrBtn' || e.target.id === 'qrModal') {
+				closeQrModal();
+				return;
+			}
+			if (e.target.id === 'copyUrlBtn' || e.target.closest('#copyUrlBtn')) {
+				e.preventDefault();
+				var url = window.location.href;
+				if (navigator.clipboard && navigator.clipboard.writeText) {
+					navigator.clipboard.writeText(url).then(showCopySuccess).catch(fallbackCopy);
+				} else {
+					fallbackCopy();
+				}
+				return;
+			}
+		});
+
 		document.addEventListener('keydown', function(e) {
 			var fsViewer = document.getElementById('fullscreenViewer');
 			var videoModal = document.getElementById('videoPlayerModal');
 			var galleryModal = document.getElementById('projectGalleryModal');
+			var qrModal = document.getElementById('qrModal');
 
-			if (fsViewer && fsViewer.classList.contains('active')) {
+			if (qrModal && qrModal.classList.contains('active')) {
+				if (e.keyCode === 27) closeQrModal(); // Esc
+			} else if (fsViewer && fsViewer.classList.contains('active')) {
 				if (e.keyCode === 37) showFullscreenImage(currentFsIndex - 1); // Left arrow
 				if (e.keyCode === 39) showFullscreenImage(currentFsIndex + 1); // Right arrow
 				if (e.keyCode === 27) fsViewer.classList.remove('active'); // Esc
