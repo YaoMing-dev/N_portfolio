@@ -37,9 +37,9 @@ Game.prototype = {
 
 	updateViewportScale: function() {
 		var winW = $(window).width();
-		var scale = winW / 768;
-		// Apply scale universally for BOTH PC and Mobile
-		// This makes the 768px game canvas fill 100% of any screen width
+		// Mobile fills screen exactly; PC uses wider base so game looks zoomed-out/panoramic
+		var baseWidth = winW < 768 ? 768 : 1100;
+		var scale = winW / baseWidth;
 		$('#wrapper').css({
 			'transform': 'scale(' + scale + ')',
 			'transform-origin': 'top left',
@@ -66,9 +66,9 @@ Game.prototype = {
 		
 		$('.road, .bridge').unbind('click').bind('click', function(e){
 			var winW = $(window).width();
-			// Universal scale: same formula for both PC and Mobile
-			var scale = winW / 768;
-			// e.pageX/pageY are in browser pixel space; divide by scale to get game coords
+			var baseWidth = winW < 768 ? 768 : 1100;
+			var scale = winW / baseWidth;
+			// Convert browser pixel coords → game coords
 			var x = (e.pageX / scale) - (player.width() || 64) / 2;
 			var y = e.pageY / scale;
 			var canMove = me.canImove(x, y, true);
@@ -310,7 +310,8 @@ Game.prototype = {
 			left: x
 		}).show().stop(true, true).animate({opacity: 1});
 		var winW = $(window).width();
-		var scale = winW / 768; // Universal: same for PC and Mobile
+		var baseWidth = winW < 768 ? 768 : 1100;
+		var scale = winW / baseWidth;
 		var maxMapHeight = winW < 768 ? 2020 : 2500;
 		var maxScroll = Math.max(0, (maxMapHeight * scale) - $(window).height());
 		var targetScroll = Math.min(maxScroll, Math.max(0, (y - 200) * scale));
@@ -368,7 +369,8 @@ Game.prototype = {
 			this.topPos = y;
 			player.stop(true, false).css('top', y + 'px');
 			var winW = $(window).width();
-			var scale = winW / 768; // Universal: same for PC and Mobile
+			var baseWidth = winW < 768 ? 768 : 1100;
+			var scale = winW / baseWidth;
 			var maxMapHeight = winW < 768 ? 2020 : 2500;
 			var maxScroll = Math.max(0, (maxMapHeight * scale) - $(window).height());
 			var targetScroll = Math.min(maxScroll, Math.max(0, (y - 200) * scale));
