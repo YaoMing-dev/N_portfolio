@@ -41,6 +41,7 @@ Game.prototype = {
 
 	updateViewportScale: function() {
 		var winW = $(window).width();
+		var winH = $(window).height();
 		if (winW <= 768) {
 			// ── MOBILE: scale 768px canvas to fit screen ──
 			var scale = winW / 768;
@@ -50,10 +51,12 @@ Game.prototype = {
 				'transform-origin': 'top left',
 				'width': '768px'
 			});
+			var bodyH = Math.max(2500 * scale, (1680 * scale) + winH);
 			$('body').css({
-				'height': (2500 * scale) + 'px',
+				'height': bodyH + 'px',
 				'width': '100vw',
-				'overflow-x': 'hidden'
+				'overflow-x': 'hidden',
+				'background-color': '#35598e'
 			});
 		} else {
 			// ── DESKTOP: 100% width wide open 2D world ──
@@ -65,7 +68,8 @@ Game.prototype = {
 			$('body').css({
 				'height': '2500px',
 				'width': '100vw',
-				'overflow-x': 'hidden'
+				'overflow-x': 'hidden',
+				'background-color': '#70c8a0'
 			});
 		}
 	},
@@ -553,7 +557,18 @@ Game.prototype = {
 	},
 	
 	shipSail: function() {
-		$('html, body').animate({scrollTop: $("#wrapper").height() - $("#endSea").height() + 20});
+		var winW = $(window).width();
+		var isMobile = winW <= 768;
+		var scale = isMobile ? (winW / 768) : 1;
+
+		var targetScroll;
+		if (isMobile) {
+			targetScroll = 1680 * scale;
+		} else {
+			targetScroll = $("#wrapper").height() - $("#endSea").height() + 20;
+		}
+
+		$('html, body').stop().animate({scrollTop: targetScroll}, 600);
 		var ship = $('#boat');
 		this.hideNotificationBar();
 		this.player.stop(true, true).fadeOut('fast');
