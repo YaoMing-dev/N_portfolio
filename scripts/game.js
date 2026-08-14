@@ -11,13 +11,13 @@ Game.constructor = Game;
 Game.prototype = {
 	
 	init: function() {
-		this.topPos = 100;
-		var wWidth = this.getWrapperWidth();
+		this.topPos = 0;
+		var wWidth = $(window).width();
 		this.leftPos = wWidth / 2 - (this.player.width() || 64) / 2;
-		// Center the player relative to the wrapper width at the main road start
+		// Center the player relative to the window width at top cave entrance
 		this.player.css({
 			'left': this.leftPos + 'px',
-			'top': this.topPos + 'px'
+			'top': '20px'
 		});
 
 		// Add an event handler
@@ -35,7 +35,7 @@ Game.prototype = {
 
 	getWrapperWidth: function() {
 		var winW = $(window).width();
-		return winW <= 768 ? 768 : ($('#wrapper').width() || winW);
+		return winW <= 768 ? 768 : winW;
 	},
 
 	updateViewportScale: function() {
@@ -55,7 +55,7 @@ Game.prototype = {
 				'overflow-x': 'hidden'
 			});
 		} else {
-			// ── DESKTOP: 100% width wide open 2D world like Daniel ──
+			// ── DESKTOP: 100% width wide open 2D world (Commit 94dbda4 standard) ──
 			this._scale = 1;
 			$('#wrapper').css({
 				'transform': 'none',
