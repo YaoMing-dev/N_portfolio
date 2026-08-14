@@ -12,7 +12,8 @@ Game.prototype = {
 	
 	init: function() {
 		this.topPos = 100;
-		this.leftPos = 768 / 2 - (this.player.width() || 64) / 2;
+		var wWidth = this.getWrapperWidth();
+		this.leftPos = wWidth / 2 - (this.player.width() || 64) / 2;
 		// Center the player relative to the wrapper width
 		this.player.css({
 			'left': this.leftPos + 'px',
@@ -26,34 +27,46 @@ Game.prototype = {
 		this.howToPlay();
 		
 		$('nav a:first').addClass('current');
-		
-		// Puts flowers
-		//this.putFlowers();
 	},
 
 	howToPlay: function() {
 		this.lightboxInit('#howToPlay', false);
 	},
 
+	getWrapperWidth: function() {
+		var winW = $(window).width();
+		return winW <= 768 ? 768 : winW;
+	},
+
 	updateViewportScale: function() {
 		var winW = $(window).width();
-		// Scale the 768px game canvas to exactly fill the viewport width on any screen
-		// size — no side margin.
-		var scale = winW / 768;
-		this._scale = scale; // cache for use in click handlers
-		$('#wrapper').css({
-			'transform': 'scale(' + scale + ')',
-			'transform-origin': 'top left',
-			'width': '768px'
-		});
-		var maxMapHeight = winW < 768 ? 2020 : 2500;
-		// CRITICAL: body must be 100vw so position:fixed modals (lightbox, overlay)
-		// use the full viewport for their left:50% centering — not a capped body width.
-		$('body').css({
-			'height': (maxMapHeight * scale) + 'px',
-			'width': '100vw',
-			'overflow-x': 'hidden'
-		});
+		if (winW <= 768) {
+			// ── MOBILE: scale 768px canvas to fit screen ──
+			var scale = winW / 768;
+			this._scale = scale;
+			$('#wrapper').css({
+				'transform': 'scale(' + scale + ')',
+				'transform-origin': 'top left',
+				'width': '768px'
+			});
+			$('body').css({
+				'height': (2500 * scale) + 'px',
+				'width': '100vw',
+				'overflow-x': 'hidden'
+			});
+		} else {
+			// ── DESKTOP: 100% width wide open 2D world like Daniel ──
+			this._scale = 1;
+			$('#wrapper').css({
+				'transform': 'none',
+				'width': '100%'
+			});
+			$('body').css({
+				'height': '2500px',
+				'width': '100vw',
+				'overflow-x': 'hidden'
+			});
+		}
 	},
 
 	eventsHandler: function() {
@@ -67,8 +80,8 @@ Game.prototype = {
 		
 		$('.road, .bridge').unbind('click').bind('click', function(e){
 			var winW = $(window).width();
-			var scale = winW / 768;
-			// Convert browser pixel coords → game coords by dividing by scale
+			var isMobile = winW <= 768;
+			var scale = isMobile ? (winW / 768) : 1;
 			var x = (e.pageX / scale) - (player.width() || 64) / 2;
 			var y = e.pageY / scale;
 			var canMove = me.canImove(x, y, true);
@@ -310,8 +323,9 @@ Game.prototype = {
 			left: x
 		}).show().stop(true, true).animate({opacity: 1});
 		var winW = $(window).width();
-		var scale = winW / 768;
-		var maxMapHeight = winW < 768 ? 2020 : 2500;
+		var isMobile = winW <= 768;
+		var scale = isMobile ? (winW / 768) : 1;
+		var maxMapHeight = isMobile ? 2020 : 2500;
 		var maxScroll = Math.max(0, (maxMapHeight * scale) - $(window).height());
 		var targetScroll = Math.min(maxScroll, Math.max(0, (y - 200) * scale));
 		window.scrollTo(0, targetScroll);
@@ -368,8 +382,9 @@ Game.prototype = {
 			this.topPos = y;
 			player.stop(true, false).css('top', y + 'px');
 			var winW = $(window).width();
-			var scale = winW / 768;
-			var maxMapHeight = winW < 768 ? 2020 : 2500;
+			var isMobile = winW <= 768;
+			var scale = isMobile ? (winW / 768) : 1;
+			var maxMapHeight = isMobile ? 2020 : 2500;
 			var maxScroll = Math.max(0, (maxMapHeight * scale) - $(window).height());
 			var targetScroll = Math.min(maxScroll, Math.max(0, (y - 200) * scale));
 			window.scrollTo(0, targetScroll);
