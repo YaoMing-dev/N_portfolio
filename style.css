@@ -2137,9 +2137,8 @@ body.ie {
 	}
 
 	#wrapper {
-		width: 100% !important;
-		min-width: 0 !important;
-		overflow: hidden !important;
+		width: 768px !important;
+		min-width: 768px !important;
 	}
 
 	/* Show Mobile Controls */
@@ -2257,7 +2256,7 @@ body.ie {
 	/* Logo Text Resizing & Centering */
 	#myInfo {
 		position: absolute !important;
-		top: 110px !important;
+		top: 200px !important;
 		left: 50% !important;
 		transform: translateX(-50%) !important;
 		width: 94% !important;
@@ -2265,65 +2264,24 @@ body.ie {
 		z-index: 60 !important;
 	}
 	#myInfo h1 {
-		font-size: 26px !important;
+		font-size: 48px !important;
 		line-height: 1.15 !important;
 		letter-spacing: 2px !important;
 		text-align: center !important;
 		color: #0f754f !important;
 		text-shadow: 2px 2px 0 #ffffff, -1px -1px 0 rgba(0,0,0,0.3) !important;
-		margin: 0 auto 4px !important;
+		margin: 0 auto 6px !important;
 		text-transform: uppercase !important;
 	}
 	#myInfo h2 {
-		font-size: 12.5px !important;
-		letter-spacing: 1.5px !important;
+		font-size: 16px !important;
+		letter-spacing: 2px !important;
 		text-align: center !important;
 		color: #ffffff !important;
 		text-shadow: 1px 1px 4px #000000 !important;
 		margin: 0 !important;
 		font-weight: 700 !important;
 		text-transform: uppercase !important;
-	}
-
-	/* Mobile House Scaling & Centered Road */
-	#mainRoad {
-		width: 130px !important;
-		left: 50% !important;
-		margin-left: -65px !important;
-	}
-	#leftFence {
-		left: 50% !important;
-		margin-left: -70px !important;
-	}
-	#rightFence {
-		left: 50% !important;
-		margin-left: 65px !important;
-	}
-	#aboutHouse {
-		width: 105px !important;
-		height: 74px !important;
-		left: 6px !important;
-		top: 470px !important;
-		background-size: contain !important;
-	}
-	#servicesHouse {
-		width: 105px !important;
-		height: 87px !important;
-		right: 6px !important;
-		top: 754px !important;
-		background-size: contain !important;
-	}
-	#portfolioHouse {
-		width: 125px !important;
-		height: 80px !important;
-		left: 6px !important;
-		top: 950px !important;
-		background-size: contain !important;
-	}
-	#endBridge {
-		width: 130px !important;
-		left: 50% !important;
-		margin-left: -65px !important;
 	}
 
 	/* Lightboxes */

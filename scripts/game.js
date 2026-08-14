@@ -1,7 +1,7 @@
 var Game = function() {
 	this.player = $("#avanish");	
 	this.topPos = 0;
-	var wWidth = $('#wrapper').width() || 768;
+	var wWidth = 768;
 	this.leftPos = wWidth / 2 - this.player.width() / 2;
 	this.init();
 }
@@ -30,18 +30,41 @@ Game.prototype = {
 		this.lightboxInit('#howToPlay', false);
 	},
 
+	updateMobileViewportScale: function() {
+		var winW = $(window).width();
+		if (winW < 768) {
+			var scale = winW / 768;
+			$('#wrapper').css({
+				'transform': 'scale(' + scale + ')',
+				'transform-origin': 'top left',
+				'width': '768px'
+			});
+			var scaledHeight = ($('#wrapper').height() || 2500) * scale;
+			$('body').css('height', scaledHeight + 'px');
+		} else {
+			$('#wrapper').css({
+				'transform': '',
+				'transform-origin': '',
+				'width': ''
+			});
+			$('body').css('height', '');
+		}
+	},
+
 	eventsHandler: function() {
 		var me = this;
 		var player = this.player;
 		
 		$(window).resize(function(){
-			var wWidth = me.getWrapperWidth();
-			player.css('left', wWidth / 2 - player.width() / 2 + 'px');
-		});				
+			me.updateMobileViewportScale();
+		});
+		me.updateMobileViewportScale();
 		
 		$('.road, .bridge').unbind('click').bind('click', function(e){
-			var x = e.pageX - player.width() / 2;
-			var y = e.pageY;
+			var winW = $(window).width();
+			var scale = winW < 768 ? (winW / 768) : 1;
+			var x = (e.pageX - player.width() / 2) / scale;
+			var y = e.pageY / scale;
 			var canMove = me.canImove(x, y, true);
 			if(canMove === true) {				
 				me.teleport(x, y);
@@ -283,9 +306,10 @@ Game.prototype = {
 			top: y,
 			left: x
 		}).show().stop(true, true).animate({opacity: 1});
-		this.updateCameraFollow();
+		var winW = $(window).width();
+		var scale = winW < 768 ? (winW / 768) : 1;
 		if(this.topPos >= 200) {
-			$('html, body').animate({scrollTop: y - 200}, 'slow');
+			$('html, body').animate({scrollTop: (y - 200) * scale}, 'slow');
 		}
 		this.shipBack();
 	},
@@ -324,7 +348,6 @@ Game.prototype = {
 		if(canMove){
 			this.leftPos = x;
 			player.stop(true, false).css('left', x + 'px');
-			this.updateCameraFollow();
 		}
 		if(dir == 'left') {
 			this.startMoving('left', 2);
@@ -339,12 +362,13 @@ Game.prototype = {
 		var canMove = this.canImove(null, y);
 		if(canMove) {
 			if(this.topPos >= 200) {
-				var delta = y - this.topPos;
+				var winW = $(window).width();
+				var scale = winW < 768 ? (winW / 768) : 1;
+				var delta = (y - this.topPos) * scale;
 				$('html, body').stop(true, false).scrollTop($(document).scrollTop() + delta);
 			}
 			this.topPos = y;
 			player.stop(true, false).css('top', y + 'px');
-			this.updateCameraFollow();
 		}
 		if(dir == 'up') {
 			this.startMoving('up', 4);
