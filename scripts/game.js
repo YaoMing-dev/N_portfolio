@@ -1,7 +1,8 @@
 var Game = function() {
 	this.player = $("#avanish");	
 	this.topPos = 100;
-	this.leftPos = $(window).width() / 2 - (this.player.width() || 64) / 2;
+	var wWidth = $(window).width() <= 768 ? 768 : $(window).width();
+	this.leftPos = wWidth / 2 - (this.player.width() || 64) / 2;
 	this.init();
 }
 
@@ -10,9 +11,11 @@ Game.constructor = Game;
 Game.prototype = {
 	
 	init: function() {
+		this.updateViewportScale();
 		this.topPos = 100;
-		this.leftPos = $(window).width() / 2 - (this.player.width() || 64) / 2;
-		// Center the player relative to the window width at cave mouth on main road
+		var wWidth = this.getWrapperWidth();
+		this.leftPos = wWidth / 2 - (this.player.width() || 64) / 2;
+		// Center the player relative to the wrapper width at cave mouth on main road
 		this.player.css({
 			'left': this.leftPos + 'px',
 			'top': this.topPos + 'px'
@@ -31,17 +34,61 @@ Game.prototype = {
 		this.lightboxInit('#howToPlay', false);
 	},
 
+	getWrapperWidth: function() {
+		var winW = $(window).width();
+		return winW <= 768 ? 768 : winW;
+	},
+
+	updateViewportScale: function() {
+		var winW = $(window).width();
+		if (winW <= 768) {
+			// ── MOBILE: scale 768px canvas to fit screen ──
+			var scale = winW / 768;
+			this._scale = scale;
+			$('#wrapper').css({
+				'transform': 'scale(' + scale + ')',
+				'transform-origin': 'top left',
+				'width': '768px'
+			});
+			$('body').css({
+				'height': (2500 * scale) + 'px',
+				'width': '100vw',
+				'overflow-x': 'hidden'
+			});
+		} else {
+			// ── DESKTOP: 100% width wide open 2D world ──
+			this._scale = 1;
+			$('#wrapper').css({
+				'transform': 'none',
+				'width': '100%'
+			});
+			$('body').css({
+				'height': '2500px',
+				'width': '100vw',
+				'overflow-x': 'hidden'
+			});
+		}
+	},
+
 	eventsHandler: function() {
 		var me = this;
 		var player = this.player;
 		
 		$(window).resize(function(){
-			player.css('left', $(window).width() / 2 - player.width() / 2 + 'px');
+			me.updateViewportScale();
+			var wWidth = me.getWrapperWidth();
+			player.css('left', wWidth / 2 - player.width() / 2 + 'px');
 		});				
+		me.updateViewportScale();
 		
-		$('.road, .bridge').unbind('click').bind('click', function(e){
-			var x = e.pageX - player.width() / 2;
-			var y = e.pageY;
+		$('#wrapper, .road, .bridge').unbind('click').bind('click', function(e){
+			if ($(e.target).closest('nav, #topHeaderControls, #mobileControls, #fixed-ui-layer, .house, .sea, #notifications, .lightbox, #lightbox, #dark, #projectGalleryModal, #videoPlayerModal, #qrModal').length) return;
+
+			var winW = $(window).width();
+			var isMobile = winW <= 768;
+			var scale = isMobile ? (winW / 768) : 1;
+			var x = (e.pageX / scale) - (player.width() || 64) / 2;
+			var y = e.pageY / scale;
 			var canMove = me.canImove(x, y, true);
 			if(canMove === true) {				
 				me.teleport(x, y);
@@ -75,7 +122,7 @@ Game.prototype = {
 				$('nav a').removeClass('current');
 				$(this).addClass('current');
 				$('html, body').animate({scrollTop: 0}, 'slow');
-				me.teleport($(window).width() / 2 - me.player.width() / 2, 0);
+				me.teleport(me.getWrapperWidth() / 2 - me.player.width() / 2, 100);
 				return;
 			}
 			else if(target == '#howToPlay') {
@@ -260,9 +307,13 @@ Game.prototype = {
 			top: y,
 			left: x
 		}).show().stop(true, true).animate({opacity: 1});
-		if(this.topPos >= 200) {
-			$('html, body').animate({scrollTop: y - 200}, 'slow');
-		}
+		var winW = $(window).width();
+		var isMobile = winW <= 768;
+		var scale = isMobile ? (winW / 768) : 1;
+		var maxMapHeight = isMobile ? 2020 : 2500;
+		var maxScroll = Math.max(0, (maxMapHeight * scale) - $(window).height());
+		var targetScroll = Math.min(maxScroll, Math.max(0, (y - 200) * scale));
+		window.scrollTo(0, targetScroll);
 		this.shipBack();
 	},
 
@@ -275,13 +326,14 @@ Game.prototype = {
 			}
 		}
 		if (!house) return;
+		var wWidth = this.getWrapperWidth();
 		var y = house.top + house.height - 70;
 		var x;
 		if(house.left && house.left != null) {
 			x = house.left + house.door.left;
 		}
 		else {
-			x = $(window).width() - house.width - house.right + house.door.left;
+			x = wWidth - house.width - house.right + house.door.left;
 		}
 		var canMove = this.canImove(x, y, true);
 		if(canMove) {
@@ -289,7 +341,6 @@ Game.prototype = {
 			this.leftPos = x;
 			this.teleport(x, y);
 			this.openDoors(x, y);
-			this.lightboxInit(target, true);
 		}
 	},
 	
@@ -312,12 +363,15 @@ Game.prototype = {
 		var player = this.player;
 		var canMove = this.canImove(null, y);
 		if(canMove) {
-			if(this.topPos >= 200) {
-				var delta = y - this.topPos;
-				$('html, body').stop(true, false).scrollTop($(document).scrollTop() + delta);
-			}
 			this.topPos = y;
 			player.stop(true, false).css('top', y + 'px');
+			var winW = $(window).width();
+			var isMobile = winW <= 768;
+			var scale = isMobile ? (winW / 768) : 1;
+			var maxMapHeight = isMobile ? 2020 : 2500;
+			var maxScroll = Math.max(0, (maxMapHeight * scale) - $(window).height());
+			var targetScroll = Math.min(maxScroll, Math.max(0, (y - 200) * scale));
+			window.scrollTo(0, targetScroll);
 		}
 		if(dir == 'up') {
 			this.startMoving('up', 4);
@@ -339,6 +393,7 @@ Game.prototype = {
 		var player = this.player;
 		var elmLeft = x || this.leftPos;
 		var elmTop = y || this.topPos;
+		var wWidth = this.getWrapperWidth();
 		for(i = 0; i < houses.length; i++) {
 			if(houses[i].left && houses[i].left != null) {
 				if(elmTop >= houses[i].top + houses[i].height - 80 && elmTop < houses[i].top + houses[i].height + player.height() && elmLeft < houses[i].left + houses[i].width) {
@@ -350,7 +405,7 @@ Game.prototype = {
 
 			}
 			else if(houses[i].right && houses[i].right != null) {
-				if(elmTop >= houses[i].top + houses[i].height - 80 && elmTop < houses[i].top + houses[i].height + player.height() && elmLeft > $(window).width() - houses[i].right - houses[i].width) {
+				if(elmTop >= houses[i].top + houses[i].height - 80 && elmTop < houses[i].top + houses[i].height + player.height() && elmLeft > wWidth - houses[i].right - houses[i].width) {
 					$(houses[i].id).find(".door").addClass('open');
 				}
 				else {
@@ -366,6 +421,7 @@ Game.prototype = {
 	inHouse: function(elmLeft, elmTop) {
 		var player = this.player;
 		var isInHouse = [];
+		var wWidth = this.getWrapperWidth();
 		for(i = 0; i < houses.length; i++) {
 			if(elmTop > houses[i].top && elmTop < houses[i].top + houses[i].height) {
 				if(houses[i].left && houses[i].left != null) {
@@ -385,8 +441,8 @@ Game.prototype = {
 					}
 				}
 				else if(houses[i].right && houses[i].right != null) {
-					if(elmLeft > $(window).width() - houses[i].width - houses[i].right - player.width() && elmLeft < $(window).width() - houses[i].right && elmTop < houses[i].top + houses[i].height) {
-						if(elmLeft > $(window).width() - houses[i].width - houses[i].right + houses[i].door.left - 10  && elmLeft < $(window).width() - houses[i].right - houses[i].width + houses[i].door.left + houses[i].door.width - 10) {
+					if(elmLeft > wWidth - houses[i].width - houses[i].right - player.width() && elmLeft < wWidth - houses[i].right && elmTop < houses[i].top + houses[i].height) {
+						if(elmLeft > wWidth - houses[i].width - houses[i].right + houses[i].door.left - 10  && elmLeft < wWidth - houses[i].right - houses[i].width + houses[i].door.left + houses[i].door.width - 10) {
 							isInHouse.push(true);
 							if(elmTop <= houses[i].top + houses[i].height - 70) {
 								this.lightboxInit(houses[i].id, true);
@@ -413,16 +469,17 @@ Game.prototype = {
 		var player = this.player;
 		var mainRoad = $("#mainRoad");
 		var isOnRoad = true;
+		var wWidth = this.getWrapperWidth();
 
 		// Check if the player is out of boundries
 		if(elmLeft < 0 || elmLeft >= parseFloat(player.parent().width()) - parseFloat(player.width()) || elmTop < 0 || elmTop > parseFloat(player.parent().height()) - parseFloat(player.height())) {
 			isOnRoad = false;
 		}
-		else if(elmLeft < ($(window).width() / 2 - mainRoad.width() / 2) || elmLeft > ($(window).width() / 2 + mainRoad.width() / 2) - player.width()) {
+		else if(elmLeft < (wWidth / 2 - mainRoad.width() / 2) || elmLeft > (wWidth / 2 + mainRoad.width() / 2) - player.width()) {
 			for(i = 0; i < roads.length; i++) {
 				if(elmTop > roads[i].top && elmTop < roads[i].top + roads[i].height - player.height()) {
 					if(roads[i].direction == 'left') {
-						if(elmLeft < ($(window).width() / 2 + mainRoad.width() / 2) - player.width()) {
+						if(elmLeft < (wWidth / 2 + mainRoad.width() / 2) - player.width()) {
 							isOnRoad = true;
 						}
 						else {
@@ -430,7 +487,7 @@ Game.prototype = {
 						}
 					}
 					else if(roads[i].direction == 'right') {
-						if(elmLeft >= ($(window).width() / 2 + mainRoad.width() / 2) - player.width()) {
+						if(elmLeft >= (wWidth / 2 + mainRoad.width() / 2) - player.width()) {
 							isOnRoad = true;
 						}
 						else {
@@ -455,6 +512,7 @@ Game.prototype = {
 		var player = this.player;
 		var elmLeft = moveLeft || this.leftPos;
 		var elmTop = moveTop || this.topPos;
+		var wWidth = this.getWrapperWidth();
 		
 		if(player.css('display') == 'none' && !teleported) {
 			return false;
@@ -474,7 +532,7 @@ Game.prototype = {
 		// Sea Handler
 		if(elmTop > $('#wrapper').height() - $('#endSea').height() - player.height()) {
 			this.showNotificationsBar(notifications[2]);
-			if(elmLeft > $(window).width() / 2 - $('#endBridge').width() / 2 && elmLeft < $(window).width() / 2 + $('#endBridge').width() / 2 - player.width()) {				
+			if(elmLeft > wWidth / 2 - $('#endBridge').width() / 2 && elmLeft < wWidth / 2 + $('#endBridge').width() / 2 - player.width()) {				
 				if(elmTop > $('#wrapper').height() - $('#endSea').height() + $("#endBridge").height() - 70 - player.height()) {
 				 	return false;
 				}
@@ -552,7 +610,7 @@ Game.prototype = {
 		var me = this;
 		var height = $("#wrapper").height();
 		var width = $(window).width();
-		for(i = 0; i < 20; i++) {
+		for(var i = 0; i < 20; i++) {
 			var x = Math.floor((Math.random() * width) + 1);
 			var y = Math.floor((Math.random() * height) + 1);
 			var canIput = [];
