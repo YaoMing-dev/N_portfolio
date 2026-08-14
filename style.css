@@ -199,9 +199,9 @@ nav li.last a:hover {
 
 #myInfo h1 {
 	font-family: 'VT323', 'Pixelify Sans', cursive, monospace;
-	font-size: 72px;
+	font-size: 58px;
 	line-height: 1.0;
-	letter-spacing: 4px;
+	letter-spacing: 2px;
 	font-weight: 400;
 	color: #0f754f;
 	text-shadow: 2px 2px 0 #ffffff, -1px -1px 0 rgba(0,0,0,0.2), 0 3px 5px rgba(0,0,0,0.3);
@@ -586,9 +586,9 @@ nav li.last a:hover {
 	bottom: 40px;
 	height: 500px;
 	left: 50%;
-	width: 800px;
-	margin-left: -400px;
-	z-index: 51;	
+	width: 720px;
+	margin-left: -360px;
+	z-index: 51;
 	font-family: 'Lekton', Helvetica, Arial, sans-serif;
 	color: #fff;
 	opacity: 0;

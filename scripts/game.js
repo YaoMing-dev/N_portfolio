@@ -37,13 +37,9 @@ Game.prototype = {
 
 	updateViewportScale: function() {
 		var winW = $(window).width();
-		// Mobile fills the screen exactly (0 margin). On desktop, instead of a scale
-		// ratio (which leaves a margin that grows with screen width), leave a small
-		// FIXED margin (MAP_MARGIN px) and solve for the scale that produces it — so
-		// the gap stays a thin, barely-there strip on any screen size instead of a
-		// large proportional one. Left-aligned (no centering).
-		var MAP_MARGIN = 180;
-		var scale = winW < 768 ? (winW / 768) : ((winW - MAP_MARGIN) / 768);
+		// Scale the 768px game canvas to exactly fill the viewport width on any screen
+		// size — no side margin.
+		var scale = winW / 768;
 		this._scale = scale; // cache for use in click handlers
 		$('#wrapper').css({
 			'transform': 'scale(' + scale + ')',
@@ -71,8 +67,7 @@ Game.prototype = {
 		
 		$('.road, .bridge').unbind('click').bind('click', function(e){
 			var winW = $(window).width();
-			var MAP_MARGIN = 180;
-			var scale = winW < 768 ? (winW / 768) : ((winW - MAP_MARGIN) / 768);
+			var scale = winW / 768;
 			// Convert browser pixel coords → game coords by dividing by scale
 			var x = (e.pageX / scale) - (player.width() || 64) / 2;
 			var y = e.pageY / scale;
@@ -315,8 +310,7 @@ Game.prototype = {
 			left: x
 		}).show().stop(true, true).animate({opacity: 1});
 		var winW = $(window).width();
-		var MAP_MARGIN = 180;
-		var scale = winW < 768 ? (winW / 768) : ((winW - MAP_MARGIN) / 768);
+		var scale = winW / 768;
 		var maxMapHeight = winW < 768 ? 2020 : 2500;
 		var maxScroll = Math.max(0, (maxMapHeight * scale) - $(window).height());
 		var targetScroll = Math.min(maxScroll, Math.max(0, (y - 200) * scale));
@@ -374,8 +368,7 @@ Game.prototype = {
 			this.topPos = y;
 			player.stop(true, false).css('top', y + 'px');
 			var winW = $(window).width();
-			var MAP_MARGIN = 180;
-			var scale = winW < 768 ? (winW / 768) : ((winW - MAP_MARGIN) / 768);
+			var scale = winW / 768;
 			var maxMapHeight = winW < 768 ? 2020 : 2500;
 			var maxScroll = Math.max(0, (maxMapHeight * scale) - $(window).height());
 			var targetScroll = Math.min(maxScroll, Math.max(0, (y - 200) * scale));
