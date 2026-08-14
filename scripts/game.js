@@ -1,7 +1,7 @@
 var Game = function() {
 	this.player = $("#avanish");	
 	this.topPos = 100;
-	var wWidth = 768;
+	var wWidth = $(window).width();
 	this.leftPos = wWidth / 2 - (this.player.width() || 64) / 2;
 	this.init();
 }
@@ -11,13 +11,13 @@ Game.constructor = Game;
 Game.prototype = {
 	
 	init: function() {
-		this.topPos = 0;
+		this.topPos = 100;
 		var wWidth = $(window).width();
 		this.leftPos = wWidth / 2 - (this.player.width() || 64) / 2;
-		// Center the player relative to the window width at top cave entrance
+		// Center the player relative to the window width at cave mouth on main road
 		this.player.css({
 			'left': this.leftPos + 'px',
-			'top': '20px'
+			'top': this.topPos + 'px'
 		});
 
 		// Add an event handler
