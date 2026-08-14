@@ -35,25 +35,24 @@ Game.prototype = {
 		this.lightboxInit('#howToPlay', false);
 	},
 
-	updateMobileViewportScale: function() {
+	updateViewportScale: function() {
 		var winW = $(window).width();
-		if (winW < 768) {
-			var scale = winW / 768;
-			$('#wrapper').css({
-				'transform': 'scale(' + scale + ')',
-				'transform-origin': 'top left',
-				'width': '768px'
-			});
-			var scaledHeight = ($('#wrapper').height() || 2500) * scale;
-			$('body').css('height', scaledHeight + 'px');
-		} else {
-			$('#wrapper').css({
-				'transform': '',
-				'transform-origin': '',
-				'width': ''
-			});
-			$('body').css('height', '');
-		}
+		var scale = winW / 768;
+		// Apply scale universally for BOTH PC and Mobile
+		// This makes the 768px game canvas fill 100% of any screen width
+		$('#wrapper').css({
+			'transform': 'scale(' + scale + ')',
+			'transform-origin': 'top left',
+			'width': '768px'
+		});
+		// Cap body height: mobile stops at boat (2020px), PC shows full map (2500px)
+		var maxMapHeight = winW < 768 ? 2020 : 2500;
+		var scaledHeight = maxMapHeight * scale;
+		$('body').css({
+			'height': scaledHeight + 'px',
+			'width': (768 * scale) + 'px',
+			'overflow-x': 'hidden'
+		});
 	},
 
 	eventsHandler: function() {
@@ -61,17 +60,17 @@ Game.prototype = {
 		var player = this.player;
 		
 		$(window).resize(function(){
-			me.updateMobileViewportScale();
+			me.updateViewportScale();
 		});
-		me.updateMobileViewportScale();
+		me.updateViewportScale();
 		
 		$('.road, .bridge').unbind('click').bind('click', function(e){
 			var winW = $(window).width();
-			var scale = winW < 768 ? (winW / 768) : 1;
-			var wrapperLeft = $('#wrapper').offset().left || 0;
-			var wrapperTop = $('#wrapper').offset().top || 0;
-			var x = (e.pageX - wrapperLeft - (player.width() || 64) / 2) / scale;
-			var y = (e.pageY - wrapperTop) / scale;
+			// Universal scale: same formula for both PC and Mobile
+			var scale = winW / 768;
+			// e.pageX/pageY are in browser pixel space; divide by scale to get game coords
+			var x = (e.pageX / scale) - (player.width() || 64) / 2;
+			var y = e.pageY / scale;
 			var canMove = me.canImove(x, y, true);
 			if(canMove === true) {				
 				me.teleport(x, y);
@@ -311,7 +310,7 @@ Game.prototype = {
 			left: x
 		}).show().stop(true, true).animate({opacity: 1});
 		var winW = $(window).width();
-		var scale = winW / 768;
+		var scale = winW / 768; // Universal: same for PC and Mobile
 		var maxMapHeight = winW < 768 ? 2020 : 2500;
 		var maxScroll = Math.max(0, (maxMapHeight * scale) - $(window).height());
 		var targetScroll = Math.min(maxScroll, Math.max(0, (y - 200) * scale));
@@ -369,7 +368,7 @@ Game.prototype = {
 			this.topPos = y;
 			player.stop(true, false).css('top', y + 'px');
 			var winW = $(window).width();
-			var scale = winW / 768;
+			var scale = winW / 768; // Universal: same for PC and Mobile
 			var maxMapHeight = winW < 768 ? 2020 : 2500;
 			var maxScroll = Math.max(0, (maxMapHeight * scale) - $(window).height());
 			var targetScroll = Math.min(maxScroll, Math.max(0, (y - 200) * scale));
