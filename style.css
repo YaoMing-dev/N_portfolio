@@ -179,8 +179,8 @@ nav li.last a:hover {
 }
 
 #wrapper {
-	border: 1px solid #c7c7c7;
-	margin: 0 auto;
+	border: none;
+	margin: 0;
 	width: 768px;
 	height: 2500px;
 	position: relative;
