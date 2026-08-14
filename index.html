@@ -427,7 +427,7 @@
 				<button class="video-player-close" id="closeVideoBtn">&times;</button>
 			</div>
 			<div class="video-wrapper">
-				<video id="videoElement" controls autoplay poster="">
+				<video id="videoElement" controls autoplay preload="auto" playsinline webkit-playsinline poster="">
 					<source id="videoSource" src="" type="video/mp4">
 					Trình duyệt của bạn không hỗ trợ phát video HTML5.
 				</video>
@@ -788,10 +788,12 @@
 
 			var container = document.querySelector('.video-player-container');
 			var player = document.getElementById('videoElement');
-			player.poster = encodeURI(item.thumb);
+			var videoUrl = encodeURI(item.video);
 
+			player.poster = encodeURI(item.thumb);
 			var source = document.getElementById('videoSource');
-			source.src = encodeURI(item.video);
+			source.src = videoUrl;
+			player.src = videoUrl;
 
 			player.onloadedmetadata = function() {
 				if (player.videoWidth && player.videoHeight && player.videoHeight > player.videoWidth) {
@@ -801,17 +803,27 @@
 				}
 			};
 
+			player.currentTime = 0;
 			player.load();
-			player.play().catch(function(err) {
-				console.log('Autoplay info:', err);
-			});
+
+			var playPromise = player.play();
+			if (playPromise !== undefined) {
+				playPromise.catch(function(err) {
+					console.log('Autoplay handled:', err);
+					player.muted = true;
+					player.play().catch(function(e) { console.error('Play retry error:', e); });
+				});
+			}
 
 			document.getElementById('videoPlayerModal').classList.add('active');
 		}
 
 		function closeVideoModal() {
 			var player = document.getElementById('videoElement');
-			if (player) player.pause();
+			if (player) {
+				player.pause();
+				player.currentTime = 0;
+			}
 			document.getElementById('videoPlayerModal').classList.remove('active');
 		}
 
