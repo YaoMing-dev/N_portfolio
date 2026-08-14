@@ -130,8 +130,23 @@
 		</div>
 	</div>
 
-	<!-- Notifications Manager -->
-	<div id="notifications"><div class="inner"></div><span class="close">Close(X)</span></div>
+	<!-- Fixed Screen UI Layer (Guaranteed Mobile Overlays) -->
+	<div id="fixed-ui-layer">
+		<!-- Notifications Manager -->
+		<div id="notifications"><div class="inner"></div><span class="close">Close(X)</span></div>
+
+		<!-- Mobile Controls (Fixed D-Pad) -->
+		<div id="mobileControls">
+			<div class="dpad-row">
+				<button id="btnUp" class="dpad-btn" type="button" aria-label="Lên">▲</button>
+			</div>
+			<div class="dpad-row">
+				<button id="btnLeft" class="dpad-btn" type="button" aria-label="Trái">◀</button>
+				<button id="btnDown" class="dpad-btn" type="button" aria-label="Xuống">▼</button>
+				<button id="btnRight" class="dpad-btn" type="button" aria-label="Phải">▶</button>
+			</div>
+		</div>
+	</div>
 	
 	<div id="wrapper">			
 		
@@ -911,17 +926,5 @@
 			}
 		});
 	</script>
-	<!-- Mobile Controls -->
-	<div id="mobileControls">
-		<div class="dpad-row">
-			<button id="btnUp" class="dpad-btn">▲</button>
-		</div>
-		<div class="dpad-row">
-			<button id="btnLeft" class="dpad-btn">◀</button>
-			<button id="btnDown" class="dpad-btn">▼</button>
-			<button id="btnRight" class="dpad-btn">▶</button>
-		</div>
-	</div>
-
 </body>
 </html>
