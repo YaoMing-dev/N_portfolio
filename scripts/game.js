@@ -11,10 +11,10 @@ Game.constructor = Game;
 Game.prototype = {
 	
 	init: function() {
-		this.topPos = 60;
+		this.topPos = 100;
 		var wWidth = this.getWrapperWidth();
 		this.leftPos = wWidth / 2 - (this.player.width() || 64) / 2;
-		// Center the player relative to the wrapper width at cave entrance
+		// Center the player relative to the wrapper width at the main road start
 		this.player.css({
 			'left': this.leftPos + 'px',
 			'top': this.topPos + 'px'
@@ -35,7 +35,7 @@ Game.prototype = {
 
 	getWrapperWidth: function() {
 		var winW = $(window).width();
-		return winW <= 768 ? 768 : winW;
+		return winW <= 768 ? 768 : ($('#wrapper').width() || winW);
 	},
 
 	updateViewportScale: function() {
@@ -122,7 +122,7 @@ Game.prototype = {
 				$('nav a').removeClass('current');
 				$(this).addClass('current');
 				$('html, body').animate({scrollTop: 0}, 'slow');
-				me.teleport(me.getWrapperWidth() / 2 - me.player.width() / 2, 60);
+				me.teleport(me.getWrapperWidth() / 2 - me.player.width() / 2, 100);
 				return;
 			}
 			else if(target == '#howToPlay') {
