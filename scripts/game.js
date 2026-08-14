@@ -85,10 +85,28 @@ Game.prototype = {
 			me.moveDirectToHouse(target);
 		});
 
+		// Mobile Menu Button Dropdown Toggle
+		$('#mobileMenuBtn').unbind('click').bind('click', function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+			$('#mainNav .nav-list').toggleClass('open');
+		});
+
+		$(document).unbind('click.navMenu').bind('click.navMenu', function(e) {
+			if (!$(e.target).closest('#mainNav').length) {
+				$('#mainNav .nav-list').removeClass('open');
+			}
+		});
+
+		$('#mainNav .nav-list a').bind('click', function() {
+			$('#mainNav .nav-list').removeClass('open');
+		});
+
 		// Continuous movement loop shared by keyboard and D-pad so holding a
 		// key/button moves at a steady rate instead of relying on OS key-repeat
 		// (which caused the stutter).
-		var MOVE_STEP = 14; // px per tick (was 5px per OS key-repeat step)
+		var isMobile = $(window).width() <= 768;
+		var MOVE_STEP = isMobile ? 6 : 9; // Reduced walking speed on mobile for smooth control
 		var MOVE_TICK = 16; // ms (~60fps)
 		var pressedKeys = {};
 		var keyMoveInterval;
