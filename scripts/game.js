@@ -1,8 +1,7 @@
 var Game = function() {
 	this.player = $("#avanish");	
 	this.topPos = 100;
-	var wWidth = $(window).width();
-	this.leftPos = wWidth / 2 - (this.player.width() || 64) / 2;
+	this.leftPos = $(window).width() / 2 - (this.player.width() || 64) / 2;
 	this.init();
 }
 
@@ -12,18 +11,17 @@ Game.prototype = {
 	
 	init: function() {
 		this.topPos = 100;
-		var wWidth = $(window).width();
-		this.leftPos = wWidth / 2 - (this.player.width() || 64) / 2;
+		this.leftPos = $(window).width() / 2 - (this.player.width() || 64) / 2;
 		// Center the player relative to the window width at cave mouth on main road
 		this.player.css({
 			'left': this.leftPos + 'px',
 			'top': this.topPos + 'px'
 		});
 
-		// Add an event handler
+		// Add event handlers
 		this.eventsHandler();	
 
-		// How To play lighbox
+		// How To play lightbox
 		this.howToPlay();
 		
 		$('nav a:first').addClass('current');
@@ -33,60 +31,17 @@ Game.prototype = {
 		this.lightboxInit('#howToPlay', false);
 	},
 
-	getWrapperWidth: function() {
-		var winW = $(window).width();
-		return winW <= 768 ? 768 : winW;
-	},
-
-	updateViewportScale: function() {
-		var winW = $(window).width();
-		if (winW <= 768) {
-			// ── MOBILE: scale 768px canvas to fit screen ──
-			var scale = winW / 768;
-			this._scale = scale;
-			$('#wrapper').css({
-				'transform': 'scale(' + scale + ')',
-				'transform-origin': 'top left',
-				'width': '768px'
-			});
-			$('body').css({
-				'height': (2500 * scale) + 'px',
-				'width': '100vw',
-				'overflow-x': 'hidden'
-			});
-		} else {
-			// ── DESKTOP: 100% width wide open 2D world (Commit 94dbda4 standard) ──
-			this._scale = 1;
-			$('#wrapper').css({
-				'transform': 'none',
-				'width': '100%'
-			});
-			$('body').css({
-				'height': '2500px',
-				'width': '100vw',
-				'overflow-x': 'hidden'
-			});
-		}
-	},
-
 	eventsHandler: function() {
 		var me = this;
 		var player = this.player;
 		
 		$(window).resize(function(){
-			me.updateViewportScale();
-		});
-		me.updateViewportScale();
+			player.css('left', $(window).width() / 2 - player.width() / 2 + 'px');
+		});				
 		
-		// Full Click-to-Teleport feature across the map
-		$('#wrapper, .road, .bridge').unbind('click').bind('click', function(e){
-			if ($(e.target).closest('nav, #topHeaderControls, #mobileControls, #fixed-ui-layer, .house, .sea, #notifications, .lightbox, #lightbox, #dark, #projectGalleryModal, #videoPlayerModal, #qrModal').length) return;
-
-			var winW = $(window).width();
-			var isMobile = winW <= 768;
-			var scale = isMobile ? (winW / 768) : 1;
-			var x = (e.pageX / scale) - (player.width() || 64) / 2;
-			var y = e.pageY / scale;
+		$('.road, .bridge').unbind('click').bind('click', function(e){
+			var x = e.pageX - player.width() / 2;
+			var y = e.pageY;
 			var canMove = me.canImove(x, y, true);
 			if(canMove === true) {				
 				me.teleport(x, y);
@@ -99,12 +54,10 @@ Game.prototype = {
 		});
 		
 		$('.sea').unbind('click').bind('click', function(e){			
-			e.stopPropagation();
 			me.showNotificationsBar(notifications[3]);
 		});
 		
-		$('.house').unbind('click').bind('click', function(e){
-			e.stopPropagation();
+		$('.house').unbind('click').bind('click', function(){
 			var target = '#' + $(this).attr('id');
 			me.moveDirectToHouse(target);
 		});
@@ -122,7 +75,7 @@ Game.prototype = {
 				$('nav a').removeClass('current');
 				$(this).addClass('current');
 				$('html, body').animate({scrollTop: 0}, 'slow');
-				me.teleport(me.getWrapperWidth() / 2 - me.player.width() / 2, 100);
+				me.teleport($(window).width() / 2 - me.player.width() / 2, 0);
 				return;
 			}
 			else if(target == '#howToPlay') {
@@ -132,7 +85,7 @@ Game.prototype = {
 			me.moveDirectToHouse(target);
 		});
 
-		// Mobile Menu Button Dropdown Toggle
+		// Mobile Menu Dropdown Toggle
 		$('#mobileMenuBtn').unbind('click').bind('click', function(e) {
 			e.preventDefault();
 			e.stopPropagation();
@@ -149,12 +102,9 @@ Game.prototype = {
 			$('#mainNav .nav-list').removeClass('open');
 		});
 
-		// Continuous movement loop shared by keyboard and D-pad so holding a
-		// key/button moves at a steady rate instead of relying on OS key-repeat
-		// (which caused the stutter).
-		var isMobile = $(window).width() <= 768;
-		var MOVE_STEP = isMobile ? 6 : 9; // Reduced walking speed on mobile for smooth control
-		var MOVE_TICK = 16; // ms (~60fps)
+		// Continuous movement loop for keyboard and mobile D-pad
+		var MOVE_STEP = 12;
+		var MOVE_TICK = 16; // ~60fps
 		var pressedKeys = {};
 		var keyMoveInterval;
 
@@ -164,16 +114,16 @@ Game.prototype = {
 					$(this).remove();
 				});
 			}
-			if (pressedKeys[37] || pressedKeys[65]) { // Left / A
+			if (pressedKeys[37] || pressedKeys[65]) {
 				me.moveX(me.leftPos - MOVE_STEP, 'left');
 			}
-			if (pressedKeys[39] || pressedKeys[68]) { // Right / D
+			if (pressedKeys[39] || pressedKeys[68]) {
 				me.moveX(me.leftPos + MOVE_STEP, 'right');
 			}
-			if (pressedKeys[38] || pressedKeys[87]) { // Up / W
+			if (pressedKeys[38] || pressedKeys[87]) {
 				me.moveY(me.topPos - MOVE_STEP, 'up');
 			}
-			if (pressedKeys[40] || pressedKeys[83]) { // Down / S
+			if (pressedKeys[40] || pressedKeys[83]) {
 				me.moveY(me.topPos + MOVE_STEP, 'down');
 			}
 			me.openDoors(me.leftPos, me.topPos);
@@ -182,10 +132,7 @@ Game.prototype = {
 
 		$(window).unbind('keydown').bind('keydown', function(event) {
 			switch (event.keyCode) {
-			case 37: case 65: // Left / A
-			case 39: case 68: // Right / D
-			case 38: case 87: // Up / W
-			case 40: case 83: // Down / S
+			case 37: case 65: case 39: case 68: case 38: case 87: case 40: case 83:
 				event.preventDefault();
 				if (!pressedKeys[event.keyCode]) {
 					pressedKeys[event.keyCode] = true;
@@ -194,7 +141,6 @@ Game.prototype = {
 					}
 				}
 			break;
-
 				case 13:
 					if(me.topPos > $('#wrapper').height() - $('#endSea').height() - player.height()) {
 						$('nav a').removeClass('current');
@@ -202,13 +148,8 @@ Game.prototype = {
 						me.shipSail();
 					}
 				break;
-
 				case 27:
 					me.hideNotificationBar();
-				break;
-
-				case 32:
-					return true;
 				break;
 			}
 		}).unbind('keyup').bind('keyup', function(event) {
@@ -274,16 +215,15 @@ Game.prototype = {
 			$('.dpad-btn').removeClass('active');
 		};
 
-		$('#btnUp').unbind('touchstart mousedown').bind('touchstart mousedown', function(e){ e.preventDefault(); e.stopPropagation(); $(this).addClass('active'); startMove('up'); });
-		$('#btnDown').unbind('touchstart mousedown').bind('touchstart mousedown', function(e){ e.preventDefault(); e.stopPropagation(); $(this).addClass('active'); startMove('down'); });
-		$('#btnLeft').unbind('touchstart mousedown').bind('touchstart mousedown', function(e){ e.preventDefault(); e.stopPropagation(); $(this).addClass('active'); startMove('left'); });
-		$('#btnRight').unbind('touchstart mousedown').bind('touchstart mousedown', function(e){ e.preventDefault(); e.stopPropagation(); $(this).addClass('active'); startMove('right'); });
+		$('#btnUp').unbind('touchstart mousedown').bind('touchstart mousedown', function(e){ e.preventDefault(); $(this).addClass('active'); startMove('up'); });
+		$('#btnDown').unbind('touchstart mousedown').bind('touchstart mousedown', function(e){ e.preventDefault(); $(this).addClass('active'); startMove('down'); });
+		$('#btnLeft').unbind('touchstart mousedown').bind('touchstart mousedown', function(e){ e.preventDefault(); $(this).addClass('active'); startMove('left'); });
+		$('#btnRight').unbind('touchstart mousedown').bind('touchstart mousedown', function(e){ e.preventDefault(); $(this).addClass('active'); startMove('right'); });
 		
-		$(document).unbind('touchend mouseup touchcancel').bind('touchend mouseup touchcancel', stopMove);
+		$(document).unbind('touchend mouseup').bind('touchend mouseup', stopMove);
 	},
 
 	showNotificationsBar: function(notification) {
-		var me = this;		
 		$("#notifications").css({'opacity': 1, 'display': 'block'});
 		if(!$("#notifications").find('.inner').attr('id') || $("#notifications").find('.inner').text() != notification.text){
 			$("#notifications").find('.inner').attr('id', notification.type).fadeOut('fast', function(){
@@ -311,13 +251,6 @@ Game.prototype = {
 		}
 	},
 
-	getWrapperWidth: function() {
-		return 768;
-	},
-
-	updateCameraFollow: function() {
-	},
-
 	teleport: function(x, y) {		
 		this.topPos = y;
 		this.leftPos = x;
@@ -327,33 +260,28 @@ Game.prototype = {
 			top: y,
 			left: x
 		}).show().stop(true, true).animate({opacity: 1});
-		var winW = $(window).width();
-		var isMobile = winW <= 768;
-		var scale = isMobile ? (winW / 768) : 1;
-		var maxMapHeight = isMobile ? 2020 : 2500;
-		var maxScroll = Math.max(0, (maxMapHeight * scale) - $(window).height());
-		var targetScroll = Math.min(maxScroll, Math.max(0, (y - 200) * scale));
-		window.scrollTo(0, targetScroll);
+		if(this.topPos >= 200) {
+			$('html, body').animate({scrollTop: y - 200}, 'slow');
+		}
 		this.shipBack();
 	},
 
 	moveDirectToHouse: function(target) {
 		var house;
-		for(var i = 0; i < houses.length; i++) {
+		for(i = 0; i < houses.length; i++) {
 			if(houses[i].id == target) {
 				house = houses[i];
 				break;
 			}
 		}
 		if (!house) return;
-		var wWidth = this.getWrapperWidth();
 		var y = house.top + house.height - 70;
 		var x;
 		if(house.left && house.left != null) {
-			x = house.left + house.door.left + (house.door.width / 2) - (this.player.width() / 2);
+			x = house.left + house.door.left;
 		}
 		else {
-			x = wWidth - house.width - house.right + house.door.left + (house.door.width / 2) - (this.player.width() / 2);
+			x = $(window).width() - house.width - house.right + house.door.left;
 		}
 		var canMove = this.canImove(x, y, true);
 		if(canMove) {
@@ -384,15 +312,12 @@ Game.prototype = {
 		var player = this.player;
 		var canMove = this.canImove(null, y);
 		if(canMove) {
+			if(this.topPos >= 200) {
+				var delta = y - this.topPos;
+				$('html, body').stop(true, false).scrollTop($(document).scrollTop() + delta);
+			}
 			this.topPos = y;
 			player.stop(true, false).css('top', y + 'px');
-			var winW = $(window).width();
-			var isMobile = winW <= 768;
-			var scale = isMobile ? (winW / 768) : 1;
-			var maxMapHeight = isMobile ? 2020 : 2500;
-			var maxScroll = Math.max(0, (maxMapHeight * scale) - $(window).height());
-			var targetScroll = Math.min(maxScroll, Math.max(0, (y - 200) * scale));
-			window.scrollTo(0, targetScroll);
 		}
 		if(dir == 'up') {
 			this.startMoving('up', 4);
@@ -414,8 +339,7 @@ Game.prototype = {
 		var player = this.player;
 		var elmLeft = x || this.leftPos;
 		var elmTop = y || this.topPos;
-		var wWidth = this.getWrapperWidth();
-		for(var i = 0; i < houses.length; i++) {
+		for(i = 0; i < houses.length; i++) {
 			if(houses[i].left && houses[i].left != null) {
 				if(elmTop >= houses[i].top + houses[i].height - 80 && elmTop < houses[i].top + houses[i].height + player.height() && elmLeft < houses[i].left + houses[i].width) {
 					$(houses[i].id).find(".door").addClass('open');
@@ -426,7 +350,7 @@ Game.prototype = {
 
 			}
 			else if(houses[i].right && houses[i].right != null) {
-				if(elmTop >= houses[i].top + houses[i].height - 80 && elmTop < houses[i].top + houses[i].height + player.height() && elmLeft > wWidth - houses[i].right - houses[i].width) {
+				if(elmTop >= houses[i].top + houses[i].height - 80 && elmTop < houses[i].top + houses[i].height + player.height() && elmLeft > $(window).width() - houses[i].right - houses[i].width) {
 					$(houses[i].id).find(".door").addClass('open');
 				}
 				else {
@@ -442,14 +366,11 @@ Game.prototype = {
 	inHouse: function(elmLeft, elmTop) {
 		var player = this.player;
 		var isInHouse = [];
-		var wWidth = this.getWrapperWidth();
-		for(var i = 0; i < houses.length; i++) {
+		for(i = 0; i < houses.length; i++) {
 			if(elmTop > houses[i].top && elmTop < houses[i].top + houses[i].height) {
 				if(houses[i].left && houses[i].left != null) {
 					if(elmLeft < houses[i].left + houses[i].width && elmLeft > houses[i].left - player.width() && elmTop < houses[i].top + houses[i].height) {
-						var doorMin = houses[i].left + houses[i].door.left - player.width() / 2 - 15;
-						var doorMax = houses[i].left + houses[i].door.left + houses[i].door.width - player.width() / 2 + 15;
-						if(elmLeft >= doorMin && elmLeft <= doorMax) {
+						if(elmLeft > houses[i].left + houses[i].door.left - player.width() / 2 && elmLeft < houses[i].left + houses[i].door.width + houses[i].door.left - player.width() / 2) {
 							isInHouse.push(true);
 							if(elmTop <= houses[i].top + houses[i].height - 70) {
 								this.lightboxInit(houses[i].id, true);
@@ -464,11 +385,8 @@ Game.prototype = {
 					}
 				}
 				else if(houses[i].right && houses[i].right != null) {
-					if(elmLeft > wWidth - houses[i].width - houses[i].right - player.width() && elmLeft < wWidth - houses[i].right && elmTop < houses[i].top + houses[i].height) {
-						var houseLeft = wWidth - houses[i].width - houses[i].right;
-						var doorMin = houseLeft + houses[i].door.left - player.width() / 2 - 15;
-						var doorMax = houseLeft + houses[i].door.left + houses[i].door.width - player.width() / 2 + 15;
-						if(elmLeft >= doorMin && elmLeft <= doorMax) {
+					if(elmLeft > $(window).width() - houses[i].width - houses[i].right - player.width() && elmLeft < $(window).width() - houses[i].right && elmTop < houses[i].top + houses[i].height) {
+						if(elmLeft > $(window).width() - houses[i].width - houses[i].right + houses[i].door.left - 10  && elmLeft < $(window).width() - houses[i].right - houses[i].width + houses[i].door.left + houses[i].door.width - 10) {
 							isInHouse.push(true);
 							if(elmTop <= houses[i].top + houses[i].height - 70) {
 								this.lightboxInit(houses[i].id, true);
@@ -495,17 +413,16 @@ Game.prototype = {
 		var player = this.player;
 		var mainRoad = $("#mainRoad");
 		var isOnRoad = true;
-		var wWidth = this.getWrapperWidth();
 
 		// Check if the player is out of boundries
 		if(elmLeft < 0 || elmLeft >= parseFloat(player.parent().width()) - parseFloat(player.width()) || elmTop < 0 || elmTop > parseFloat(player.parent().height()) - parseFloat(player.height())) {
 			isOnRoad = false;
 		}
-		else if(elmLeft < (wWidth / 2 - mainRoad.width() / 2) || elmLeft > (wWidth / 2 + mainRoad.width() / 2) - player.width()) {
-			for(var i = 0; i < roads.length; i++) {
+		else if(elmLeft < ($(window).width() / 2 - mainRoad.width() / 2) || elmLeft > ($(window).width() / 2 + mainRoad.width() / 2) - player.width()) {
+			for(i = 0; i < roads.length; i++) {
 				if(elmTop > roads[i].top && elmTop < roads[i].top + roads[i].height - player.height()) {
 					if(roads[i].direction == 'left') {
-						if(elmLeft < (wWidth / 2 + mainRoad.width() / 2) - player.width()) {
+						if(elmLeft < ($(window).width() / 2 + mainRoad.width() / 2) - player.width()) {
 							isOnRoad = true;
 						}
 						else {
@@ -513,7 +430,7 @@ Game.prototype = {
 						}
 					}
 					else if(roads[i].direction == 'right') {
-						if(elmLeft >= (wWidth / 2 + mainRoad.width() / 2) - player.width()) {
+						if(elmLeft >= ($(window).width() / 2 + mainRoad.width() / 2) - player.width()) {
 							isOnRoad = true;
 						}
 						else {
@@ -538,7 +455,6 @@ Game.prototype = {
 		var player = this.player;
 		var elmLeft = moveLeft || this.leftPos;
 		var elmTop = moveTop || this.topPos;
-		var wWidth = this.getWrapperWidth();
 		
 		if(player.css('display') == 'none' && !teleported) {
 			return false;
@@ -558,7 +474,7 @@ Game.prototype = {
 		// Sea Handler
 		if(elmTop > $('#wrapper').height() - $('#endSea').height() - player.height()) {
 			this.showNotificationsBar(notifications[2]);
-			if(elmLeft > wWidth / 2 - $('#endBridge').width() / 2 && elmLeft < wWidth / 2 + $('#endBridge').width() / 2 - player.width()) {				
+			if(elmLeft > $(window).width() / 2 - $('#endBridge').width() / 2 && elmLeft < $(window).width() / 2 + $('#endBridge').width() / 2 - player.width()) {				
 				if(elmTop > $('#wrapper').height() - $('#endSea').height() + $("#endBridge").height() - 70 - player.height()) {
 				 	return false;
 				}
@@ -596,46 +512,34 @@ Game.prototype = {
 
 	lightboxInit:  function(elm, effectMenu) {
 		var me = this;
-		if(effectMenu) {
-			// Update the current menu
-			$('nav a').removeClass('current');
-			$('nav a[href="' + elm + '"]').addClass('current');	
-		}
-		
-		// Get the relevant content
-		var content = $(elm).find('.lightbox').html();
-
 		if($("#dark").length < 1) {			
+			if(effectMenu) {
+				// Update the current menu
+				$('nav a').removeClass('current');
+				$('nav a[href="' + elm + '"]').addClass('current');	
+			}
+			
+			// Get the relevant content
+			var content = $(elm).find('.lightbox').html();
+
 			// Creates the lightbox
 			$('<div id="dark"></div>').appendTo('body').fadeIn();
 			$('<div id="lightbox">' + content + '<span id="closeLB">x</span></div>').insertAfter("#dark").delay(1000).fadeIn();
-		} else {
-			// Content swap if a lightbox is already active
-			$('#lightbox').html(content + '<span id="closeLB">x</span>').show();
-			$('#dark').show();
-		}
 
-		$(window).unbind('keydown');
-		$('#wrapper').unbind('click');
-		
-		$(window).bind('keydown', function(e){
-			if(e.keyCode == 27) {
-				me.closeLightbox();
-			}
-		});
+			$(window).unbind('keydown');
+			$('#wrapper').unbind('click');
+			
+			$(window).bind('keydown', function(e){
+				if(e.keyCode == 27) {
+					me.closeLightbox();
+				}
+			});
+		}		
 	},
 	
 	closeLightbox: function() {
 		var me = this;
 		$('#dark, #lightbox').fadeOut('fast', function(){
-			var canMove = me.canImove(me.leftPos, me.topPos + 80);
-			if(canMove) {				
-				me.startMoving('down', 1);
-				me.player.animate({'top': me.topPos + 80}, function(){
-					me.player.removeAttr('class').destroy();
-				});
-				me.topPos = me.topPos + 80;
-			}
 			$('#dark, #lightbox').remove();
 			me.eventsHandler();
 			$('html, body').animate({
@@ -648,7 +552,7 @@ Game.prototype = {
 		var me = this;
 		var height = $("#wrapper").height();
 		var width = $(window).width();
-		for(var i = 0; i < 20; i++) {
+		for(i = 0; i < 20; i++) {
 			var x = Math.floor((Math.random() * width) + 1);
 			var y = Math.floor((Math.random() * height) + 1);
 			var canIput = [];
