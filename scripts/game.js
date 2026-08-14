@@ -68,8 +68,10 @@ Game.prototype = {
 		$('.road, .bridge').unbind('click').bind('click', function(e){
 			var winW = $(window).width();
 			var scale = winW < 768 ? (winW / 768) : 1;
-			var x = (e.pageX - player.width() / 2) / scale;
-			var y = e.pageY / scale;
+			var wrapperLeft = $('#wrapper').offset().left || 0;
+			var wrapperTop = $('#wrapper').offset().top || 0;
+			var x = (e.pageX - wrapperLeft - (player.width() || 64) / 2) / scale;
+			var y = (e.pageY - wrapperTop) / scale;
 			var canMove = me.canImove(x, y, true);
 			if(canMove === true) {				
 				me.teleport(x, y);
