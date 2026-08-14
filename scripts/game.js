@@ -11,10 +11,10 @@ Game.constructor = Game;
 Game.prototype = {
 	
 	init: function() {
-		this.topPos = 100;
+		this.topPos = 60;
 		var wWidth = this.getWrapperWidth();
 		this.leftPos = wWidth / 2 - (this.player.width() || 64) / 2;
-		// Center the player relative to the wrapper width
+		// Center the player relative to the wrapper width at cave entrance
 		this.player.css({
 			'left': this.leftPos + 'px',
 			'top': this.topPos + 'px'
@@ -78,7 +78,10 @@ Game.prototype = {
 		});
 		me.updateViewportScale();
 		
-		$('.road, .bridge').unbind('click').bind('click', function(e){
+		// Full Click-to-Teleport feature across the map
+		$('#wrapper, .road, .bridge').unbind('click').bind('click', function(e){
+			if ($(e.target).closest('nav, #topHeaderControls, #mobileControls, #fixed-ui-layer, .house, .sea, #notifications, .lightbox, #lightbox, #dark, #projectGalleryModal, #videoPlayerModal, #qrModal').length) return;
+
 			var winW = $(window).width();
 			var isMobile = winW <= 768;
 			var scale = isMobile ? (winW / 768) : 1;
@@ -96,10 +99,12 @@ Game.prototype = {
 		});
 		
 		$('.sea').unbind('click').bind('click', function(e){			
+			e.stopPropagation();
 			me.showNotificationsBar(notifications[3]);
 		});
 		
-		$('.house').unbind('click').bind('click', function(){
+		$('.house').unbind('click').bind('click', function(e){
+			e.stopPropagation();
 			var target = '#' + $(this).attr('id');
 			me.moveDirectToHouse(target);
 		});
@@ -117,7 +122,7 @@ Game.prototype = {
 				$('nav a').removeClass('current');
 				$(this).addClass('current');
 				$('html, body').animate({scrollTop: 0}, 'slow');
-				me.teleport(me.getWrapperWidth() / 2 - me.player.width() / 2, 100);
+				me.teleport(me.getWrapperWidth() / 2 - me.player.width() / 2, 60);
 				return;
 			}
 			else if(target == '#howToPlay') {
