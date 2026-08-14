@@ -319,7 +319,7 @@ Game.prototype = {
 
 	moveDirectToHouse: function(target) {
 		var house;
-		for(i = 0; i < houses.length; i++) {
+		for(var i = 0; i < houses.length; i++) {
 			if(houses[i].id == target) {
 				house = houses[i];
 				break;
@@ -341,6 +341,7 @@ Game.prototype = {
 			this.leftPos = x;
 			this.teleport(x, y);
 			this.openDoors(x, y);
+			this.lightboxInit(target, true);
 		}
 	},
 	
@@ -394,7 +395,7 @@ Game.prototype = {
 		var elmLeft = x || this.leftPos;
 		var elmTop = y || this.topPos;
 		var wWidth = this.getWrapperWidth();
-		for(i = 0; i < houses.length; i++) {
+		for(var i = 0; i < houses.length; i++) {
 			if(houses[i].left && houses[i].left != null) {
 				if(elmTop >= houses[i].top + houses[i].height - 80 && elmTop < houses[i].top + houses[i].height + player.height() && elmLeft < houses[i].left + houses[i].width) {
 					$(houses[i].id).find(".door").addClass('open');
@@ -422,7 +423,7 @@ Game.prototype = {
 		var player = this.player;
 		var isInHouse = [];
 		var wWidth = this.getWrapperWidth();
-		for(i = 0; i < houses.length; i++) {
+		for(var i = 0; i < houses.length; i++) {
 			if(elmTop > houses[i].top && elmTop < houses[i].top + houses[i].height) {
 				if(houses[i].left && houses[i].left != null) {
 					if(elmLeft < houses[i].left + houses[i].width && elmLeft > houses[i].left - player.width() && elmTop < houses[i].top + houses[i].height) {
@@ -476,7 +477,7 @@ Game.prototype = {
 			isOnRoad = false;
 		}
 		else if(elmLeft < (wWidth / 2 - mainRoad.width() / 2) || elmLeft > (wWidth / 2 + mainRoad.width() / 2) - player.width()) {
-			for(i = 0; i < roads.length; i++) {
+			for(var i = 0; i < roads.length; i++) {
 				if(elmTop > roads[i].top && elmTop < roads[i].top + roads[i].height - player.height()) {
 					if(roads[i].direction == 'left') {
 						if(elmLeft < (wWidth / 2 + mainRoad.width() / 2) - player.width()) {
@@ -570,29 +571,32 @@ Game.prototype = {
 
 	lightboxInit:  function(elm, effectMenu) {
 		var me = this;
-		if($("#dark").length < 1) {			
-			if(effectMenu) {
-				// Update the current menu
-				$('nav a').removeClass('current');
-				$('nav a[href="' + elm + '"]').addClass('current');	
-			}
-			
-			// Get the relevant content
-			var content = $(elm).find('.lightbox').html();
+		if(effectMenu) {
+			// Update the current menu
+			$('nav a').removeClass('current');
+			$('nav a[href="' + elm + '"]').addClass('current');	
+		}
+		
+		// Get the relevant content
+		var content = $(elm).find('.lightbox').html();
 
+		if($("#dark").length < 1) {			
 			// Creates the lightbox
 			$('<div id="dark"></div>').appendTo('body').fadeIn();
 			$('<div id="lightbox">' + content + '<span id="closeLB">x</span></div>').insertAfter("#dark").delay(1000).fadeIn();
+		} else {
+			$('#lightbox').html(content + '<span id="closeLB">x</span>').show();
+			$('#dark').show();
+		}
 
-			$(window).unbind('keydown');
-			$('#wrapper').unbind('click');
-			
-			$(window).bind('keydown', function(e){
-				if(e.keyCode == 27) {
-					me.closeLightbox();
-				}
-			});
-		}		
+		$(window).unbind('keydown');
+		$('#wrapper').unbind('click');
+		
+		$(window).bind('keydown', function(e){
+			if(e.keyCode == 27) {
+				me.closeLightbox();
+			}
+		});
 	},
 	
 	closeLightbox: function() {
