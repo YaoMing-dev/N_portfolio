@@ -330,10 +330,10 @@ Game.prototype = {
 		var y = house.top + house.height - 70;
 		var x;
 		if(house.left && house.left != null) {
-			x = house.left + house.door.left;
+			x = house.left + house.door.left + (house.door.width / 2) - (this.player.width() / 2);
 		}
 		else {
-			x = wWidth - house.width - house.right + house.door.left;
+			x = wWidth - house.width - house.right + house.door.left + (house.door.width / 2) - (this.player.width() / 2);
 		}
 		var canMove = this.canImove(x, y, true);
 		if(canMove) {
@@ -427,7 +427,9 @@ Game.prototype = {
 			if(elmTop > houses[i].top && elmTop < houses[i].top + houses[i].height) {
 				if(houses[i].left && houses[i].left != null) {
 					if(elmLeft < houses[i].left + houses[i].width && elmLeft > houses[i].left - player.width() && elmTop < houses[i].top + houses[i].height) {
-						if(elmLeft > houses[i].left + houses[i].door.left - player.width() / 2 && elmLeft < houses[i].left + houses[i].door.width + houses[i].door.left - player.width() / 2) {
+						var doorMin = houses[i].left + houses[i].door.left - player.width() / 2 - 15;
+						var doorMax = houses[i].left + houses[i].door.left + houses[i].door.width - player.width() / 2 + 15;
+						if(elmLeft >= doorMin && elmLeft <= doorMax) {
 							isInHouse.push(true);
 							if(elmTop <= houses[i].top + houses[i].height - 70) {
 								this.lightboxInit(houses[i].id, true);
@@ -443,7 +445,10 @@ Game.prototype = {
 				}
 				else if(houses[i].right && houses[i].right != null) {
 					if(elmLeft > wWidth - houses[i].width - houses[i].right - player.width() && elmLeft < wWidth - houses[i].right && elmTop < houses[i].top + houses[i].height) {
-						if(elmLeft > wWidth - houses[i].width - houses[i].right + houses[i].door.left - 10  && elmLeft < wWidth - houses[i].right - houses[i].width + houses[i].door.left + houses[i].door.width - 10) {
+						var houseLeft = wWidth - houses[i].width - houses[i].right;
+						var doorMin = houseLeft + houses[i].door.left - player.width() / 2 - 15;
+						var doorMax = houseLeft + houses[i].door.left + houses[i].door.width - player.width() / 2 + 15;
+						if(elmLeft >= doorMin && elmLeft <= doorMax) {
 							isInHouse.push(true);
 							if(elmTop <= houses[i].top + houses[i].height - 70) {
 								this.lightboxInit(houses[i].id, true);
