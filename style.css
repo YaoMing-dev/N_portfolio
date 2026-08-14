@@ -180,26 +180,12 @@ nav li.last a:hover {
 	border-radius: 50em;
 }
 
-#mapBackdrop {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100vw;
-	height: 100vh;
-	z-index: 0;
-	background-image: url(images/bg.png);
-	background-repeat: repeat;
-	background-position: 0 0;
-	/* background-size is set in JS (updateViewportScale) to match #wrapper's scale */
-}
-
 #wrapper {
 	border: none;
 	margin: 0;
 	width: 768px;
 	height: 2500px;
 	position: relative;
-	z-index: 1;
 	background: url(images/bg.png) repeat;
 	overflow: hidden;
 }

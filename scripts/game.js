@@ -51,14 +51,6 @@ Game.prototype = {
 			'width': '768px',
 			'left': offsetX + 'px'
 		});
-		// #mapBackdrop's tile is unscaled, so size it to (native tile px * scale) —
-		// matching the size #wrapper's own background renders at post-transform — and
-		// shift its horizontal phase by the same offsetX #wrapper is now shifted by,
-		// so both patterns still tile from the same point and the seam disappears.
-		$('#mapBackdrop').css({
-			'background-size': (48 * scale) + 'px ' + (32 * scale) + 'px',
-			'background-position': offsetX + 'px 0'
-		});
 		var maxMapHeight = winW < 768 ? 2020 : 2500;
 		// CRITICAL: body must be 100vw so position:fixed modals (lightbox, overlay)
 		// use the full viewport for their left:50% centering — not a capped body width.
