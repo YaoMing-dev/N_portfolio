@@ -37,8 +37,10 @@ Game.prototype = {
 
 	updateViewportScale: function() {
 		var winW = $(window).width();
-		// Scale the 768px game canvas to exactly fill the viewport width on any screen size.
-		var baseWidth = 768;
+		// Mobile fills the screen exactly. On desktop, zoom out (baseWidth > 768) for a
+		// wider field of view; the body background tiles the same texture as #wrapper,
+		// so the resulting margin reads as more scenery instead of an empty gap.
+		var baseWidth = winW < 768 ? 768 : 1100;
 		var scale = winW / baseWidth;
 		this._scale = scale; // cache for use in click handlers
 		$('#wrapper').css({
@@ -67,7 +69,7 @@ Game.prototype = {
 		
 		$('.road, .bridge').unbind('click').bind('click', function(e){
 			var winW = $(window).width();
-			var baseWidth = 768;
+			var baseWidth = winW < 768 ? 768 : 1100;
 			var scale = winW / baseWidth;
 			// Convert browser pixel coords → game coords by dividing by scale
 			var x = (e.pageX / scale) - (player.width() || 64) / 2;
@@ -311,7 +313,7 @@ Game.prototype = {
 			left: x
 		}).show().stop(true, true).animate({opacity: 1});
 		var winW = $(window).width();
-		var baseWidth = 768;
+		var baseWidth = winW < 768 ? 768 : 1100;
 		var scale = winW / baseWidth;
 		var maxMapHeight = winW < 768 ? 2020 : 2500;
 		var maxScroll = Math.max(0, (maxMapHeight * scale) - $(window).height());
@@ -370,7 +372,7 @@ Game.prototype = {
 			this.topPos = y;
 			player.stop(true, false).css('top', y + 'px');
 			var winW = $(window).width();
-			var baseWidth = 768;
+			var baseWidth = winW < 768 ? 768 : 1100;
 			var scale = winW / baseWidth;
 			var maxMapHeight = winW < 768 ? 2020 : 2500;
 			var maxScroll = Math.max(0, (maxMapHeight * scale) - $(window).height());

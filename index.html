@@ -753,18 +753,6 @@
 			if (houseDark) houseDark.style.display = 'block';
 		}
 
-		$(document).ready(function() {
-			$('.open-project-gallery').live('click', function(e) {
-				e.preventDefault();
-				e.stopPropagation();
-				var projectKey = $(this).attr('data-project');
-				if (!projectKey) {
-					projectKey = $(this).closest('.open-project-gallery').attr('data-project');
-				}
-				openCategoryGallery(projectKey);
-			});
-		});
-
 		document.addEventListener('click', function(e) {
 			// 1. Open category gallery modal
 			var galleryCard = e.target.closest('.open-project-gallery');

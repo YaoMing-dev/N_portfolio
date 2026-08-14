@@ -87,7 +87,9 @@ ul,p,dl,hr,h1,h2,h3,h4,h5,h6,pre,table,address,fieldset, blockquote {
 }
 
 html, body {
-	background-color: #34598d !important;
+	/* Match #wrapper's own tile so any strip beyond the scaled game canvas on wide
+	   screens reads as more scenery, not a flat colored gap. */
+	background: #70c8a0 url('images/bg.png') repeat !important;
 	overflow-x: hidden;
 	padding: 0;
 	margin: 0;
