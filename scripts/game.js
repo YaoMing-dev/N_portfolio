@@ -308,9 +308,8 @@ Game.prototype = {
 		}).show().stop(true, true).animate({opacity: 1});
 		var winW = $(window).width();
 		var scale = winW < 768 ? (winW / 768) : 1;
-		if(this.topPos >= 200) {
-			$('html, body').animate({scrollTop: (y - 200) * scale}, 'slow');
-		}
+		var targetScroll = Math.max(0, (y - 200) * scale);
+		window.scrollTo(0, targetScroll);
 		this.shipBack();
 	},
 
@@ -361,14 +360,12 @@ Game.prototype = {
 		var player = this.player;
 		var canMove = this.canImove(null, y);
 		if(canMove) {
-			if(this.topPos >= 200) {
-				var winW = $(window).width();
-				var scale = winW < 768 ? (winW / 768) : 1;
-				var delta = (y - this.topPos) * scale;
-				$('html, body').stop(true, false).scrollTop($(document).scrollTop() + delta);
-			}
 			this.topPos = y;
 			player.stop(true, false).css('top', y + 'px');
+			var winW = $(window).width();
+			var scale = winW < 768 ? (winW / 768) : 1;
+			var targetScroll = Math.max(0, (y - 200) * scale);
+			window.scrollTo(0, targetScroll);
 		}
 		if(dir == 'up') {
 			this.startMoving('up', 4);

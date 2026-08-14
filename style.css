@@ -86,7 +86,8 @@ ul,p,dl,hr,h1,h2,h3,h4,h5,h6,pre,table,address,fieldset, blockquote {
 	display: inline-block;
 }
 
-body {
+html, body {
+	background-color: #34598d !important;
 	overflow-x: hidden;
 	padding: 0;
 	margin: 0;
@@ -358,7 +359,8 @@ nav li.last a:hover {
 
 #endSea {
 	bottom: 0;
-	height: 800px;
+	height: 1400px;
+	background-color: #34598d;
 	-webkit-animation: seamove 6s linear infinite;
 	-moz-animation: seamove 6s linear infinite;
 	animation: seamove 6s linear infinite;
