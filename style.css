@@ -359,8 +359,8 @@ nav li.last a:hover {
 
 #endSea {
 	bottom: 0;
-	height: 1400px;
-	background-color: #34598d;
+	height: 800px;
+	background-color: #35598e;
 	-webkit-animation: seamove 6s linear infinite;
 	-moz-animation: seamove 6s linear infinite;
 	animation: seamove 6s linear infinite;
