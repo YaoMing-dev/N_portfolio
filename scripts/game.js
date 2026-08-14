@@ -37,19 +37,18 @@ Game.prototype = {
 
 	updateViewportScale: function() {
 		var winW = $(window).width();
-		// Mobile fills the screen exactly (no side margin). On desktop, zoom out
-		// (baseWidth > 768) for a wider field of view; the leftover width is split
-		// evenly on both sides (centered) instead of dumped entirely on the right.
-		var baseWidth = winW < 768 ? 768 : 1100;
-		var scale = winW / baseWidth;
-		var offsetX = Math.max(0, (winW - 768 * scale) / 2);
+		// Mobile fills the screen exactly (0 margin). On desktop, instead of a scale
+		// ratio (which leaves a margin that grows with screen width), leave a small
+		// FIXED margin (MAP_MARGIN px) and solve for the scale that produces it — so
+		// the gap stays a thin, barely-there strip on any screen size instead of a
+		// large proportional one. Left-aligned (no centering).
+		var MAP_MARGIN = 20;
+		var scale = winW < 768 ? (winW / 768) : ((winW - MAP_MARGIN) / 768);
 		this._scale = scale; // cache for use in click handlers
-		this._offsetX = offsetX; // cache for use in click handlers
 		$('#wrapper').css({
 			'transform': 'scale(' + scale + ')',
 			'transform-origin': 'top left',
-			'width': '768px',
-			'left': offsetX + 'px'
+			'width': '768px'
 		});
 		var maxMapHeight = winW < 768 ? 2020 : 2500;
 		// CRITICAL: body must be 100vw so position:fixed modals (lightbox, overlay)
@@ -72,12 +71,10 @@ Game.prototype = {
 		
 		$('.road, .bridge').unbind('click').bind('click', function(e){
 			var winW = $(window).width();
-			var baseWidth = winW < 768 ? 768 : 1100;
-			var scale = winW / baseWidth;
-			var offsetX = Math.max(0, (winW - 768 * scale) / 2);
-			// Convert browser pixel coords → game coords: undo the centering offset,
-			// then undo the scale.
-			var x = ((e.pageX - offsetX) / scale) - (player.width() || 64) / 2;
+			var MAP_MARGIN = 20;
+			var scale = winW < 768 ? (winW / 768) : ((winW - MAP_MARGIN) / 768);
+			// Convert browser pixel coords → game coords by dividing by scale
+			var x = (e.pageX / scale) - (player.width() || 64) / 2;
 			var y = e.pageY / scale;
 			var canMove = me.canImove(x, y, true);
 			if(canMove === true) {				
@@ -318,8 +315,8 @@ Game.prototype = {
 			left: x
 		}).show().stop(true, true).animate({opacity: 1});
 		var winW = $(window).width();
-		var baseWidth = winW < 768 ? 768 : 1100;
-		var scale = winW / baseWidth;
+		var MAP_MARGIN = 20;
+		var scale = winW < 768 ? (winW / 768) : ((winW - MAP_MARGIN) / 768);
 		var maxMapHeight = winW < 768 ? 2020 : 2500;
 		var maxScroll = Math.max(0, (maxMapHeight * scale) - $(window).height());
 		var targetScroll = Math.min(maxScroll, Math.max(0, (y - 200) * scale));
@@ -377,8 +374,8 @@ Game.prototype = {
 			this.topPos = y;
 			player.stop(true, false).css('top', y + 'px');
 			var winW = $(window).width();
-			var baseWidth = winW < 768 ? 768 : 1100;
-			var scale = winW / baseWidth;
+			var MAP_MARGIN = 20;
+			var scale = winW < 768 ? (winW / 768) : ((winW - MAP_MARGIN) / 768);
 			var maxMapHeight = winW < 768 ? 2020 : 2500;
 			var maxScroll = Math.max(0, (maxMapHeight * scale) - $(window).height());
 			var targetScroll = Math.min(maxScroll, Math.max(0, (y - 200) * scale));
