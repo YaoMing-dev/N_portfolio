@@ -38,8 +38,9 @@ Game.prototype = {
 	updateViewportScale: function() {
 		var winW = $(window).width();
 		// Mobile fills the screen exactly. On desktop, zoom out (baseWidth > 768) for a
-		// wider field of view; the body background tiles the same texture as #wrapper,
-		// so the resulting margin reads as more scenery instead of an empty gap.
+		// wider field of view; #mapBackdrop fills any strip beyond #wrapper with the
+		// same tile at the same on-screen size (see below), so it reads as one
+		// continuous field instead of a flat gap.
 		var baseWidth = winW < 768 ? 768 : 1100;
 		var scale = winW / baseWidth;
 		this._scale = scale; // cache for use in click handlers
@@ -48,6 +49,10 @@ Game.prototype = {
 			'transform-origin': 'top left',
 			'width': '768px'
 		});
+		// #mapBackdrop's tile is unscaled, so size it to (native tile px * scale) —
+		// matching the size #wrapper's own background renders at post-transform —
+		// and both start tiling from the same top-left origin, so the seam disappears.
+		$('#mapBackdrop').css('background-size', (48 * scale) + 'px ' + (32 * scale) + 'px');
 		var maxMapHeight = winW < 768 ? 2020 : 2500;
 		// CRITICAL: body must be 100vw so position:fixed modals (lightbox, overlay)
 		// use the full viewport for their left:50% centering — not a capped body width.

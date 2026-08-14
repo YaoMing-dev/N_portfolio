@@ -87,9 +87,9 @@ ul,p,dl,hr,h1,h2,h3,h4,h5,h6,pre,table,address,fieldset, blockquote {
 }
 
 html, body {
-	/* Match #wrapper's own tile so any strip beyond the scaled game canvas on wide
-	   screens reads as more scenery, not a flat colored gap. */
-	background: #70c8a0 url('images/bg.png') repeat !important;
+	/* Plain fallback color only — #mapBackdrop (behind #wrapper) carries the actual
+	   scaled tile so it lines up with the game canvas instead of looking flat. */
+	background-color: #70c8a0 !important;
 	overflow-x: hidden;
 	padding: 0;
 	margin: 0;
@@ -180,12 +180,26 @@ nav li.last a:hover {
 	border-radius: 50em;
 }
 
+#mapBackdrop {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	z-index: 0;
+	background-image: url(images/bg.png);
+	background-repeat: repeat;
+	background-position: 0 0;
+	/* background-size is set in JS (updateViewportScale) to match #wrapper's scale */
+}
+
 #wrapper {
 	border: none;
 	margin: 0;
 	width: 768px;
 	height: 2500px;
 	position: relative;
+	z-index: 1;
 	background: url(images/bg.png) repeat;
 	overflow: hidden;
 }

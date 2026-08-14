@@ -148,8 +148,12 @@
 		</div>
 	</div>
 	
-	<div id="wrapper">			
-		
+	<!-- Fills the screen behind #wrapper on wide screens; game.js keeps its tile size in
+	     sync with #wrapper's own scale so the pattern lines up as one continuous field. -->
+	<div id="mapBackdrop"></div>
+
+	<div id="wrapper">
+
 		<!-- Main Text -->
 		<hgroup id="myInfo">
 			
@@ -736,21 +740,20 @@
 		// entering a house, and its z-index (1,000,000+) sits above every other modal —
 		// so left open it fully covers the gallery/video/image modals. Hide it while
 		// those are open, then bring it back once the gallery closes.
+		//
+		// On a house's FIRST-EVER entry in a session, game.js's lightboxInit() creates
+		// #lightbox with $(...).delay(1000).fadeIn() — a queued animation. Plain
+		// style.display writes don't touch that queue, so if a category is clicked
+		// while it's still in flight, jQuery's own fadeIn can re-assert display AFTER
+		// our hide (only reproduces on a fresh/uncached first visit — later house
+		// entries reuse the existing element via an immediate .show(), no queue
+		// involved). $.stop(true, true) clears/finishes that queue before we hide.
 		function hideHouseLightbox() {
-			var houseLightbox = document.getElementById('lightbox');
-			var houseDark = document.getElementById('dark');
-			if (houseLightbox) houseLightbox.style.display = 'none';
-			if (houseDark) houseDark.style.display = 'none';
+			$('#lightbox, #dark').stop(true, true).hide();
 		}
 
 		function restoreHouseLightbox() {
-			// #dark/#lightbox default to display:none in CSS; jQuery's fadeIn set an
-			// inline 'block' to show them, so restore that same value (not '') or they
-			// fall back to the CSS default and stay invisible.
-			var houseLightbox = document.getElementById('lightbox');
-			var houseDark = document.getElementById('dark');
-			if (houseLightbox) houseLightbox.style.display = 'block';
-			if (houseDark) houseDark.style.display = 'block';
+			$('#lightbox, #dark').stop(true, true).show();
 		}
 
 		document.addEventListener('click', function(e) {
