@@ -1,7 +1,8 @@
 var Game = function() {
 	this.player = $("#avanish");	
 	this.topPos = 0;
-	this.leftPos = $(window).width() / 2 - this.player.width() / 2;
+	var wWidth = $('#wrapper').width() || 768;
+	this.leftPos = wWidth / 2 - this.player.width() / 2;
 	this.init();
 }
 
@@ -10,7 +11,7 @@ Game.constructor = Game;
 Game.prototype = {
 	
 	init: function() {
-		// Center the player relative to the window width
+		// Center the player relative to the wrapper width
 		this.player.css('left', this.leftPos + 'px');
 
 		// Add an event handler
@@ -34,7 +35,8 @@ Game.prototype = {
 		var player = this.player;
 		
 		$(window).resize(function(){
-			player.css('left', $(window).width() / 2 - player.width() / 2 + 'px');
+			var wWidth = me.getWrapperWidth();
+			player.css('left', wWidth / 2 - player.width() / 2 + 'px');
 		});				
 		
 		$('.road, .bridge').unbind('click').bind('click', function(e){
@@ -73,7 +75,7 @@ Game.prototype = {
 				$('nav a').removeClass('current');
 				$(this).addClass('current');
 				$('html, body').animate({scrollTop: 0}, 'slow');
-				me.teleport($(window).width() / 2 - me.player.width() / 2, 100);
+				me.teleport(me.getWrapperWidth() / 2 - me.player.width() / 2, 100);
 				return;
 			}
 			else if(target == '#howToPlay') {
@@ -244,6 +246,16 @@ Game.prototype = {
 		}
 	},
 
+	getWrapperWidth: function() {
+		return $('#wrapper').width() || 768;
+	},
+
+	updateCameraFollow: function() {
+		var scrollLeftTarget = this.leftPos - $(window).width() / 2 + this.player.width() / 2;
+		if (scrollLeftTarget < 0) scrollLeftTarget = 0;
+		$(window).scrollLeft(scrollLeftTarget);
+	},
+
 	teleport: function(x, y) {		
 		this.topPos = y;
 		this.leftPos = x;
@@ -253,6 +265,7 @@ Game.prototype = {
 			top: y,
 			left: x
 		}).show().stop(true, true).animate({opacity: 1});
+		this.updateCameraFollow();
 		if(this.topPos >= 200) {
 			$('html, body').animate({scrollTop: y - 200}, 'slow');
 		}
@@ -267,13 +280,15 @@ Game.prototype = {
 				break;
 			}
 		}
+		if (!house) return;
+		var wWidth = this.getWrapperWidth();
 		var y = house.top + house.height - 70;
 		var x;
 		if(house.left && house.left != null) {
 			x = house.left + house.door.left + (house.door.width / 2) - (this.player.width() / 2);
 		}
 		else {
-			x = $(window).width() - house.width - house.right + house.door.left + (house.door.width / 2) - (this.player.width() / 2);
+			x = wWidth - house.width - house.right + house.door.left + (house.door.width / 2) - (this.player.width() / 2);
 		}
 		var canMove = this.canImove(x, y, true);
 		if(canMove) {
@@ -291,6 +306,7 @@ Game.prototype = {
 		if(canMove){
 			this.leftPos = x;
 			player.stop(true, false).css('left', x + 'px');
+			this.updateCameraFollow();
 		}
 		if(dir == 'left') {
 			this.startMoving('left', 2);
@@ -310,6 +326,7 @@ Game.prototype = {
 			}
 			this.topPos = y;
 			player.stop(true, false).css('top', y + 'px');
+			this.updateCameraFollow();
 		}
 		if(dir == 'up') {
 			this.startMoving('up', 4);
@@ -331,6 +348,7 @@ Game.prototype = {
 		var player = this.player;
 		var elmLeft = x || this.leftPos;
 		var elmTop = y || this.topPos;
+		var wWidth = this.getWrapperWidth();
 		for(var i = 0; i < houses.length; i++) {
 			if(houses[i].left && houses[i].left != null) {
 				if(elmTop >= houses[i].top + houses[i].height - 80 && elmTop < houses[i].top + houses[i].height + player.height() && elmLeft < houses[i].left + houses[i].width) {
@@ -342,7 +360,7 @@ Game.prototype = {
 
 			}
 			else if(houses[i].right && houses[i].right != null) {
-				if(elmTop >= houses[i].top + houses[i].height - 80 && elmTop < houses[i].top + houses[i].height + player.height() && elmLeft > $(window).width() - houses[i].right - houses[i].width) {
+				if(elmTop >= houses[i].top + houses[i].height - 80 && elmTop < houses[i].top + houses[i].height + player.height() && elmLeft > wWidth - houses[i].right - houses[i].width) {
 					$(houses[i].id).find(".door").addClass('open');
 				}
 				else {
@@ -358,6 +376,7 @@ Game.prototype = {
 	inHouse: function(elmLeft, elmTop) {
 		var player = this.player;
 		var isInHouse = [];
+		var wWidth = this.getWrapperWidth();
 		for(var i = 0; i < houses.length; i++) {
 			if(elmTop > houses[i].top && elmTop < houses[i].top + houses[i].height) {
 				if(houses[i].left && houses[i].left != null) {
@@ -379,8 +398,8 @@ Game.prototype = {
 					}
 				}
 				else if(houses[i].right && houses[i].right != null) {
-					if(elmLeft > $(window).width() - houses[i].width - houses[i].right - player.width() && elmLeft < $(window).width() - houses[i].right && elmTop < houses[i].top + houses[i].height) {
-						var houseLeft = $(window).width() - houses[i].width - houses[i].right;
+					if(elmLeft > wWidth - houses[i].width - houses[i].right - player.width() && elmLeft < wWidth - houses[i].right && elmTop < houses[i].top + houses[i].height) {
+						var houseLeft = wWidth - houses[i].width - houses[i].right;
 						var doorMin = houseLeft + houses[i].door.left - player.width() / 2 - 15;
 						var doorMax = houseLeft + houses[i].door.left + houses[i].door.width - player.width() / 2 + 15;
 						if(elmLeft >= doorMin && elmLeft <= doorMax) {
@@ -410,16 +429,17 @@ Game.prototype = {
 		var player = this.player;
 		var mainRoad = $("#mainRoad");
 		var isOnRoad = true;
+		var wWidth = this.getWrapperWidth();
 
 		// Check if the player is out of boundries
 		if(elmLeft < 0 || elmLeft >= parseFloat(player.parent().width()) - parseFloat(player.width()) || elmTop < 0 || elmTop > parseFloat(player.parent().height()) - parseFloat(player.height())) {
 			isOnRoad = false;
 		}
-		else if(elmLeft < ($(window).width() / 2 - mainRoad.width() / 2) || elmLeft > ($(window).width() / 2 + mainRoad.width() / 2) - player.width()) {
+		else if(elmLeft < (wWidth / 2 - mainRoad.width() / 2) || elmLeft > (wWidth / 2 + mainRoad.width() / 2) - player.width()) {
 			for(var i = 0; i < roads.length; i++) {
 				if(elmTop > roads[i].top && elmTop < roads[i].top + roads[i].height - player.height()) {
 					if(roads[i].direction == 'left') {
-						if(elmLeft < ($(window).width() / 2 + mainRoad.width() / 2) - player.width()) {
+						if(elmLeft < (wWidth / 2 + mainRoad.width() / 2) - player.width()) {
 							isOnRoad = true;
 						}
 						else {
@@ -427,7 +447,7 @@ Game.prototype = {
 						}
 					}
 					else if(roads[i].direction == 'right') {
-						if(elmLeft >= ($(window).width() / 2 + mainRoad.width() / 2) - player.width()) {
+						if(elmLeft >= (wWidth / 2 + mainRoad.width() / 2) - player.width()) {
 							isOnRoad = true;
 						}
 						else {
@@ -452,6 +472,7 @@ Game.prototype = {
 		var player = this.player;
 		var elmLeft = moveLeft || this.leftPos;
 		var elmTop = moveTop || this.topPos;
+		var wWidth = this.getWrapperWidth();
 		
 		if(player.css('display') == 'none' && !teleported) {
 			return false;
@@ -471,7 +492,7 @@ Game.prototype = {
 		// Sea Handler
 		if(elmTop > $('#wrapper').height() - $('#endSea').height() - player.height()) {
 			this.showNotificationsBar(notifications[2]);
-			if(elmLeft > $(window).width() / 2 - $('#endBridge').width() / 2 && elmLeft < $(window).width() / 2 + $('#endBridge').width() / 2 - player.width()) {				
+			if(elmLeft > wWidth / 2 - $('#endBridge').width() / 2 && elmLeft < wWidth / 2 + $('#endBridge').width() / 2 - player.width()) {				
 				if(elmTop > $('#wrapper').height() - $('#endSea').height() + $("#endBridge").height() - 70 - player.height()) {
 				 	return false;
 				}
