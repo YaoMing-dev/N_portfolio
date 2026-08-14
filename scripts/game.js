@@ -1,8 +1,8 @@
 var Game = function() {
 	this.player = $("#avanish");	
-	this.topPos = 0;
+	this.topPos = 100;
 	var wWidth = 768;
-	this.leftPos = wWidth / 2 - this.player.width() / 2;
+	this.leftPos = wWidth / 2 - (this.player.width() || 64) / 2;
 	this.init();
 }
 
@@ -11,8 +11,13 @@ Game.constructor = Game;
 Game.prototype = {
 	
 	init: function() {
+		this.topPos = 100;
+		this.leftPos = 768 / 2 - (this.player.width() || 64) / 2;
 		// Center the player relative to the wrapper width
-		this.player.css('left', this.leftPos + 'px');
+		this.player.css({
+			'left': this.leftPos + 'px',
+			'top': this.topPos + 'px'
+		});
 
 		// Add an event handler
 		this.eventsHandler();	
