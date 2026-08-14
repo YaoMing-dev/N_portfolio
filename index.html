@@ -727,8 +727,30 @@
 					grid.appendChild(card);
 				});
 
+				hideHouseLightbox();
 				document.getElementById('projectGalleryModal').classList.add('active');
 			}
+		}
+
+		// The wood "Works & Projects" panel (#dark/#lightbox) is created by game.js when
+		// entering a house, and its z-index (1,000,000+) sits above every other modal —
+		// so left open it fully covers the gallery/video/image modals. Hide it while
+		// those are open, then bring it back once the gallery closes.
+		function hideHouseLightbox() {
+			var houseLightbox = document.getElementById('lightbox');
+			var houseDark = document.getElementById('dark');
+			if (houseLightbox) houseLightbox.style.display = 'none';
+			if (houseDark) houseDark.style.display = 'none';
+		}
+
+		function restoreHouseLightbox() {
+			// #dark/#lightbox default to display:none in CSS; jQuery's fadeIn set an
+			// inline 'block' to show them, so restore that same value (not '') or they
+			// fall back to the CSS default and stay invisible.
+			var houseLightbox = document.getElementById('lightbox');
+			var houseDark = document.getElementById('dark');
+			if (houseLightbox) houseLightbox.style.display = 'block';
+			if (houseDark) houseDark.style.display = 'block';
 		}
 
 		$(document).ready(function() {
@@ -775,6 +797,7 @@
 			// 3. Close gallery modal
 			if (e.target.id === 'closeGalleryBtn' || e.target.id === 'projectGalleryModal') {
 				document.getElementById('projectGalleryModal').classList.remove('active');
+				restoreHouseLightbox();
 				return;
 			}
 
@@ -915,16 +938,23 @@
 			var galleryModal = document.getElementById('projectGalleryModal');
 			var qrModal = document.getElementById('qrModal');
 
+			// Esc is also bound by game.js (on window, per house entry) to close the
+			// wood house panel. Stop propagation here so Esc only closes the topmost
+			// overlay instead of also tearing down the house panel underneath it.
 			if (qrModal && qrModal.classList.contains('active')) {
-				if (e.keyCode === 27) closeQrModal(); // Esc
+				if (e.keyCode === 27) { closeQrModal(); e.stopPropagation(); } // Esc
 			} else if (fsViewer && fsViewer.classList.contains('active')) {
 				if (e.keyCode === 37) showFullscreenImage(currentFsIndex - 1); // Left arrow
 				if (e.keyCode === 39) showFullscreenImage(currentFsIndex + 1); // Right arrow
-				if (e.keyCode === 27) fsViewer.classList.remove('active'); // Esc
+				if (e.keyCode === 27) { fsViewer.classList.remove('active'); e.stopPropagation(); } // Esc
 			} else if (videoModal && videoModal.classList.contains('active')) {
-				if (e.keyCode === 27) closeVideoModal(); // Esc
+				if (e.keyCode === 27) { closeVideoModal(); e.stopPropagation(); } // Esc
 			} else if (galleryModal && galleryModal.classList.contains('active')) {
-				if (e.keyCode === 27) galleryModal.classList.remove('active'); // Esc
+				if (e.keyCode === 27) {
+					galleryModal.classList.remove('active'); // Esc
+					restoreHouseLightbox();
+					e.stopPropagation();
+				}
 			}
 		});
 	</script>
