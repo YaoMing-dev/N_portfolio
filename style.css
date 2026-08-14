@@ -1081,15 +1081,13 @@ nav li.last a:hover {
 	display: none;
 }
 
-#dark {
+#overlay {
+	position: fixed;
 	width: 100%;
 	height: 100%;
-	background: rgba(0,0,0,0.9);
-	display: none;
-	position: fixed;
 	top: 0;
 	left: 0;
-	z-index: 900;
+	z-index: 1000000 !important;
 }
 
 #lightbox {
@@ -1100,7 +1098,7 @@ nav li.last a:hover {
 	margin: -300px 0 0 -450px;	
 	position: fixed;
 	font-family: helvetica;
-	z-index: 905;
+	z-index: 1000001 !important;
 	display: none;
 }
 
@@ -1109,7 +1107,7 @@ nav li.last a:hover {
 	right: 20px;
 	top: 20px;
 	font: 11px/14px 'SilkscreenBold', Arial, sans-serif;
-	z-index: 910;
+	z-index: 1000002 !important;
 	color: #222;
 	text-shadow: 0 0 3px rgba(255,255,255,0.8);
 	cursor: pointer;

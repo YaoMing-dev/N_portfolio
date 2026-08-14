@@ -255,17 +255,17 @@ Game.prototype = {
 			$('.dpad-btn').removeClass('active');
 		};
 
-		$('#btnUp').bind('touchstart mousedown', function(e){ e.preventDefault(); $(this).addClass('active'); startMove('up'); });
-		$('#btnDown').bind('touchstart mousedown', function(e){ e.preventDefault(); $(this).addClass('active'); startMove('down'); });
-		$('#btnLeft').bind('touchstart mousedown', function(e){ e.preventDefault(); $(this).addClass('active'); startMove('left'); });
-		$('#btnRight').bind('touchstart mousedown', function(e){ e.preventDefault(); $(this).addClass('active'); startMove('right'); });
+		$('#btnUp').unbind('touchstart mousedown').bind('touchstart mousedown', function(e){ e.preventDefault(); e.stopPropagation(); $(this).addClass('active'); startMove('up'); });
+		$('#btnDown').unbind('touchstart mousedown').bind('touchstart mousedown', function(e){ e.preventDefault(); e.stopPropagation(); $(this).addClass('active'); startMove('down'); });
+		$('#btnLeft').unbind('touchstart mousedown').bind('touchstart mousedown', function(e){ e.preventDefault(); e.stopPropagation(); $(this).addClass('active'); startMove('left'); });
+		$('#btnRight').unbind('touchstart mousedown').bind('touchstart mousedown', function(e){ e.preventDefault(); e.stopPropagation(); $(this).addClass('active'); startMove('right'); });
 		
-		$(document).bind('touchend mouseup', stopMove);
+		$(document).unbind('touchend mouseup touchcancel').bind('touchend mouseup touchcancel', stopMove);
 	},
 
 	showNotificationsBar: function(notification) {
 		var me = this;		
-		$("#notifications").css('bottom', 0);
+		$("#notifications").css({'opacity': 1, 'display': 'block'});
 		if(!$("#notifications").find('.inner').attr('id') || $("#notifications").find('.inner').text() != notification.text){
 			$("#notifications").find('.inner').attr('id', notification.type).fadeOut('fast', function(){
 				$(this).html('<img src="' + notification.img + '" />' + notification.text).fadeIn('fast');
@@ -274,7 +274,7 @@ Game.prototype = {
 	},
 
 	hideNotificationBar: function() {
-		$("#notifications").css('bottom', '-60px');
+		$("#notifications").css({'opacity': 0, 'display': 'none'});
 	},
 
 	revealMenu: function(y) {
@@ -293,13 +293,10 @@ Game.prototype = {
 	},
 
 	getWrapperWidth: function() {
-		return $('#wrapper').width() || 768;
+		return 768;
 	},
 
 	updateCameraFollow: function() {
-		var scrollLeftTarget = this.leftPos - $(window).width() / 2 + this.player.width() / 2;
-		if (scrollLeftTarget < 0) scrollLeftTarget = 0;
-		$(window).scrollLeft(scrollLeftTarget);
 	},
 
 	teleport: function(x, y) {		
@@ -313,7 +310,8 @@ Game.prototype = {
 		}).show().stop(true, true).animate({opacity: 1});
 		var winW = $(window).width();
 		var scale = winW < 768 ? (winW / 768) : 1;
-		var maxScroll = Math.max(0, ($('#wrapper').height() * scale) - $(window).height());
+		var maxMapHeight = winW < 768 ? 2020 : 2500;
+		var maxScroll = Math.max(0, (maxMapHeight * scale) - $(window).height());
 		var targetScroll = Math.min(maxScroll, Math.max(0, (y - 200) * scale));
 		window.scrollTo(0, targetScroll);
 		this.shipBack();
@@ -370,7 +368,8 @@ Game.prototype = {
 			player.stop(true, false).css('top', y + 'px');
 			var winW = $(window).width();
 			var scale = winW < 768 ? (winW / 768) : 1;
-			var maxScroll = Math.max(0, ($('#wrapper').height() * scale) - $(window).height());
+			var maxMapHeight = winW < 768 ? 2020 : 2500;
+			var maxScroll = Math.max(0, (maxMapHeight * scale) - $(window).height());
 			var targetScroll = Math.min(maxScroll, Math.max(0, (y - 200) * scale));
 			window.scrollTo(0, targetScroll);
 		}
