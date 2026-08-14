@@ -37,22 +37,28 @@ Game.prototype = {
 
 	updateViewportScale: function() {
 		var winW = $(window).width();
-		// Mobile fills the screen exactly. On desktop, zoom out (baseWidth > 768) for a
-		// wider field of view; #mapBackdrop fills any strip beyond #wrapper with the
-		// same tile at the same on-screen size (see below), so it reads as one
-		// continuous field instead of a flat gap.
+		// Mobile fills the screen exactly (no side margin). On desktop, zoom out
+		// (baseWidth > 768) for a wider field of view; the leftover width is split
+		// evenly on both sides (centered) instead of dumped entirely on the right.
 		var baseWidth = winW < 768 ? 768 : 1100;
 		var scale = winW / baseWidth;
+		var offsetX = Math.max(0, (winW - 768 * scale) / 2);
 		this._scale = scale; // cache for use in click handlers
+		this._offsetX = offsetX; // cache for use in click handlers
 		$('#wrapper').css({
 			'transform': 'scale(' + scale + ')',
 			'transform-origin': 'top left',
-			'width': '768px'
+			'width': '768px',
+			'left': offsetX + 'px'
 		});
 		// #mapBackdrop's tile is unscaled, so size it to (native tile px * scale) —
-		// matching the size #wrapper's own background renders at post-transform —
-		// and both start tiling from the same top-left origin, so the seam disappears.
-		$('#mapBackdrop').css('background-size', (48 * scale) + 'px ' + (32 * scale) + 'px');
+		// matching the size #wrapper's own background renders at post-transform — and
+		// shift its horizontal phase by the same offsetX #wrapper is now shifted by,
+		// so both patterns still tile from the same point and the seam disappears.
+		$('#mapBackdrop').css({
+			'background-size': (48 * scale) + 'px ' + (32 * scale) + 'px',
+			'background-position': offsetX + 'px 0'
+		});
 		var maxMapHeight = winW < 768 ? 2020 : 2500;
 		// CRITICAL: body must be 100vw so position:fixed modals (lightbox, overlay)
 		// use the full viewport for their left:50% centering — not a capped body width.
@@ -76,8 +82,10 @@ Game.prototype = {
 			var winW = $(window).width();
 			var baseWidth = winW < 768 ? 768 : 1100;
 			var scale = winW / baseWidth;
-			// Convert browser pixel coords → game coords by dividing by scale
-			var x = (e.pageX / scale) - (player.width() || 64) / 2;
+			var offsetX = Math.max(0, (winW - 768 * scale) / 2);
+			// Convert browser pixel coords → game coords: undo the centering offset,
+			// then undo the scale.
+			var x = ((e.pageX - offsetX) / scale) - (player.width() || 64) / 2;
 			var y = e.pageY / scale;
 			var canMove = me.canImove(x, y, true);
 			if(canMove === true) {				
