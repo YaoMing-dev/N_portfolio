@@ -748,7 +748,20 @@
 			$('#lightbox, #dark').stop(true, true).hide();
 		}
 
+		// Only bring the wood panel back once every layer above it is closed.
+		// Called from each close path, so whichever layer the visitor dismisses
+		// last is the one that hands the panel back. Without this, closing the
+		// gallery while an image or video is still open dropped the panel over
+		// that still-open viewer.
+		function isAnyProjectLayerOpen() {
+			return ['fullscreenViewer', 'videoPlayerModal', 'projectGalleryModal'].some(function(id) {
+				var el = document.getElementById(id);
+				return el && el.classList.contains('active');
+			});
+		}
+
 		function restoreHouseLightbox() {
+			if (isAnyProjectLayerOpen()) return;
 			$('#lightbox, #dark').stop(true, true).show();
 		}
 
@@ -797,6 +810,7 @@
 			// 5. Fullscreen viewer controls
 			if (e.target.id === 'fsCloseBtn' || e.target.id === 'fullscreenViewer') {
 				document.getElementById('fullscreenViewer').classList.remove('active');
+				restoreHouseLightbox();
 				return;
 			}
 			if (e.target.id === 'fsPrevBtn') {
@@ -855,6 +869,7 @@
 				player.currentTime = 0;
 			}
 			document.getElementById('videoPlayerModal').classList.remove('active');
+			restoreHouseLightbox();
 		}
 
 		function showFullscreenImage(idx) {
@@ -933,7 +948,7 @@
 			} else if (fsViewer && fsViewer.classList.contains('active')) {
 				if (e.keyCode === 37) showFullscreenImage(currentFsIndex - 1); // Left arrow
 				if (e.keyCode === 39) showFullscreenImage(currentFsIndex + 1); // Right arrow
-				if (e.keyCode === 27) { fsViewer.classList.remove('active'); e.stopPropagation(); } // Esc
+				if (e.keyCode === 27) { fsViewer.classList.remove('active'); restoreHouseLightbox(); e.stopPropagation(); } // Esc
 			} else if (videoModal && videoModal.classList.contains('active')) {
 				if (e.keyCode === 27) { closeVideoModal(); e.stopPropagation(); } // Esc
 			} else if (galleryModal && galleryModal.classList.contains('active')) {

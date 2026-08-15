@@ -1434,12 +1434,17 @@ nav li.last a:hover {
 	font-weight: 500;
 }
 
-/* Fullscreen image preview lightbox */
+/* Fullscreen image preview lightbox.
+   Opens FROM #projectGalleryModal, so it must stack above it — and above
+   #videoPlayerModal — the same way the Esc handler already treats it as the
+   topmost layer. At the old z-index of 10000 it opened underneath the gallery
+   (2000000) and the house panel (1000001), so clicking a thumbnail appeared
+   to do nothing until the gallery was closed. */
 #fullscreenViewer {
 	position: fixed;
 	inset: 0;
 	background: rgba(0, 0, 0, 0.95);
-	z-index: 10000;
+	z-index: 2000002 !important;
 	display: none;
 	align-items: center;
 	justify-content: center;
