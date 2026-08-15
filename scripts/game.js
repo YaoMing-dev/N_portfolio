@@ -39,6 +39,17 @@ Game.prototype = {
 		return winW <= 768 ? 768 : winW;
 	},
 
+	// Document-only smooth scroll. Never use $('html, body').animate here:
+	// on mobile the body is a hidden second scroll container (see
+	// updateViewportScale) and animating it makes the page scroll twice.
+	scrollDocTo: function(top) {
+		if ('scrollBehavior' in document.documentElement.style) {
+			window.scrollTo({top: top, behavior: 'smooth'});
+		} else {
+			window.scrollTo(0, top);
+		}
+	},
+
 	updateViewportScale: function() {
 		var winW = $(window).width();
 		var winH = $(window).height();
@@ -51,12 +62,46 @@ Game.prototype = {
 				'transform-origin': 'top left',
 				'width': '768px'
 			});
-			var bodyH = Math.max(2500 * scale, (1680 * scale) + winH);
+			// The scaled #wrapper keeps its 2500px LAYOUT height (transform does
+			// not shrink layout), which overflows the shorter body and lets
+			// body act as a hidden second scroll container. Every scroll in
+			// this file therefore uses window.scrollTo (document scroll only),
+			// never $('html, body').animate, and any stray inner offset is
+			// reset here.
+			document.body.scrollTop = 0;
+
+			// End the page just below the contact card instead of a fixed
+			// (1680*scale + winH) pad: shipSail() only needs enough scroll
+			// room to lift the contact card clear of the D-pad, nothing more.
+			var bodyH = 2500 * scale;
+			var $contact = $('#contact');
+			if ($contact.length) {
+				// offset().top is post-transform (screen px); outerHeight() is
+				// untransformed layout px, so scale it before adding.
+				var contactBottom = $contact.offset().top + $contact.outerHeight() * scale;
+				bodyH = Math.max(bodyH, contactBottom + 240);
+			}
 			$('body').css({
 				'height': bodyH + 'px',
 				'width': '100vw',
 				'overflow-x': 'hidden',
+				'overflow-y': 'hidden',
 				'background-color': '#35598e'
+			});
+
+			// The map (#wrapper) is only 2500*scale px tall on screen, but body is
+			// padded taller so shipSail() can scroll the boat fully into view.
+			// Fill that extra scroll room with the same sea tile instead of a flat color.
+			var wrapperVisualBottom = 2500 * scale;
+			var fillerHeight = Math.max(0, bodyH - wrapperVisualBottom);
+			var $filler = $('#seaFiller');
+			if ($filler.length === 0) {
+				$filler = $('<div id="seaFiller"></div>').appendTo('body');
+			}
+			$filler.css({
+				top: wrapperVisualBottom + 'px',
+				height: fillerHeight + 'px',
+				display: fillerHeight > 0 ? 'block' : 'none'
 			});
 		} else {
 			// ── DESKTOP: 100% width wide open 2D world ──
@@ -71,6 +116,7 @@ Game.prototype = {
 				'overflow-x': 'hidden',
 				'background-color': '#70c8a0'
 			});
+			$('#seaFiller').css('display', 'none');
 		}
 	},
 
@@ -86,7 +132,10 @@ Game.prototype = {
 		me.updateViewportScale();
 		
 		$('#wrapper, .road, .bridge').unbind('click').bind('click', function(e){
-			if ($(e.target).closest('nav, #topHeaderControls, #mobileControls, #fixed-ui-layer, .house, .sea, #notifications, .lightbox, #lightbox, #dark, #projectGalleryModal, #videoPlayerModal, #qrModal').length) return;
+			// #boat must be excluded: it sits over water, so letting this handler
+			// also run on a boat tap fires a click-to-move into the sea and pops
+			// the "can't teleport here" error on top of the sail.
+			if ($(e.target).closest('nav, #topHeaderControls, #mobileControls, #fixed-ui-layer, .house, .sea, #boat, #notifications, .lightbox, #lightbox, #dark, #projectGalleryModal, #videoPlayerModal, #qrModal').length) return;
 
 			var winW = $(window).width();
 			var isMobile = winW <= 768;
@@ -125,7 +174,7 @@ Game.prototype = {
 			else if(target == '#startCave') {
 				$('nav a').removeClass('current');
 				$(this).addClass('current');
-				$('html, body').animate({scrollTop: 0}, 'slow');
+				me.scrollDocTo(0);
 				me.teleport(me.getWrapperWidth() / 2 - me.player.width() / 2, 100);
 				return;
 			}
@@ -314,8 +363,7 @@ Game.prototype = {
 		var winW = $(window).width();
 		var isMobile = winW <= 768;
 		var scale = isMobile ? (winW / 768) : 1;
-		var maxMapHeight = isMobile ? 2020 : 2500;
-		var maxScroll = Math.max(0, (maxMapHeight * scale) - $(window).height());
+		var maxScroll = Math.max(0, $('body').height() - $(window).height());
 		var targetScroll = Math.min(maxScroll, Math.max(0, (y - 200) * scale));
 		window.scrollTo(0, targetScroll);
 		this.shipBack();
@@ -563,12 +611,14 @@ Game.prototype = {
 
 		var targetScroll;
 		if (isMobile) {
-			targetScroll = 1680 * scale;
+			// Scroll to the true page bottom: body height is sized so the
+			// contact card clears the D-pad exactly there.
+			targetScroll = Math.max(0, $('body').height() - $(window).height());
 		} else {
 			targetScroll = $("#wrapper").height() - $("#endSea").height() + 20;
 		}
 
-		$('html, body').stop().animate({scrollTop: targetScroll}, 600);
+		this.scrollDocTo(targetScroll);
 		var ship = $('#boat');
 		this.hideNotificationBar();
 		this.player.stop(true, true).fadeOut('fast');
@@ -624,9 +674,11 @@ Game.prototype = {
 		$('#dark, #lightbox').fadeOut('fast', function(){
 			$('#dark, #lightbox').remove();
 			me.eventsHandler();
-			$('html, body').animate({
-				scrollTop: me.topPos - 270
-			});
+			var winW = $(window).width();
+			var scale = winW <= 768 ? (winW / 768) : 1;
+			var maxScroll = Math.max(0, $('body').height() - $(window).height());
+			var targetScroll = Math.min(maxScroll, Math.max(0, (me.topPos - 270) * scale));
+			me.scrollDocTo(targetScroll);
 		});
 	},
 

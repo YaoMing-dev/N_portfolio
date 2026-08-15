@@ -407,6 +407,20 @@ nav li.last a:hover {
 	box-shadow: 0 4px 3px rgba(0,0,0,0.3);
 }
 
+/* Fills the extra mobile scroll padding (added so shipSail() can reach the
+   boat) with the same animated sea tile instead of a flat leftover color. */
+#seaFiller {
+	position: absolute;
+	left: 0;
+	width: 100%;
+	background: url(images/sea.png) repeat;
+	background-color: #35598e;
+	-webkit-animation: seamove 6s linear infinite;
+	-moz-animation: seamove 6s linear infinite;
+	animation: seamove 6s linear infinite;
+	display: none;
+}
+
 #endCaveHoleGlow {
 	height: 0;
 	width: 50px;
@@ -889,7 +903,7 @@ nav li.last a:hover {
 	background: url(images/house2.png) no-repeat;
 	width: 200px;
 	height: 165px;
-	top: 754px;
+	top: 724px;
 	right: 50px;
 }
 
@@ -897,7 +911,7 @@ nav li.last a:hover {
 	width: 40px;
 	height: 70px;
 	right: 115px;
-	top: 845px;
+	top: 815px;
 }
 
 #portfolioHouse {
@@ -1829,8 +1843,12 @@ nav li.last a:hover {
 /* Messages */
 
 #notifications {
+	/* Hidden via display, not the old bottom:-60px slide-off: the mobile rule
+	   below overrides `bottom`, which used to leave an empty bar stuck on
+	   screen from first paint. show/hideNotificationsBar toggle display. */
+	display: none;
 	position: fixed;
-	bottom: -60px;
+	bottom: 0;
 	left: 10%;
 	width: 80%;
 	height: 50px;
@@ -1844,8 +1862,8 @@ nav li.last a:hover {
 	background: -webkit-linear-gradient(top,  #ffffff 0%,#e0e3e5 100%);
 	background: -o-linear-gradient(top,  #ffffff 0%,#e0e3e5 100%);
 	background: -ms-linear-gradient(top,  #ffffff 0%,#e0e3e5 100%);
-	background: linear-gradient(top,  #ffffff 0%,#e0e3e5 100%);	
-	transition: bottom 0.4s ease-in-out 0s;
+	background: linear-gradient(top,  #ffffff 0%,#e0e3e5 100%);
+	transition: opacity 0.4s ease-in-out 0s;
 }
 
 #notifications .inner {

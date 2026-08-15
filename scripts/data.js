@@ -19,15 +19,15 @@ var houses = [
 		id: '#servicesHouse',
 		width: 200,
 		height: 165,
-		top: 754,
+		top: 724,
 		left: null,
 		right: 50,
 		door: {
-			width: 16,
+			width: 32,
 			height: 32,
 			left: 101,
 			top: 133
-		}		
+		}
 	},
 	{
 		name: 'Portfolio House',
